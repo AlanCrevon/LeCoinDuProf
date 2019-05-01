@@ -1,3 +1,38 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-split-pane>
+    <ion-menu>
+      <ion-content>
+        <ion-list>
+          <ion-menu-toggle auto-hide="false" *ngFor="let appPage of navigationService.appPages">
+            <ion-item routerDirection="root" [routerLink]="appPage.url" color="primary">
+              <ion-icon slot="start" [name]="appPage.icon"></ion-icon>
+              <ion-label>
+                {{ appPage.title }}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet main></ion-router-outlet>
+  </ion-split-pane>
+
+  <ion-fab horizontal="end" vertical="top" slot="fixed">
+    <ion-fab-button color="secondary">
+      <ion-icon name="menu"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="bottom">
+      <ion-button
+        *ngFor="let infoPage of navigationService.infoPages"
+        [href]="infoPage.href ? infoPage.href : null"
+        [routerLink]="infoPage.routerLink ? infoPage.routerLink : null"
+        color="medium"
+        shape="round"
+        fill="outline"
+      >
+        <ion-icon [name]="infoPage.icon" slot="end"></ion-icon>
+        <ion-label>{{ infoPage.title }}</ion-label>
+      </ion-button>
+    </ion-fab-list>
+  </ion-fab>
 </ion-app>
