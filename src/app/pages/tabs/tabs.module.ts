@@ -20,19 +20,19 @@ const routes: Routes = [
       },
       {
         path: 'chats',
-        loadChildren: './pages/tabs/pages/chats/chats.module#ChatsPageModule'
+        loadChildren: './pages/chats/chats.module#ChatsPageModule'
       },
       {
         path: 'boxes',
-        loadChildren: './pages/tabs/pages/boxes/boxes.module#BoxesPageModule'
+        loadChildren: './pages/boxes/boxes.module#BoxesPageModule'
       },
       {
         path: 'me',
-        loadChildren: './pages/tabs/pages/me/me.module#MePageModule'
+        loadChildren: './pages/me/me.module#MePageModule'
       },
       {
         path: 'moderate',
-        loadChildren: './pages/tabs/pages/moderate/moderate.module#ModeratePageModule'
+        loadChildren: './pages/moderate/moderate.module#ModeratePageModule'
       }
     ]
   }
