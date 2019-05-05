@@ -9,3 +9,14 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
+
+body {
+  background: radial-gradient(ellipse at center, var(--ion-color-light) 0%, var(--ion-color-light-tint) 100%);
+  background-image: url(/assets/img/home.jpeg);
+  background-size: cover;
+  background-position: center;
+}
+
+ion-content {
+  --background: rgba(255, 255, 255, 0.95);
+}
