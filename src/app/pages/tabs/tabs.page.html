@@ -1,5 +1,5 @@
 <ion-tabs>
-  <ion-tab-bar slot="bottom" color="primary" *ngIf="platformWidth < 992">
+  <ion-tab-bar slot="bottom" color="primary">
     <ion-tab-button *ngFor="let appPage of navigationService.appPages" [tab]="appPage.tab">
       <ion-icon [name]="appPage.icon"></ion-icon>
       <ion-label>{{ appPage.title }}</ion-label>

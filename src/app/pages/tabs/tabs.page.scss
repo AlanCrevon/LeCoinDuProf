@@ -1,3 +1,9 @@
+@media screen and (min-width: 992px) {
+  ion-tab-bar {
+    display: none;
+  }
+}
+
 ion-tab-button {
   --padding-end: 0px !important;
   --padding-start: 0px !important;
