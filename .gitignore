@@ -1,4 +1,7 @@
 # Ignore node_modules
 node_modules/
 
+# Ignore code coverage remort
+coverage/
+
 .DS_Store
