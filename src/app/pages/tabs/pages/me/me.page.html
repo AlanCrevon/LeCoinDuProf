@@ -1,7 +1,17 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>me</ion-title>
+    <ion-title>Moi</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content> </ion-content>
+<ion-content>
+  <pre *ngIf="authService.user$ | async as user">
+    {{ user | json }}
+  </pre>
+  <p text-center>
+    <ion-button (click)="logout()" color="danger">
+      <ion-icon slot="start" name="power" id="MePageLogout"></ion-icon>
+      Me déconnecter
+    </ion-button>
+  </p>
+</ion-content>

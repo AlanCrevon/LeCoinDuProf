@@ -33,6 +33,10 @@ const routes: Routes = [
       {
         path: 'moderate',
         loadChildren: './pages/moderate/moderate.module#ModeratePageModule'
+      },
+      {
+        path: 'login',
+        loadChildren: './pages/login/login.module#LoginPageModule'
       }
     ]
   }

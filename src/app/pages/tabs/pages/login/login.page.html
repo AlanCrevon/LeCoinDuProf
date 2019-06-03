@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>S'identifier</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-content>
+      <ion-list *ngIf="loginForm" [formGroup]="loginForm">
+        <ion-item>
+          <ion-label position="floating">
+            Email
+          </ion-label>
+          <ion-input
+            type="email"
+            formControlName="email"
+            [autofocus]="true"
+            [autocorrect]="false"
+            [autocomplete]="true"
+            [autocapitalize]="false"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">
+            Mot de passe
+          </ion-label>
+          <ion-input
+            type="password"
+            formControlName="password"
+            [autocorrect]="false"
+            [autocomplete]="true"
+            [autocapitalize]="false"
+          ></ion-input>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label text-center>
+            <ion-button id="LoginPageLogin" size="big" [disabled]="!loginForm.valid" (click)="login(loginForm)">
+              <ion-icon name="checkmark" slot="start"></ion-icon>
+              Se connecter
+            </ion-button>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list lines="none">
+    <ion-item (click)="loginWithProvider('google')">
+      <ion-label text-center>
+        <ion-button id="LoginPageLoginWithProvider" color="light" size="big">
+          <ion-icon name="logo-google" slot="start"></ion-icon>
+          Utiliser Google
+        </ion-button>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
