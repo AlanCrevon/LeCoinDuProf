@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { IsLoggedInGuard } from 'src/app/guards/is-logged-in.guard';
 import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
@@ -20,18 +21,22 @@ const routes: Routes = [
       },
       {
         path: 'chats',
+        canActivate: [IsLoggedInGuard],
         loadChildren: './pages/chats/chats.module#ChatsPageModule'
       },
       {
         path: 'boxes',
+        canActivate: [IsLoggedInGuard],
         loadChildren: './pages/boxes/boxes.module#BoxesPageModule'
       },
       {
         path: 'me',
+        canActivate: [IsLoggedInGuard],
         loadChildren: './pages/me/me.module#MePageModule'
       },
       {
         path: 'moderate',
+        canActivate: [IsLoggedInGuard],
         loadChildren: './pages/moderate/moderate.module#ModeratePageModule'
       },
       {
