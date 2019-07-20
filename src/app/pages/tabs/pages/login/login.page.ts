@@ -72,7 +72,14 @@ export class LoginPage implements OnInit {
    * Redirect user after logged in
    */
   redirectAfterLogin() {
-    this.toastService.success('Bienvenue !');
+    this.authService.user$.subscribe(user => {
+      let welcome = 'Bienvenue';
+      if (!!user && !!user.displayName) {
+        welcome += ` ${user.displayName}`;
+      }
+      welcome += ' ! 👋 ';
+      this.toastService.success(welcome);
+    });
     this.router.navigateByUrl(this.authService.loggedInUrl);
   }
 }

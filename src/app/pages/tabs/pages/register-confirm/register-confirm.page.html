@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Confirmation de l'adresse mail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ng-container *ngIf="authService.user$ | async as user; else loading">
+    <h1>Bienvenue sur LeCoinDuProf ! 👋</h1>
+
+    <p>
+      Pour confirmer votre adresse mail, nous allons vous envoyer un mail à
+      <b>{{ user.email }}</b>.
+    </p>
+
+    <p>Merci de cliquer sur ce lien contenu dans ce mail pour accéder à la suite de l'application.</p>
+
+    <p text-center>
+      <ion-button (click)="sendEmailVerification(user)">
+        <ion-icon slot="start" name="mail"></ion-icon>
+        M'envoyer le mail
+      </ion-button>
+    </p>
+
+    <p text-center>
+      <a routerLink="/app/me" color="secondary">
+        J'ai validé mon mail, je continue
+      </a>
+    </p>
+  </ng-container>
+
+  <ng-template #loading>
+    <ion-content padding>
+      <p class="ion-text-center">
+        <ion-spinner name="crescent"></ion-spinner>
+      </p>
+    </ion-content>
+  </ng-template>
+</ion-content>

@@ -66,7 +66,7 @@ export class NavigationService {
       title: `Conditions générales d'utilisation`,
       icon: 'information-circle-outline',
       href: false,
-      routerLink: '/app/guc'
+      routerLink: '/app/tos'
     }
   ];
 

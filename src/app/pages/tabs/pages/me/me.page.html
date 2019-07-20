@@ -1,15 +1,39 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Moi</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-  <pre *ngIf="authService.user$ | async as user">
-    {{ user | json }}
-  </pre>
+  <ion-avatar *ngIf="!!user">
+    <img *ngIf="!!user.photoURL" [src]="user.photoURL" />
+    <ion-icon *ngIf="!!!user.photoURL" name="contact"></ion-icon>
+  </ion-avatar>
+  <ion-list *ngIf="!!publicUserForm" [formGroup]="publicUserForm">
+    <ion-list-header>
+      <ion-label>Informations publiques</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-label position="floating">Nom d'utilisateur</ion-label>
+      <ion-input formControlName="username"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="!!privateUserForm" [formGroup]="privateUserForm">
+    <ion-list-header>
+      <ion-label>Informations privées</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-label position="floating">Adresse mail</ion-label>
+      <ion-input formControlName="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Notifications par mail</ion-label>
+      <ion-toggle slot="end"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-button color="light">
+        <ion-icon slot="start" name="key"></ion-icon>
+        Changer de mot de passe
+      </ion-button>
+    </ion-item>
+  </ion-list>
   <p text-center>
-    <ion-button (click)="logout()" color="danger">
+    <ion-button (click)="logout()" color="light">
       <ion-icon slot="start" name="power" id="MePageLogout"></ion-icon>
       Me déconnecter
     </ion-button>

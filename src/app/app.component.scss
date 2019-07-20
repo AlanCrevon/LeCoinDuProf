@@ -5,6 +5,10 @@ ion-app {
   ion-fab-list {
     right: 0;
     align-items: flex-end;
+
+    ion-button {
+      background-color: white;
+    }
   }
 
   ion-menu {

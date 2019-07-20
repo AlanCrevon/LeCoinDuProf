@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { auth } from 'firebase/app';
+import { auth, User } from 'firebase/app';
 import { from, Observable } from 'rxjs';
 
 @Injectable({
@@ -54,5 +54,19 @@ export class AuthService {
    */
   logout(): Observable<void> {
     return from(this.angularFireAuth.auth.signOut());
+  }
+
+  /**
+   * Register a user account
+   */
+  register(email, password): Observable<auth.UserCredential> {
+    return from(this.angularFireAuth.auth.createUserWithEmailAndPassword(email, password));
+  }
+
+  /**
+   * Send the user a confirmation mail
+   */
+  sendEmailVerification(user: User): Observable<void> {
+    return from(user.sendEmailVerification());
   }
 }

@@ -24,7 +24,6 @@ before_script:
 
 script:
   - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox --code-coverage
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
   - ionic build --prod
 
 deploy:

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { HasVerifiedEmailGuard } from 'src/app/guards/has-verified-email.guard';
 import { IsLoggedInGuard } from 'src/app/guards/is-logged-in.guard';
 import { TabsPage } from './tabs.page';
 
@@ -21,27 +22,39 @@ const routes: Routes = [
       },
       {
         path: 'chats',
-        canActivate: [IsLoggedInGuard],
+        canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard],
         loadChildren: './pages/chats/chats.module#ChatsPageModule'
       },
       {
         path: 'boxes',
-        canActivate: [IsLoggedInGuard],
+        canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard],
         loadChildren: './pages/boxes/boxes.module#BoxesPageModule'
       },
       {
         path: 'me',
-        canActivate: [IsLoggedInGuard],
+        canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard],
         loadChildren: './pages/me/me.module#MePageModule'
       },
       {
         path: 'moderate',
-        canActivate: [IsLoggedInGuard],
+        canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard],
         loadChildren: './pages/moderate/moderate.module#ModeratePageModule'
       },
       {
         path: 'login',
         loadChildren: './pages/login/login.module#LoginPageModule'
+      },
+      {
+        path: 'register',
+        loadChildren: './pages/register/register.module#RegisterPageModule'
+      },
+      {
+        path: 'tos',
+        loadChildren: './pages/tos/tos.module#TosPageModule'
+      },
+      {
+        path: 'register-confirm',
+        loadChildren: './pages/register-confirm/register-confirm.module#RegisterConfirmPageModule'
       }
     ]
   }

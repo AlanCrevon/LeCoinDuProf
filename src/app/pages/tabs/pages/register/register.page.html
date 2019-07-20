@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Créer un compte</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-content>
+      <ion-list *ngIf="registerForm" [formGroup]="registerForm">
+        <ion-item>
+          <ion-label position="floating">
+            Email
+          </ion-label>
+          <ion-input
+            type="email"
+            formControlName="email"
+            [autofocus]="true"
+            [autocorrect]="false"
+            [autocomplete]="true"
+            [autocapitalize]="false"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">
+            Mot de passe
+          </ion-label>
+          <ion-input
+            type="password"
+            formControlName="password"
+            [autocorrect]="false"
+            [autocomplete]="true"
+            [autocapitalize]="false"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">
+            Confirmation du mot de passe
+          </ion-label>
+          <ion-input
+            type="password"
+            formControlName="confirm"
+            [autocorrect]="false"
+            [autocomplete]="true"
+            [autocapitalize]="false"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label><a (click)="openTosModal()">Lire les conditions générales d'utilisation</a></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>J'accepte les conditions générales d'utilisation</ion-label>
+          <ion-checkbox formControlName="tos" slot="end"></ion-checkbox>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label text-center>
+            <ion-button
+              id="RegisterPageRegister"
+              size="big"
+              [disabled]="!registerForm.valid"
+              (click)="register(registerForm)"
+            >
+              <ion-icon name="checkmark" slot="start"></ion-icon>
+              Créer ce compte
+            </ion-button>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

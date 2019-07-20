@@ -2,8 +2,10 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { IonicModule } from '@ionic/angular';
 import { of } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -15,6 +17,10 @@ describe('MePage', () => {
   let fixture: ComponentFixture<MePage>;
 
   class MockAuthService {
+    user$ = of({
+      uid: 'abc',
+      displayName: 'test'
+    });
     logout() {
       return of(undefined);
     }
@@ -29,7 +35,13 @@ describe('MePage', () => {
     TestBed.configureTestingModule({
       declarations: [MePage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule, RouterTestingModule],
+      imports: [
+        IonicModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule,
+        RouterTestingModule,
+        ReactiveFormsModule
+      ],
       providers: [
         { provide: ToastService, useClass: MockToastService },
         { provide: AuthService, useClass: MockAuthService }

@@ -45,14 +45,21 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-list lines="none">
+  <ion-list lines="none" class="login-with-providers">
     <ion-item (click)="loginWithProvider('google')">
       <ion-label text-center>
-        <ion-button id="LoginPageLoginWithProvider" color="light" size="big">
+        <ion-button id="LoginPageLoginWithProvider" color="light" size="big" expand="full">
           <ion-icon name="logo-google" slot="start"></ion-icon>
-          Utiliser Google
+          Utiliser mon compte Google
         </ion-button>
       </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>
+
+<ion-footer text-center>
+  <ion-button routerLink="/app/register">
+    <ion-icon slot="start" name="add"></ion-icon>
+    Créer un compte
+  </ion-button>
+</ion-footer>

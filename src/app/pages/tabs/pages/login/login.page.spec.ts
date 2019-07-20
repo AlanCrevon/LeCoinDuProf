@@ -8,6 +8,7 @@ import { BrowserModule, By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 import { of, throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { environment } from 'src/environments/environment';
@@ -25,7 +26,8 @@ describe('LoginPage', () => {
 
   const userMock = {
     uid: 'ABC123',
-    email: credentialsMock.email
+    email: credentialsMock.email,
+    displayName: 'test'
   };
 
   class MockAuthService {
@@ -146,5 +148,21 @@ describe('LoginPage', () => {
     spyOn(toastService, 'error');
     component.loginWithProvider('google');
     expect(toastService.error).toHaveBeenCalled();
+  });
+
+  it('should welcome the user', () => {
+    const toastService = fixture.debugElement.injector.get(ToastService);
+    spyOn(toastService, 'success');
+    component.redirectAfterLogin();
+    expect(toastService.success).toHaveBeenCalledWith('Bienvenue test ! 👋 ');
+  });
+
+  it('should welcome with no display name set the user', () => {
+    const toastService = fixture.debugElement.injector.get(ToastService);
+    spyOn(toastService, 'success');
+    const authService = fixture.debugElement.injector.get(AuthService);
+    authService.user$ = authService.user$.pipe(map(user => (user.displayName = undefined)));
+    component.redirectAfterLogin();
+    expect(toastService.success).toHaveBeenCalledWith('Bienvenue ! 👋 ');
   });
 });

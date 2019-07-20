@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ToastController } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { ToastService } from './toast.service';
 
 describe('ToastService', () => {
@@ -7,7 +7,9 @@ describe('ToastService', () => {
   let toastService: ToastService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [IonicModule]
+    });
     toastController = TestBed.get(ToastController);
     toastService = TestBed.get(ToastService);
   });
@@ -18,19 +20,19 @@ describe('ToastService', () => {
   });
 
   it('should display a toast', () => {
-    spyOn(toastController, 'create').and.returnValue(Promise.resolve());
+    spyOn(toastController, 'create').and.returnValue(Promise.resolve({ present: () => {} }));
     toastService.displayToast({ message: 'test' });
     expect(toastController.create).toHaveBeenCalled();
   });
 
   it('should display a success toast with proper options', () => {
-    spyOn(toastController, 'create').and.returnValue(Promise.resolve());
+    spyOn(toastController, 'create').and.returnValue(Promise.resolve({ present: () => {} }));
     toastService.success('test');
     expect(toastController.create).toHaveBeenCalledWith({ message: 'test', duration: 3000, color: 'success' });
   });
 
   it('should display an error toast with proper options', () => {
-    spyOn(toastController, 'create').and.returnValue(Promise.resolve());
+    spyOn(toastController, 'create').and.returnValue(Promise.resolve({ present: () => {} }));
     toastService.error('test');
     expect(toastController.create).toHaveBeenCalledWith({ message: 'test', duration: 3000, color: 'danger' });
   });

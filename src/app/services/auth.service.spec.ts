@@ -3,7 +3,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
 import { RouterTestingModule } from '@angular/router/testing';
 import { auth } from 'firebase';
-import { BehaviorSubject, isObservable } from 'rxjs';
+import { BehaviorSubject, isObservable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 
@@ -14,7 +14,9 @@ const credentialsMock = {
 
 const userMock = {
   uid: 'ABC123',
-  email: credentialsMock.email
+  email: credentialsMock.email,
+  displayName: 'test',
+  sendEmailVerification: () => of({})
 };
 
 const fakeAuthState = new BehaviorSubject(null);
@@ -95,5 +97,10 @@ describe('AuthService', () => {
   it('should log out', () => {
     authService.logout();
     expect(angularFireAuth.auth.signOut).toHaveBeenCalled();
+  });
+
+  it('should register a user', () => {
+    authService.register('test@test.com', 'test');
+    expect(angularFireAuth.auth.createUserWithEmailAndPassword).toHaveBeenCalledWith('test@test.com', 'test');
   });
 });

@@ -1,3 +1,4 @@
+import { Component } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -7,6 +8,11 @@ import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/auth.service';
 import { IsLoggedInGuard } from './is-logged-in.guard';
+
+@Component({
+  template: ''
+})
+export class DummyComponent {}
 
 describe('IsLoggedInGuard', () => {
   let authService: AuthService;
@@ -40,8 +46,14 @@ describe('IsLoggedInGuard', () => {
       imports: [
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
-        RouterTestingModule.withRoutes([])
-      ]
+        RouterTestingModule.withRoutes([
+          {
+            path: 'app/login',
+            component: DummyComponent
+          }
+        ])
+      ],
+      declarations: [DummyComponent]
     });
 
     authService = TestBed.get(AuthService);
