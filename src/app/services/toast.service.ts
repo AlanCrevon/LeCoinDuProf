@@ -12,6 +12,7 @@ export class ToastService {
   defaultDuration = 3000;
   defaultSuccessColor = 'success';
   defaultErrorColor = 'danger';
+  defaultPosition: 'middle' | 'top' | 'bottom' = 'top';
 
   constructor(private toastController: ToastController) {}
 
@@ -31,7 +32,8 @@ export class ToastService {
     this.displayToast({
       message,
       duration: this.defaultDuration,
-      color: this.defaultSuccessColor
+      color: this.defaultSuccessColor,
+      position: this.defaultPosition
     });
   }
 
@@ -43,7 +45,8 @@ export class ToastService {
     this.displayToast({
       message,
       duration: this.defaultDuration,
-      color: this.defaultErrorColor
+      color: this.defaultErrorColor,
+      position: this.defaultPosition
     });
   }
 }

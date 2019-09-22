@@ -13,7 +13,7 @@ export class HasVerifiedEmailGuard implements CanActivate {
   /**
    * If user has verified their email, returns an observable true.
    * Else, redirect
-   * to register-confirme page and return an observable false to
+   * to register-confirm page and return an observable false to
    * forbid activation
    */
   canActivate(): Observable<boolean> {

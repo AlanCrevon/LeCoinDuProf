@@ -24,3 +24,31 @@ ion-content {
 ion-footer {
   background-color: white;
 }
+
+// Cordova camera
+div.cordova-camera-capture {
+  position: absolute !important;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #222428b5;
+
+  button {
+    margin: 1rem;
+    font-size: 100%;
+    padding: 1rem;
+    background-color: var(--ion-color-primary);
+    color: white;
+    border-radius: 1ex;
+  }
+}
+
+// Cropperjs
+cropper-container {
+  max-width: 100%;
+}

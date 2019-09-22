@@ -13,7 +13,8 @@ export const environment = {
     messagingSenderId: '<your-messaging-sender-id>'
   },
   tosUrl: 'https://lecoinduprof-v2-dev.firebaseio.com/app/tos',
-  privacyPolicyUrl: 'https://lecoinduprof-v2-dev.firebaseio.com/app/privacyPolicyUrl'
+  privacyPolicyUrl: 'https://lecoinduprof-v2-dev.firebaseio.com/app/privacyPolicyUrl',
+  googleMapApiKey: 'AIzaSyDtELC4i2mXzBeUI6yisMX8iH_a-dMUKIo'
 };
 
 /*

@@ -1,0 +1,24 @@
+<ion-content class="ion-padding">
+  <div class="webcam-container" #container>
+    <img *ngIf="!!picture" [src]="picture" />
+  </div>
+  <canvas #canvas id="canvas" height="500" width="500"></canvas>
+  <input type="file" #input accept="image/*" (change)="onFileChange($event)" />
+</ion-content>
+
+<ion-footer>
+  <div>
+    <ion-button color="light" (click)="modalController.dismiss()">
+      <ion-icon slot="start" name="close"></ion-icon>
+      Annuler
+    </ion-button>
+    <ion-button (click)="browse()" color="secondary">
+      <ion-icon slot="start" name="folder"></ion-icon>
+      Choisir un fichier
+    </ion-button>
+    <ion-button [disabled]="!!!picture || !!!thumbnail" (click)="dismiss(picture, thumbnail)">
+      <ion-icon slot="start" name="checkmark"></ion-icon>
+      Valider
+    </ion-button>
+  </div>
+</ion-footer>

@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { HasVerifiedEmailGuard } from 'src/app/guards/has-verified-email.guard';
 import { IsLoggedInGuard } from 'src/app/guards/is-logged-in.guard';
 import { TabsPage } from './tabs.page';
+import { HasInitializedAccountGuard } from 'src/app/guards/has-initialized-account.guard';
 
 const routes: Routes = [
   {
@@ -22,22 +23,27 @@ const routes: Routes = [
       },
       {
         path: 'chats',
-        canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard],
+        canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard, HasInitializedAccountGuard],
         loadChildren: './pages/chats/chats.module#ChatsPageModule'
       },
       {
         path: 'boxes',
-        canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard],
+        canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard, HasInitializedAccountGuard],
         loadChildren: './pages/boxes/boxes.module#BoxesPageModule'
       },
       {
+        path: 'box/:boxId',
+        canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard, HasInitializedAccountGuard],
+        loadChildren: './pages/box/box.module#BoxPageModule'
+      },
+      {
         path: 'me',
-        canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard],
+        canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard, HasInitializedAccountGuard],
         loadChildren: './pages/me/me.module#MePageModule'
       },
       {
         path: 'moderate',
-        canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard],
+        canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard, HasInitializedAccountGuard],
         loadChildren: './pages/moderate/moderate.module#ModeratePageModule'
       },
       {
@@ -55,6 +61,11 @@ const routes: Routes = [
       {
         path: 'register-confirm',
         loadChildren: './pages/register-confirm/register-confirm.module#RegisterConfirmPageModule'
+      },
+      {
+        path: 'welcome',
+        canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard],
+        loadChildren: './pages/welcome/welcome.module#WelcomePageModule'
       }
     ]
   }

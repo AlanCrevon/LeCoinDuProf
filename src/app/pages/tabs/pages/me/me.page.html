@@ -3,17 +3,17 @@
     <img *ngIf="!!user.photoURL" [src]="user.photoURL" />
     <ion-icon *ngIf="!!!user.photoURL" name="contact"></ion-icon>
   </ion-avatar>
-  <ion-list *ngIf="!!publicUserForm" [formGroup]="publicUserForm">
+  <ion-list *ngIf="!!userForm" [formGroup]="userForm">
     <ion-list-header>
       <ion-label>Informations publiques</ion-label>
     </ion-list-header>
     <ion-item>
       <ion-label position="floating">Nom d'utilisateur</ion-label>
-      <ion-input formControlName="username"></ion-input>
+      <ion-input formControlName="displayName"></ion-input>
     </ion-item>
   </ion-list>
 
-  <ion-list *ngIf="!!privateUserForm" [formGroup]="privateUserForm">
+  <ion-list *ngIf="!!settingsForm" [formGroup]="settingsForm">
     <ion-list-header>
       <ion-label>Informations privées</ion-label>
     </ion-list-header>
@@ -39,3 +39,10 @@
     </ion-button>
   </p>
 </ion-content>
+
+<ion-footer class="ion-text-center">
+  <ion-button (click)="save(user, userForm, settingsForm)">
+    <ion-icon slot="start" name="save"></ion-icon>
+    Enregistrer
+  </ion-button>
+</ion-footer>
