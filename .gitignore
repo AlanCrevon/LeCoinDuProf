@@ -8,3 +8,12 @@ coverage/
 
 # Ignore compiled version
 www/
+
+# Ignore firebase log files
+*-debug.log
+
+# Ignore cordova compiled version
+platforms/
+
+# Ignode plugin folder
+plugins/
