@@ -1,34 +1,27 @@
 dist: trusty
 sudo: false
-
 language: node_js
 node_js:
   - '11'
-
 addons:
   apt:
     sources:
       - google-chrome
     packages:
       - google-chrome-stable
-
 cache:
   directories:
-    - ./node_modules
-
+    - './node_modules'
 install:
   - npm install
-
 before_script:
   - npm install -g ionic
-
 script:
   - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox --code-coverage
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
   - ionic build --prod
-
 deploy:
   skip_cleanup: true
   provider: firebase
   token:
-    secure: 'FAvu4mPY5oMrS2q+wnQDW+jWdLZ8FGWPaADN/x3z5wzJzC8/L29xEs/LgJrYDTvVtryu5sodOk7crkmK4DG3f0LogT+UDJ732X2/e7uGR376owsCMqPSQyerYf//NAIEGj/nPkMIobScElGDCDJOzPs9N99r050OZ+q4LFq44X5CcWvXR1ZHn67ah452+euRAWwVAV08TYxlkJ2l/ya9A+s8v+Kjgnqb0bDjhOcUCxdm4bibquMYowEux/RH4cjgFzndDdU7CZQvXwagk74LQrMNo38euKkwY0xevFhGbgLwJbfx3BnSr/8hN57uCumFyCv6YLUm7bkX1pUCRKiI/40ICgzD9WknsnSaoMwpjw4P2KDDqhfoaFeZSy8XcQoAuMbvZLXG2h+af/r0id1HOw9ccDdILg0FPAb0XXDp+MsiyjxDYw8RSDjRVQCKGX5eH3Rj6/OuMQFKU4rKeR9CH4gMMj1mfDtMt+Xml69YL1Q2scCjyC33U3/Y4L96xPoY6OoAykU6eQO66Awj3zjSf62CKsWiWXVQrXy1E7RY0ExXsb/uGJeC1dHunnGA7qOjsVGJoRdkr8gq5shht9AtgOD9GrebGplCWNDin/Yi3D5rBRHWwU9ETU7aMHGxn142PGiVR+ayqyfizHUl3dgQYfgqOVKlGUIE7GgPXUbjZnk='
+    secure: FAvu4mPY5oMrS2q+wnQDW+jWdLZ8FGWPaADN/x3z5wzJzC8/L29xEs/LgJrYDTvVtryu5sodOk7crkmK4DG3f0LogT+UDJ732X2/e7uGR376owsCMqPSQyerYf//NAIEGj/nPkMIobScElGDCDJOzPs9N99r050OZ+q4LFq44X5CcWvXR1ZHn67ah452+euRAWwVAV08TYxlkJ2l/ya9A+s8v+Kjgnqb0bDjhOcUCxdm4bibquMYowEux/RH4cjgFzndDdU7CZQvXwagk74LQrMNo38euKkwY0xevFhGbgLwJbfx3BnSr/8hN57uCumFyCv6YLUm7bkX1pUCRKiI/40ICgzD9WknsnSaoMwpjw4P2KDDqhfoaFeZSy8XcQoAuMbvZLXG2h+af/r0id1HOw9ccDdILg0FPAb0XXDp+MsiyjxDYw8RSDjRVQCKGX5eH3Rj6/OuMQFKU4rKeR9CH4gMMj1mfDtMt+Xml69YL1Q2scCjyC33U3/Y4L96xPoY6OoAykU6eQO66Awj3zjSf62CKsWiWXVQrXy1E7RY0ExXsb/uGJeC1dHunnGA7qOjsVGJoRdkr8gq5shht9AtgOD9GrebGplCWNDin/Yi3D5rBRHWwU9ETU7aMHGxn142PGiVR+ayqyfizHUl3dgQYfgqOVKlGUIE7GgPXUbjZnk=
