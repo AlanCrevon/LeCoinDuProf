@@ -9,10 +9,6 @@
 
 <ion-footer>
   <div>
-    <ion-button color="light" (click)="modalController.dismiss()">
-      <ion-icon slot="start" name="close"></ion-icon>
-      Annuler
-    </ion-button>
     <ion-button *ngIf="!!!cropper" (click)="capture()" color="secondary" [disabled]="!isCameraReady">
       <ion-icon slot="start" name="radio-button-on"></ion-icon>
       Prendre la photo

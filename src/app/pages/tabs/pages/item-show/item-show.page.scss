@@ -1,0 +1,59 @@
+.picture {
+  height: 30vh;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: var(--ion-color-dark);
+  background-size: contain;
+  transition: transform 0.2s; /* Animation */
+}
+
+agm-map {
+  margin-top: 1rem;
+  height: 20vh;
+  width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+ion-card.profile {
+  ion-avatar {
+    margin-left: auto;
+    margin-right: auto;
+    height: 20vh;
+    width: 20vh;
+    border: 0.8vh solid white;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+}
+
+ion-content {
+  ion-grid {
+    height: 100%;
+
+    ion-row {
+      height: 100%;
+
+      ion-col.v-centered {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        ion-card {
+          width: 100%;
+
+          p.description {
+            white-space: pre-line;
+          }
+        }
+      }
+
+      ion-col.v-spaced {
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+      }
+    }
+  }
+}

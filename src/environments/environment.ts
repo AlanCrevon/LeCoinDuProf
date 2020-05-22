@@ -6,14 +6,16 @@ export const environment = {
   production: false,
   firebase: {
     apiKey: 'AIzaSyC8zYfkXXcJRhE-fnFs3EVmuHyN2MXEUPk',
-    authDomain: 'lecoinduprof-v2-dev.web.app',
+    authDomain: 'lecoinduprof-v2-dev.firebaseapp.com',
     databaseURL: 'https://lecoinduprof-v2-dev.firebaseio.com',
     projectId: 'lecoinduprof-v2-dev',
-    storageBucket: 'gs://lecoinduprof-v2-dev.appspot.com/',
-    messagingSenderId: '<your-messaging-sender-id>'
+    storageBucket: 'lecoinduprof-v2-dev.appspot.com',
+    messagingSenderId: '86601526918',
+    appId: '1:86601526918:web:c089e31d32a308326e6b07'
   },
   tosUrl: 'https://lecoinduprof-v2-dev.firebaseio.com/app/tos',
   privacyPolicyUrl: 'https://lecoinduprof-v2-dev.firebaseio.com/app/privacyPolicyUrl',
+  // Note : This key is invalidated
   googleMapApiKey: 'AIzaSyDtELC4i2mXzBeUI6yisMX8iH_a-dMUKIo'
 };
 

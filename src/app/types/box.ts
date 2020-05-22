@@ -1,11 +1,12 @@
 import { GeoPoint, FieldValue } from '@firebase/firestore-types';
 
 export interface Box {
+  id?: string;
   name: string;
   owner: string;
   createdAt: FieldValue;
-  location: {
-    geohash: string;
-    geopoint: GeoPoint;
-  };
+  modifiedAt: FieldValue;
+  formatted_address: string;
+  coordinates: GeoPoint;
+  geohash: string;
 }

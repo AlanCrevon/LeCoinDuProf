@@ -1,0 +1,37 @@
+<ion-content class="ion-padding">
+  <div class="page-header">
+    <img
+      class="ion-margin-bottom"
+      src="/assets/img/undraw_startled_8p0r.svg"
+      alt="Illustration d'une personne surprenant un monstre"
+    />
+  </div>
+
+  <p>
+    Malgré toutes nos précautions, il est impossible de garantir que l'ensemble des utilisateurs respecte les Conditions
+    Générales d'Utilisation du service.Aussi, nous apprécions votre aide lorsque vous signalez des comportements
+    offensants.
+  </p>
+  <p>
+    Tout signalement est traité dans les meilleurs délai. Il peut mener à la suppresison du contenu offensant, ou à
+    l'exclusion de l'utilisateur à l'origine du comportement abusif.
+  </p>
+  <ion-list *ngIf="!!form" [formGroup]="form">
+    <ion-item>
+      <ion-label position="floating">Description du signalement</ion-label>
+      <ion-textarea formControlName="content"></ion-textarea>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-button color="light" (click)="modalController.dismiss()">
+    <ion-icon slot="start" name="close"></ion-icon>
+    Annuler
+  </ion-button>
+
+  <ion-button color="secondary" *ngIf="!!form" [disabled]="!form.valid" (click)="save(form)">
+    <ion-icon slot="start" name="save"></ion-icon>
+    Enregistrer
+  </ion-button>
+</ion-footer>

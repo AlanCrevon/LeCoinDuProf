@@ -15,57 +15,79 @@ const routes: Routes = [
     children: [
       {
         path: 'shared',
-        loadChildren: './pages/shared/shared.module#SharedPageModule'
+        loadChildren: () => import('./pages/shared/shared.module').then(m => m.SharedPageModule)
+      },
+      {
+        path: 'shared/:itemId',
+        pathMatch: 'full',
+        loadChildren: () => import('./pages/item-show/item-show.module').then(m => m.ItemShowPageModule)
       },
       {
         path: 'wanted',
-        loadChildren: './pages/wanted/wanted.module#WantedPageModule'
+        loadChildren: () => import('./pages/wanted/wanted.module').then(m => m.WantedPageModule)
       },
       {
         path: 'chats',
         canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard, HasInitializedAccountGuard],
-        loadChildren: './pages/chats/chats.module#ChatsPageModule'
+        loadChildren: () => import('./pages/chats/chats.module').then(m => m.ChatsPageModule)
+      },
+      {
+        path: 'chats/:chatId',
+        pathMatch: 'full',
+        canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard, HasInitializedAccountGuard],
+        loadChildren: () => import('./pages/chat/chat.module').then(m => m.ChatPageModule)
       },
       {
         path: 'boxes',
         canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard, HasInitializedAccountGuard],
-        loadChildren: './pages/boxes/boxes.module#BoxesPageModule'
+        loadChildren: () => import('./pages/boxes/boxes.module').then(m => m.BoxesPageModule)
       },
       {
-        path: 'box/:boxId',
+        path: 'boxes/:boxId',
+        pathMatch: 'full',
         canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard, HasInitializedAccountGuard],
-        loadChildren: './pages/box/box.module#BoxPageModule'
+        loadChildren: () => import('./pages/box/box.module').then(m => m.BoxPageModule)
+      },
+      {
+        path: 'boxes/:boxId/:itemId',
+        canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard, HasInitializedAccountGuard],
+        loadChildren: () => import('./pages/item-edit/item-edit.module').then(m => m.ItemEditPageModule)
       },
       {
         path: 'me',
         canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard, HasInitializedAccountGuard],
-        loadChildren: './pages/me/me.module#MePageModule'
+        loadChildren: () => import('./pages/me/me.module').then(m => m.MePageModule)
       },
       {
         path: 'moderate',
         canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard, HasInitializedAccountGuard],
-        loadChildren: './pages/moderate/moderate.module#ModeratePageModule'
+        loadChildren: () => import('./pages/moderate/moderate.module').then(m => m.ModeratePageModule)
       },
       {
         path: 'login',
-        loadChildren: './pages/login/login.module#LoginPageModule'
+        loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
       },
       {
         path: 'register',
-        loadChildren: './pages/register/register.module#RegisterPageModule'
+        loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterPageModule)
+      },
+      {
+        path: 'team',
+        loadChildren: () => import('./pages/team/team.module').then(m => m.TeamPageModule)
       },
       {
         path: 'tos',
-        loadChildren: './pages/tos/tos.module#TosPageModule'
+        loadChildren: () => import('./pages/tos/tos.module').then(m => m.TosPageModule)
       },
       {
         path: 'register-confirm',
-        loadChildren: './pages/register-confirm/register-confirm.module#RegisterConfirmPageModule'
+        loadChildren: () =>
+          import('./pages/register-confirm/register-confirm.module').then(m => m.RegisterConfirmPageModule)
       },
       {
         path: 'welcome',
         canActivate: [IsLoggedInGuard, HasVerifiedEmailGuard],
-        loadChildren: './pages/welcome/welcome.module#WelcomePageModule'
+        loadChildren: () => import('./pages/welcome/welcome.module').then(m => m.WelcomePageModule)
       }
     ]
   }

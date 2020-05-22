@@ -3,6 +3,8 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { ModalController } from '@ionic/angular';
 import { UploadComponent } from '../components/upload/upload.component';
 import { OverlayEventDetail } from '@ionic/core';
+import { Observable, of } from 'rxjs';
+import { catchError, first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -52,5 +54,20 @@ export class FirestorageService {
 
     const blob = new Blob(byteArrays, { type: contentType });
     return blob;
+  }
+
+  download(path: string): Observable<string | null> {
+    const ref = this.storage.ref(path);
+    return ref.getDownloadURL().pipe(
+      first(),
+      catchError(error => {
+        return of(null);
+      })
+    );
+  }
+
+  delete(path: string): Observable<any> {
+    const ref = this.storage.ref(path);
+    return ref.delete();
   }
 }

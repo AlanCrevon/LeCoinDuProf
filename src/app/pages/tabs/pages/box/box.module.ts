@@ -6,6 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { BoxPage } from './box.page';
+import { BoxEditModule } from '../../components/box-edit/box-edit.module';
+import { ItemEditModule } from '../../components/item-edit/item-edit.module';
 
 const routes: Routes = [
   {
@@ -15,7 +17,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule.forChild(routes)],
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule.forChild(routes), BoxEditModule, ItemEditModule],
   declarations: [BoxPage]
 })
 export class BoxPageModule {}

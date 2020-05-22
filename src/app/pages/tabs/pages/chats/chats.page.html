@@ -1,7 +1,45 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>chats</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+  <div class="page-header">
+    <img
+      class="ion-margin-bottom"
+      src="/assets/img/undraw_begin_chat_c6pj.svg"
+      alt="Illustration d'un groupe de personnes échangeant des messages"
+    />
+  </div>
 
-<ion-content> </ion-content>
+  <ng-container *ngIf="chats$ | async as chats;">
+    <ion-list *ngIf="chats.length > 0">
+      <ion-virtual-scroll [items]="chats">
+        <ion-item *virtualItem="let chat" [routerLink]="'/app/chats/' + chat.id" routerDirection="forward">
+          <ng-container *ngIf="chat.item$ | async as item">
+            <ion-icon slot="start" name="chatbubbles"></ion-icon>
+            <ion-label>
+              <p class="ion-text-end">{{ chat.modifiedAt.toDate() | date:'short' }}</p>
+              <p>{{ item.name }}</p>
+              <h4>{{ chat.lastMessage !== '' ? chat.lastMessage : 'Aucun message' }}</h4>
+            </ion-label>
+          </ng-container>
+        </ion-item>
+      </ion-virtual-scroll>
+    </ion-list>
+
+    <ion-card *ngIf="chats.length == 0" color="light">
+      <ion-card-header>
+        <ion-card-subtitle class="ion-text-center">
+          Vous n'avez lancé aucune conversation
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p class="ion-text-center">
+          Consultez les objets partagés pour contacter les autres utilisateurs
+        </p>
+        <p class="ion-text-center">
+          <ion-button routerLink="/app/shared" color="secondary">
+            <ion-icon slot="start" name="ios-share"></ion-icon>
+            Partages
+          </ion-button>
+        </p>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+</ion-content>

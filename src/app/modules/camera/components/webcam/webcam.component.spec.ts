@@ -2,6 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WebcamComponent } from './webcam.component';
+import { IonicModule } from '@ionic/angular';
 
 describe('WebcamComponent', () => {
   let component: WebcamComponent;
@@ -10,7 +11,8 @@ describe('WebcamComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [WebcamComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [IonicModule]
     }).compileComponents();
   }));
 

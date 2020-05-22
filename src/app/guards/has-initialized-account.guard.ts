@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { DbService } from '../services/db.service';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, catchError } from 'rxjs/operators';
 import { AppUser } from '../types/app-user';
 
 @Injectable({
@@ -20,11 +20,19 @@ export class HasInitializedAccountGuard implements CanActivate {
     return this.authService.user$.pipe(
       switchMap(user => this.dbService.getDocument<AppUser>(`/users/${user.uid}`)),
       map(appUser => {
-        if (!!appUser) {
-          return true;
+        return appUser;
+      }),
+      map(appUser => {
+        if (!!!appUser || !!!appUser.createdAt) {
+          this.router.navigateByUrl('/app/welcome');
+          return false;
+        } else {
+          return !!appUser;
         }
+      }),
+      catchError(error => {
         this.router.navigateByUrl('/app/welcome');
-        return false;
+        return of(false);
       })
     );
   }

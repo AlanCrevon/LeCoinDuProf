@@ -2,15 +2,94 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    /////////////////
+    // FUNCTIONS
+    /////////////////
+    // Check value is a Timestamp
+    function isTimestamp(field) {
+        return val(field).toMillis() > 0;
+    }
+    // Check value is null (test for null on fields which are optional)
+    function isNull(field) {
+        return val(field) == null;
+    }
+    // Check the field's length. Use 0 to ignore upper or lower limit
+    function hasLength(field, min, max) {
+      return (min == 0 || val(field).size() >= min)
+        && (max == 0 || val(field).size() <= max);
+    }
+    // Is field's value within the given range, inclusive
+    function inRange(field, min, max) {
+        return field >= min && field <= max;
+    }
+    // Do only these fields exist on the document?
+    function allowedFields(fields) {
+        return request.resource.data.keys().hasOnly(fields)
+    }
+
     match /{document=**} {
-      allow read, write: if false;
+      allow read, create, update: if false;
     }
 
     match /users/{userId} {
+      // Users profiles are public
       allow read;
+
+      // User's validation rules for creation : all fields are required
       allow create: if
+        // User can only create their profile
         request.auth.uid == userId &&
-        request.resource.data.createdAt == request.time;
+        // Request has all expected fields and not more than expected
+        allowedFields(['displayName','formatted_address','coordinates','geohash','createdAt','modifiedAt','bio','hasPicture']) &&
+        // Fields have the expected type
+        request.resource.data.displayName is string &&
+        request.resource.data.bio is string &&
+        request.resource.data.formatted_address is string &&
+        request.resource.data.coordinates is latlng &&
+        request.resource.data.geohash is string &&
+        request.resource.data.hasPicture is bool &&
+        request.resource.data.createdAt == request.time &&
+        request.resource.data.modifiedAt == request.time;
+
+      // User's validation rules for update : fields are optional
+      allow update: if
+        // User can only update their profile
+        request.auth.uid == userId &&
+        // Request has all expected fields and not more than expected
+        allowedFields(['displayName','formatted_address','coordinates','geohash','createdAt','modifiedAt','bio','hasPicture']) &&
+        // Fields have the expected type
+        (request.resource.data.displayName == null || request.resource.data.displayName is string) &&
+        (request.resource.data.bio == null || request.resource.data.bio is string) &&
+        (request.resource.data.formatted_address == null || request.resource.data.formatted_address is string) &&
+        (request.resource.data.coordinates == null || request.resource.data.coordinates is latlng) &&
+        (request.resource.data.geohash == null || request.resource.data.geohash is string) &&
+        (request.resource.data.hasPicture == null || request.resource.data.hasPicture is bool) &&
+        // ModifiedAt is required
+        request.resource.data.modifiedAt == request.time &&
+        // CreatedAt cannot be modified
+        (request.resource.data.createdAt == null || request.resource.data.createdAt == resource.data.createdAt);
+
+      ////////////////
+      // User's private settings
+      ////////////////
+
+      // Tokens
+      match /tokens/{tokenId} {
+        allow write: if
+          // User can only create their tokens
+          request.auth.uid == userId &&
+          // Request has all expected fields and not more than expected
+          allowedFields(['token','os','browser','device','createdAt']) &&
+          // Fields have the expected type
+          request.resource.data.token is string &&
+          request.resource.data.os is string &&
+          request.resource.data.browser is string &&
+          request.resource.data.device is string &&
+          request.resource.data.createdAt == request.time;
+        allow read: if request.auth.uid == userId;
+        allow delete: if request.auth.uid == userId;
+      }
+
     }
 
     match /settings/{userId} {
@@ -19,20 +98,179 @@ service cloud.firestore {
     }
 
     match /boxes/{boxId} {
-      allow read: if
-        resource.data.isPublic ||
-        resource.data.owner == request.auth.uid
+      allow list: if true;
+      allow get: if
+        // User can only get their own boxes
+        resource.data.owner == request.auth.uid;
       allow create: if
-        request.auth.uid == request.resource.data.owner
-        request.resource.data.createdAt == request.time;
+        // User can only create their own boxes
+        request.auth.uid == request.resource.data.owner &&
+        // Request has all expected fields and not more than expected
+        allowedFields(['name','owner','createdAt','modifiedAt','coordinates','geohash','formatted_address']) &&
+        // Fields have the expected type
+        request.resource.data.name is string &&
+        request.resource.data.owner is string &&
+        request.resource.data.createdAt == request.time &&
+        request.resource.data.modifiedAt == request.time &&
+        request.resource.data.formatted_address is string &&
+        request.resource.data.coordinates is latlng &&
+        request.resource.data.geohash is string;
+      allow update: if
+        // User can only update their boxes
+        request.auth.uid == resource.data.owner &&
+        // Request has all expected fields and not more than expected
+        allowedFields(['name','owner','createdAt','modifiedAt','coordinates','geohash','formatted_address']) &&
+        // Fields have the expected type
+        (isNull(request.resource.data.name) || request.resource.data.name is string) &&
+        (isNull(request.resource.data.formatted_address) || request.resource.data.formatted_address is string) &&
+        (isNull(request.resource.data.coordinates) || request.resource.data.coordinates is latlng) &&
+        (isNull(request.resource.data.geohash) || request.resource.data.geohash is string) &&
+        // ModifiedAt is required
+        request.resource.data.modifiedAt == request.time &&
+        // CreatedAt cannot be modified
+        (isNull(request.resource.data.createdAt) || request.resource.data.createdAt == resource.data.createdAt);
+      allow delete: if
+        // User can only delete their boxes
+        request.auth.uid == resource.data.owner;
     }
 
-    match /rooms/{roomId} {
-      allow read;
-      // If you create a room, you must set yourself as the owner.
-      allow create: if request.resource.data.owner == request.auth.uid;
-      // Only the room owner is allowed to modify it.
-      allow update: if resource.data.owner == request.auth.uid;
+    match /items/{itemId} {
+      allow list: if true;
+      allow get: if
+        // User is the owner
+        request.auth.uid == resource.data.owner ||
+        // or the item is shared
+        resource.data.isShared == true
+        // true
+      ;
+      allow create: if
+        // User can only create their own items
+        request.auth.uid == request.resource.data.owner &&
+        // Request has all expected fields and not more than expected
+        allowedFields(['name','owner','box','description','category','isShared','createdAt','modifiedAt','coordinates','geohash','formatted_address','canGive','canLend','canExchange','canSend','hasPicture']) &&
+        // Fields have the expected type
+        request.resource.data.name is string &&
+        request.resource.data.owner is string &&
+        request.resource.data.box is string &&
+        request.resource.data.description is string &&
+        request.resource.data.category is int &&
+        inRange(request.resource.data.category, 1, 10) &&
+        request.resource.data.isShared is bool &&
+        request.resource.data.createdAt == request.time &&
+        request.resource.data.modifiedAt == request.time &&
+        request.resource.data.formatted_address is string &&
+        request.resource.data.coordinates is latlng &&
+        request.resource.data.geohash is string &&
+        request.resource.data.canGive is bool &&
+        request.resource.data.canLend is bool &&
+        request.resource.data.canExchange is bool &&
+        request.resource.data.canSend is bool &&
+        request.resource.data.hasPicture is bool;
+      allow update: if
+        // User can only update their items
+        request.auth.uid == resource.data.owner &&
+        // Request has all expected fields and not more than expected
+        allowedFields(['name','owner','box','description','category',
+          'isShared','createdAt','modifiedAt','coordinates','geohash',
+          'formatted_address','canGive','canLend','canExchange',
+          'canSend','hasPicture']
+        ) &&
+        // Fields have the expected type
+        (isNull(request.resource.data.name) || request.resource.data.name is string) &&
+        (isNull(request.resource.data.box) || request.resource.data.box is string) &&
+        (isNull(request.resource.data.description) || request.resource.data.description is string) &&
+        (isNull(request.resource.data.category) || (
+          request.resource.data.category is int &&
+          inRange(request.resource.data.category, 1, 10)
+        )) &&
+        (isNull(request.resource.data.isShared) || request.resource.data.isShared is bool) &&
+        (isNull(request.resource.data.formatted_address) || request.resource.data.formatted_address is string) &&
+        (isNull(request.resource.data.coordinates) || request.resource.data.coordinates is latlng) &&
+        (isNull(requiest.resource.data.geohash) || request.resource.data.geohash is string) &&
+        (isNull(request.resource.data.canGive) || request.resource.data.canGive is bool) &&
+        (isNull(request.resource.data.canLend) || request.resource.data.canLend is bool) &&
+        (isNull(request.resource.data.canExchange) || request.resource.data.canExchange is bool) &&
+        (isNull(request.resource.data.canSend) || request.resource.data.canSend is bool) &&
+        // ModifiedAt is required
+        request.resource.data.modifiedAt == request.time &&
+        // CreatedAt cannot be modified
+        (isNull(request.resource.data.createdAt) || request.resource.data.createdAt == resource.data.createdAt);
+      allow delete: if
+        request.auth.uid == resource.data.owner;
+    }
+
+    match /chats/{chatId} {
+      allow list: if true;
+      allow get: if
+        // User is one of the chat's participants
+        (
+          request.auth.uid == resource.data.participants[0] ||
+          request.auth.uid == resource.data.participants[1]
+        );
+      allow create: if
+      // Request has all expected fields and not more than expected
+        allowedFields(['participants','item','lastMessage','createdAt','modifiedAt']) &&
+
+        // User can only create a chat they participate to
+        (
+          request.auth.uid == request.resource.data.participants[0] ||
+          request.auth.uid == request.resource.data.participants[1]
+        ) &&
+        // Fields have the expected type
+        request.resource.data.participants[0] is string &&
+        request.resource.data.participants[1] is string &&
+        request.resource.data.item is string &&
+        request.resource.data.lastMessage is string &&
+        request.resource.data.createdAt == request.time &&
+        request.resource.data.modifiedAt == request.time;
+      allow update: if
+        // Users can't update chats
+        false;
+      allow delete: if
+        // Users can't delete chats
+        false;
+
+      // Chat's messages
+      match /messages/{messageId} {
+        // Only participants to the chat can post message in it
+        allow list: if
+          request.auth != null &&
+          request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participants;
+        //
+        allow create: if
+          request.auth != null &&
+          request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participants &&
+          request.auth.uid == request.resource.data.author &&
+          request.resource.data.content is string &&
+          request.resource.data.author is string &&
+          request.resource.data.createdAt == request.time;
+        // User can't update
+        allow update: if false;
+        // User can't delete
+        allow delete: if false;
+      }
+    }
+
+    match /reports/{reportId} {
+      allow create: if
+      // Request has all expected fields and not more than expected
+        allowedFields(['author','item','content','comment','status','createdAt','modifiedAt']) &&
+        // Users can only report if the are the author of the report
+        request.auth != null &&
+        request.auth.uid == request.resource.data.author &&
+        // Fields have the expected type
+        request.resource.data.item is string &&
+        request.resource.data.content is string &&
+        request.resource.data.comment == '' &&
+        request.resource.data.status == 'open' &&
+        request.resource.data.createdAt == request.time &&
+        request.resource.data.modifiedAt == request.time;
+      allow update: if
+        // Users can't update chats
+        false;
+      allow delete: if
+        // Users can't delete chats
+        false;
     }
   }
 }

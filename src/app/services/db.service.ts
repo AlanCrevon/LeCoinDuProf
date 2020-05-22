@@ -1,43 +1,35 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, QueryFn } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { AngularFirestore, QueryFn, DocumentChangeAction, Action, DocumentSnapshot } from '@angular/fire/firestore';
+import { Observable, VirtualTimeScheduler, from, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as firebaseApp from 'firebase/app';
-import * as geofirex from 'geofirex';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
 import { DocumentReference } from '@firebase/firestore-types';
-import { GeoFirePoint } from 'geofirex';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DbService {
-  geo = geofirex.init(firebaseApp);
-
   constructor(private angularFirestore: AngularFirestore) {}
 
+  /**
+   * Fetch a collection of documents
+   * @param path Path of the collection
+   * @param queryFn Query function
+   */
   getCollection<T>(path: string, queryFn?: QueryFn): Observable<T[]> {
     return this.angularFirestore
-      .collection(path, queryFn)
+      .collection<T>(path, queryFn)
       .snapshotChanges()
       .pipe(
-        map(items => {
-          return items.map(item => {
-            const data: any = item.payload.doc.data();
-            data.id = item.payload.doc.id;
-            return data as T;
-          });
-        })
-      );
-  }
-
-  getGeoCollection<T>(center: GeoFirePoint, radius: number, field: string, path: string, queryFn?: geofirex.QueryFn) {
-    return this.geo
-      .collection(path, queryFn)
-      .within(center, radius, field)
-      .pipe(
-        map(items => {
-          console.log(items);
-        })
+        map(documentChangeActions =>
+          documentChangeActions.map(documentChangeAction => {
+            // Patch data with id
+            const data = documentChangeAction.payload.doc.data();
+            const id = documentChangeAction.payload.doc.id;
+            return { id, ...data } as T;
+          })
+        )
       );
   }
 
@@ -46,14 +38,28 @@ export class DbService {
   }
 
   getDocument<T>(path: string): Observable<T> {
-    return this.angularFirestore.doc<T>(path).valueChanges();
+    return this.angularFirestore
+      .doc<T>(path)
+      .snapshotChanges()
+      .pipe(
+        map(documentChangeAction => {
+          // Patch data with id
+          const data = documentChangeAction.payload.data();
+          const id = documentChangeAction.payload.id;
+          return { id, ...data } as T;
+        })
+      );
   }
 
   setDocument<T>(path: string, data): Promise<void> {
     return this.angularFirestore.doc(path).set(data);
   }
 
-  updateDocument(path: string, data): Promise<void> {
-    return this.angularFirestore.doc(path).update(data);
+  async updateDocument(path: string, data): Promise<void> {
+    return await this.angularFirestore.doc(path).update(data);
+  }
+
+  deleteDocument(path: string): Promise<void> {
+    return this.angularFirestore.doc(path).delete();
   }
 }

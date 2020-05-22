@@ -1,21 +1,31 @@
 <ion-content>
   <ion-slides pager="true" [options]="slideOpts" #sliderRef>
-    <ion-slide>
-      <h1>Bienvenue sur LeCoinDuProf !</h1>
+    <ion-slide class="first">
+      <img
+        class="ion-margin-bottom"
+        src="/assets/img/undraw_celebration_0jvk.svg"
+        alt="Illustration d'un groupe de personnes sautant de joie"
+      />
+      <h4 class="ion-no-margin">Bienvenue sur</h4>
+      <h1 class="ion-no-margin">LeCoinDuProf</h1>
       <h3>La première platforme d'économie circulaire dédiée au matériel pédagogique.</h3>
       <p>Nous allons vous aider à paramétrer votre compte.</p>
-      <p class="ion-text-center">
-        <ion-button (click)="next()">
-          C'est parti !
-          <ion-icon slot="end" name="arrow-forward"></ion-icon>
-        </ion-button>
-      </p>
     </ion-slide>
+
     <ion-slide>
       <h1>Qui êtes-vous ?</h1>
       <ion-avatar>
-        <img *ngIf="!!profilePicture" [src]="profilePicture" />
-        <ion-icon *ngIf="!!!profilePicture" name="contact"></ion-icon>
+        <img
+          *ngIf="!!currentProfilePicture && !!!profilePicture"
+          [src]="currentProfilePicture"
+          alt="Image de profile"
+        />
+        <img *ngIf="!!profilePicture" [src]="profilePicture" alt="Image de profile" />
+        <img
+          *ngIf="!!!profilePicture && !!!currentProfilePicture"
+          src="/assets/img/undraw_taking_selfie_lbo7.svg"
+          alt="Illustration d'une personne qui prend un selfie"
+        />
       </ion-avatar>
       <p class="ion-text-center">
         <ion-button (click)="selectImage()" color="secondary">
@@ -23,56 +33,53 @@
           Prendre une photo
         </ion-button>
       </p>
-      <p>
-        <ion-button (click)="logout()" color="light">
-          <ion-icon slot="start" name="power" id="MePageLogout"></ion-icon>
-          Me déconnecter
-        </ion-button>
-        <ion-button (click)="next()">
-          Suivant
-          <ion-icon slot="end" name="arrow-forward"></ion-icon>
-        </ion-button>
-      </p>
     </ion-slide>
 
     <ion-slide>
       <h1>Qui êtes-vous ?</h1>
       <ion-avatar>
-        <img *ngIf="!!profilePicture" [src]="profilePicture" />
-        <ion-icon *ngIf="!!!profilePicture" name="contact"></ion-icon>
+        <img *ngIf="!!profilePicture" [src]="profilePicture" alt="Image de profile" />
+        <img
+          *ngIf="!!!profilePicture"
+          src="/assets/img/undraw_profile_pic_ic5t.svg"
+          alt="Illustration de profile par défaut"
+        />
       </ion-avatar>
       <ion-list *ngIf="!!appUserForm" [formGroup]="appUserForm">
         <ion-item lines="none">
-          <ion-label class="ion-text-center">
+          <ion-label position="stacked">
             Quel est votre nom d'utilisateur ?
           </ion-label>
+          <ion-input
+            formControlName="displayName"
+            #usernameRef
+            placeholder="Entrez vote nom d'utilisateur ici"
+          ></ion-input>
         </ion-item>
-        <ion-item lines="none" color="secondary">
-          <ion-input class="ion-text-center" formControlName="displayName" #usernameRef></ion-input>
+        <ion-item>
+          <ion-label position="stacked">
+            Ecrivez un court texte de présentation
+          </ion-label>
+          <ion-textarea
+            formControlName="bio"
+            placeholder="Ce texte sera lisible par les autres utilisateurs"
+            #bioRef
+          ></ion-textarea>
         </ion-item>
       </ion-list>
-      <p>
-        <ion-button (click)="previous()" color="light">
-          <ion-icon slot="start" name="arrow-back"></ion-icon>
-          Précédent
-        </ion-button>
-        <ion-button (click)="next()" *ngIf="!!appUserForm" [disabled]="!appUserForm.valid">
-          Suivant
-          <ion-icon slot="end" name="arrow-forward"></ion-icon>
-        </ion-button>
-      </p>
     </ion-slide>
 
     <ion-slide>
       <h1>Dans quelle commune vivez-vous ?</h1>
-      <ion-list class="wide">
-        <ion-item color="secondary">
+      <ion-list class="wide" *ngIf="!!appUserForm" [formGroup]="appUserForm">
+        <ion-item>
           <ion-input
             type="text"
             type="search"
             autocomplete="off"
             autocapitalize="off"
             class="ion-text-center"
+            formControlName="formatted_address"
             #searchRef
           ></ion-input>
         </ion-item>
@@ -84,63 +91,86 @@
           Pourquoi cette question ?
         </ion-button>
       </p>
-
-      <p class="ion-text-center">
-        <ion-button (click)="previous()" color="light">
-          <ion-icon slot="start" name="arrow-back"></ion-icon>
-          Précédent
-        </ion-button>
-        <ion-button (click)="next()" [disabled]="!!!appUserForm?.value?.position">
-          Suivant
-          <ion-icon slot="end" name="arrow-forward"></ion-icon>
-        </ion-button>
-      </p>
     </ion-slide>
+
     <ion-slide class="ion-padding">
-      <h1>On est d'accord ?</h1>
+      <h1>On est d'accord {{ !!appUserForm ? appUserForm.value.displayName : '' }} ?</h1>
       <div>
         <ion-avatar>
-          <img *ngIf="!!profilePicture" [src]="profilePicture" />
-          <ion-icon *ngIf="!!!profilePicture" name="contact"></ion-icon>
+          <img
+            *ngIf="!!currentProfilePicture && !!!profilePicture"
+            [src]="currentProfilePicture"
+            alt="Image de profile"
+          />
+          <img *ngIf="!!profilePicture" [src]="profilePicture" alt="Image de profile" />
+          <img
+            *ngIf="!!!profilePicture && !!!currentProfilePicture"
+            src="/assets/img/undraw_profile_pic_ic5t.svg"
+            alt="Illustration de profile par défaut"
+          />
         </ion-avatar>
-        <p class="ion-text-center">
+        <p class="ion-text-center" *ngIf="appUserForm?.value?.username">
           {{ appUserForm.value.username }}
         </p>
       </div>
       <agm-map
-        *ngIf="!!appUserForm?.value?.position"
-        [latitude]="appUserForm.value.position.geopoint.latitude"
-        [longitude]="appUserForm.value.position.geopoint.longitude"
+        *ngIf="!!appUserForm?.value?.coordinates"
+        [latitude]="appUserForm.value.coordinates.latitude"
+        [longitude]="appUserForm.value.coordinates.longitude"
         [zoom]="16"
       >
         <agm-marker
-          [latitude]="appUserForm.value.position.geopoint.latitude"
-          [longitude]="appUserForm.value.position.geopoint.longitude"
+          [latitude]="appUserForm.value.coordinates.latitude"
+          [longitude]="appUserForm.value.coordinates.longitude"
           animation="DROP"
         ></agm-marker>
       </agm-map>
+    </ion-slide>
+
+    <ion-slide>
+      <h1>Activer les notifications</h1>
       <p class="ion-text-center">
-        <ion-button (click)="previous()" color="light">
-          <ion-icon slot="start" name="arrow-back"></ion-icon>
-          Précédent
-        </ion-button>
-        <ion-button (click)="save()">
-          Suivant
-          <ion-icon slot="end" name="arrow-forward"></ion-icon>
-        </ion-button>
+        Vous devrez autoriser l'application à émettre des notifications pour votre système.
+      </p>
+      <p class="ion-text-center">
+        Les notifications sont utilisées lorsqu'un autre utilisateur cherche à vous contacter à travers le chat de
+        l'application.
       </p>
     </ion-slide>
+
     <ion-slide>
-      <h1>C'est bon !</h1>
+      <h1>🎉 C'est bon ! 🎉</h1>
       <h2>Et maintenant, on fait quoi ?</h2>
+
       <ion-list>
-        <ion-item button>
-          <ion-label>Rechercher du matériel</ion-label>
+        <ion-item lines="none" color="tertiary">
+          <ion-label class="ion-text-center"> Je <b>cherche</b> du matériel </ion-label>
         </ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item button>
-          <ion-label>Créer mon inventaire</ion-label>
+        <ion-item lines="none">
+          <ion-label class="ion-text-center"> cliquez sur : </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label class="ion-text-center" routerLink="/app/shared" lines="none">
+            <ion-button color="secondary">
+              <ion-icon slot="start" name="ios-share"></ion-icon>
+              Partages
+            </ion-button>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="none" color="tertiary" class="ion-margin-top">
+          <ion-label class="ion-text-center"> Je <b>partage</b> mon matériel </ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label class="ion-text-center"> cliquez sur : </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label class="ion-text-center">
+            <ion-button color="secondary" routerLink="/app/boxes" lines="none">
+              <ion-icon slot="start" name="ios-cube"></ion-icon>
+              Inventaire
+            </ion-button>
+          </ion-label>
         </ion-item>
       </ion-list>
     </ion-slide>
@@ -148,8 +178,65 @@
 </ion-content>
 
 <ion-footer>
-  <p class="ion-text-center">
-    <em>Ces informations seront lisibles par les autres utilisateurs.</em>
-  </p>
-  <ion-progress-bar color="secondary" [value]="(index * 20) / 100"></ion-progress-bar>
+  <ng-container *ngIf="index === 1">
+    <ion-button (click)="next()" color="secondary">
+      C'est parti !
+      <ion-icon slot="end" name="arrow-forward"></ion-icon>
+    </ion-button>
+  </ng-container>
+
+  <ng-container *ngIf="index === 2">
+    <ion-button (click)="logout()" color="light">
+      <ion-icon slot="start" name="power" id="MePageLogout"></ion-icon>
+      Me déconnecter
+    </ion-button>
+    <ion-button (click)="next()" color="secondary">
+      Suivant
+      <ion-icon slot="end" name="arrow-forward"></ion-icon>
+    </ion-button>
+  </ng-container>
+
+  <ng-container *ngIf="index === 3">
+    <ion-button (click)="previous()" color="light">
+      <ion-icon slot="start" name="arrow-back"></ion-icon>
+      Précédent
+    </ion-button>
+    <ion-button (click)="next()" *ngIf="!!appUserForm" [disabled]="!appUserForm.valid" color="secondary">
+      Suivant
+      <ion-icon slot="end" name="arrow-forward"></ion-icon>
+    </ion-button>
+  </ng-container>
+
+  <ng-container *ngIf="index === 4">
+    <ion-button (click)="previous()" color="light">
+      <ion-icon slot="start" name="arrow-back"></ion-icon>
+      Précédent
+    </ion-button>
+    <ion-button (click)="next()" [disabled]="!!!appUserForm?.value?.coordinates" color="secondary">
+      Suivant
+      <ion-icon slot="end" name="arrow-forward"></ion-icon>
+    </ion-button>
+  </ng-container>
+
+  <ng-container *ngIf="index === 5">
+    <ion-button (click)="previous()" color="light">
+      <ion-icon slot="start" name="close"></ion-icon>
+      Non
+    </ion-button>
+    <ion-button (click)="save()" color="secondary">
+      <ion-icon slot="start" name="checkmark"></ion-icon>
+      Oui
+    </ion-button>
+  </ng-container>
+
+  <ng-container *ngIf="index === 6">
+    <ion-button (click)="next()" color="light">
+      <ion-icon slot="start" name="close"></ion-icon>
+      Plus tard
+    </ion-button>
+    <ion-button (click)="messagingService.requestPermission();next()" color="secondary">
+      Activer
+      <ion-icon slot="start" name="notifications"></ion-icon>
+    </ion-button>
+  </ng-container>
 </ion-footer>

@@ -1,0 +1,131 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/shared" text="Retour"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="item$ | async as item">
+      {{ item.name }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid *ngIf="item$ | async as item" class="ion-no-padding">
+    <ion-row>
+      <ion-col size="12" size-md="7" class="v-centered">
+        <ng-adsense
+          [adClient]="'ca-pub-7640562161899788'"
+          [adSlot]="7259870550"
+          [display]="'inline-block'"
+          [width]="320"
+          [height]="108"
+          [adFormat]="'auto'"
+        ></ng-adsense>
+        <ion-card color="light">
+          <div
+            class="picture"
+            *ngIf="item.picture$ | async as picture"
+            [style.backgroundImage]="'url(' + picture + ')'"
+          ></div>
+          <ion-card-header>
+            <ion-card-subtitle>{{ item.formatted_address }}</ion-card-subtitle>
+            <ion-card-title>{{ item.name }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p class="ion-text-end ion-margin-bottom">
+              <ion-badge color="secondary">
+                {{ categoriesService.getCategoryById(item.category).label }}
+              </ion-badge>
+            </p>
+            <p class="description">
+              {{ item.description }}
+            </p>
+          </ion-card-content>
+          <agm-map
+            *ngIf="!!item.coordinates"
+            [latitude]="item.coordinates.latitude"
+            [longitude]="item.coordinates.longitude"
+            [zoom]="16"
+          >
+            <agm-marker
+              [latitude]="item.coordinates.latitude"
+              [longitude]="item.coordinates.longitude"
+              animation="DROP"
+            ></agm-marker>
+          </agm-map>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12" size-md="5" class="v-spaced">
+        <ion-card *ngIf="item.owner$ | async as owner" class="profile" color="tertiary">
+          <ion-card-header>
+            <ion-card-subtitle class="ion-text-center">Partagé par</ion-card-subtitle>
+            <ion-card-title class="ion-text-center">
+              {{ owner.displayName }}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-avatar>
+            <img [src]="profilePicture" alt="Illustration de profile par défaut" />
+          </ion-avatar>
+          <ion-card-content>
+            <p class="ion-text-center">
+              {{ owner.bio }}
+            </p>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-list class="ion-padding">
+          <ion-list-header color="light">
+            <ion-label>Conditions du partage</ion-label>
+          </ion-list-header>
+          <ion-item>
+            <ion-icon
+              [name]="item.canGive ? 'checkmark-circle-outline':'close-circle-outline'"
+              slot="end"
+              [color]="item.canGive ? 'success': 'danger'"
+            ></ion-icon>
+            <ion-label>Don</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon
+              [name]="item.canLend ? 'checkmark-circle-outline':'close-circle-outline'"
+              slot="end"
+              [color]="item.canLend ? 'success': 'danger'"
+            ></ion-icon>
+            <ion-label>Prêt</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon
+              [name]="item.canExchange ? 'checkmark-circle-outline':'close-circle-outline'"
+              slot="end"
+              [color]="item.canExchange ? 'success': 'danger'"
+            ></ion-icon>
+            <ion-label>Troc</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon
+              [name]="item.canSend ? 'checkmark-circle-outline':'close-circle-outline'"
+              slot="end"
+              [color]="item.canSend ? 'success': 'danger'"
+            ></ion-icon>
+            <ion-label>
+              Envoi possible
+              <p>à la charge de l'acquéreur</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <ion-button fill="clear" color="dark" (click)="report(item)">
+          <ion-icon slot="start" name="alert"></ion-icon>
+          Signaler ce partage
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-button *ngIf="item$ | async as item" (click)="openChat(item)" color="secondary">
+    <ion-icon slot="start" name="ios-chatbubbles"></ion-icon>
+    Contacter
+  </ion-button>
+</ion-footer>

@@ -23,6 +23,9 @@ ion-content {
 
 ion-footer {
   background-color: white;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 // Cordova camera
@@ -51,4 +54,31 @@ div.cordova-camera-capture {
 // Cropperjs
 cropper-container {
   max-width: 100%;
+}
+
+// Flex helpers
+.flex-container {
+  height: 100%;
+  display: flex;
+}
+.flex-centered {
+  justify-content: center;
+  align-items: center;
+}
+
+// Page helper
+.page-header {
+  padding: 0.5rem;
+
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 26vh;
+  }
+}
+
+// Adsense
+ng-adsense {
+  background-color: var(--ion-color-light);
 }

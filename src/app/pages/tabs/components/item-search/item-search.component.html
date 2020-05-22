@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Filtrer</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="!!searchForm" [formGroup]="searchForm" class="ion-padding">
+    <ion-item>
+      <ion-label position="stacked">Catégorie (facultatif)</ion-label>
+      <ion-select formControlName="category" placeholder="Toutes">
+        <ion-select-option [value]="null">
+          Toutes
+        </ion-select-option>
+        <ion-select-option *ngFor="let category of categoriesService.categories" [value]="category.id">
+          {{ category.label }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Emplacement (facultatif)</ion-label>
+      <ion-input
+        formControlName="formatted_address"
+        placeholder="Peu importe"
+        type="text"
+        type="search"
+        autocomplete="off"
+        autocapitalize="off"
+        #searchRef
+        [clearInput]="true"
+        (ionChange)="onFormattedAddress($event.detail.value)"
+      >
+      </ion-input>
+    </ion-item>
+    <ion-item [disabled]="searchRef.value === ''">
+      <ion-label position="stacked">Niveau de précision (facultatif)</ion-label>
+      <ion-select formControlName="radius" placeholder="Niveau de précision">
+        <ion-select-option [value]="6">Ce lieu précis</ion-select-option>
+        <ion-select-option [value]="5">A 2 km près</ion-select-option>
+        <ion-select-option [value]="4">A 20 km près</ion-select-option>
+        <ion-select-option [value]="3">A 80 km près</ion-select-option>
+        <ion-select-option [value]="2">A 630 km près</ion-select-option>
+        <ion-select-option [value]="1">A 2 500 km près</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-button (click)="modalController.dismiss()" color="light">
+    <ion-icon slot="start" name="close"></ion-icon>
+    Fermer
+  </ion-button>
+
+  <ion-button (click)="modalController.dismiss(searchForm.value)" color="secondary">
+    <ion-icon slot="start" name="checkmark"></ion-icon>
+    Valider
+  </ion-button>
+</ion-footer>

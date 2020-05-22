@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import * as geofirex from 'geofirex';
-import * as firebaseApp from 'firebase/app';
-import { GeoFireClient } from 'geofirex';
 import { MapsAPILoader } from '@agm/core';
+import * as firebase from 'firebase/app';
+import Geohash from 'latlon-geohash';
 
 declare var google: any;
 
@@ -10,8 +9,6 @@ declare var google: any;
   providedIn: 'root'
 })
 export class GeocodingService {
-  geo = geofirex.init(firebaseApp);
-
   constructor(private mapsAPILoader: MapsAPILoader) {}
 
   getLongLat(inputField, options?): Promise<any> {
@@ -25,9 +22,9 @@ export class GeocodingService {
             const lng = place.geometry.location.lng();
             const location = {
               formatted_address: place.formatted_address,
-              point: this.geo.point(lat, lng)
+              coordinates: new firebase.firestore.GeoPoint(lat, lng),
+              geohash: Geohash.encode(lat, lng)
             };
-            console.log(location);
             resolve(location);
           });
         });

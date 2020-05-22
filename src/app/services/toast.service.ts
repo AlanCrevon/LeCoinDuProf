@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { ToastOptions } from '@ionic/core';
+import { Router } from '@angular/router';
 
 /**
  * Service to display toast messages
@@ -12,9 +13,10 @@ export class ToastService {
   defaultDuration = 3000;
   defaultSuccessColor = 'success';
   defaultErrorColor = 'danger';
+  defaultNotifyColor = 'tertiary';
   defaultPosition: 'middle' | 'top' | 'bottom' = 'top';
 
-  constructor(private toastController: ToastController) {}
+  constructor(private toastController: ToastController, private router: Router) {}
 
   /**
    * Display a toat message
@@ -48,5 +50,52 @@ export class ToastService {
       color: this.defaultErrorColor,
       position: this.defaultPosition
     });
+  }
+
+  /**
+   * Notify a FCM message with a redirection button
+   */
+  async fcm(fcm: any) {
+    const message = `<b>${fcm.notification.title}<br /></b>${fcm.notification.body}`;
+    const toast = await this.toastController.create({
+      message,
+      duration: 5000,
+      color: 'secondary',
+      position: 'top',
+      showCloseButton: true,
+      closeButtonText: 'Voir'
+    });
+
+    // Define what happens when the toast is dismissed manually
+    // i.e. clicking on close button
+    toast.onDidDismiss().then(event => {
+      if (event.role !== 'timeout') {
+        switch (fcm.data.topic) {
+          case 'chat':
+            this.router.navigateByUrl(`/app/chats/${fcm.data.id}`);
+            break;
+
+          default:
+            break;
+        }
+      }
+    });
+
+    // Define if the toast should be displayed
+    switch (fcm.data.topic) {
+      case 'chat':
+        // Display chat notification only if this chat is not
+        // currently opened
+        if (this.router.url !== `/app/chats/${fcm.data.id}`) {
+          toast.present();
+        }
+
+        break;
+
+      default:
+        // Open all notifications by default;
+        toast.present();
+        break;
+    }
   }
 }

@@ -26,7 +26,6 @@ export class UploadComponent implements OnInit {
   }
 
   uploadFile(filePath: string, file: Blob | File) {
-    console.log(file);
     const fileRef = this.storage.ref(filePath);
     const task = this.storage.upload(filePath, file);
 

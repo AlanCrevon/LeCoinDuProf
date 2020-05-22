@@ -1,7 +1,89 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>box</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ng-container *ngIf="box$ | async as box; else loadingBox">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/app/boxes" text="Retour"></ion-back-button>
+      </ion-buttons>
+      <ion-title>
+        {{ box?.name }}
+        <ion-card-subtitle>{{ box?.formatted_address }}</ion-card-subtitle>
+      </ion-title>
+    </ion-toolbar>
+    <ion-toolbar>
+      <ion-title class="ion-text-center">
+        <ion-button *ngIf="!!box" (click)="edit(box)" size="small" color="medium" fill="outline">
+          <ion-icon slot="start" name="create"></ion-icon>
+          Modifier la boite
+        </ion-button>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ng-container *ngIf="items$ | async as items; else loadingItems">
+      <div class="flex-container flex-centered" *ngIf="items.length === 0">
+        <ion-card color="light">
+          <ion-card-header>
+            <ion-card-subtitle>Inventaire</ion-card-subtitle>
+            <ion-card-title>Cette boite est vide</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <img
+              class="ion-margin-bottom"
+              src="/assets/img/undraw_add_content_d1tf.svg"
+              alt="Illustration d'une carte"
+            />
+            <p>A présent, ajoutez des <b>objets</b> dans cette boite. Vous pourrez choisir ceux que vous partagez.</p>
+            <p>
+              <b>Note</b> : tous les objets partagés de cette boite apparaîtront comme disponibles à l'adresse de la
+              boite.
+            </p>
+          </ion-card-content>
+        </ion-card>
+      </div>
 
-<ion-content> </ion-content>
+      <ion-list *ngIf="items.length > 0">
+        <ion-virtual-scroll [items]="items">
+          <ion-item
+            *virtualItem="let item"
+            [routerLink]="'/app/boxes/' + box.id + '/' + item.id"
+            routerDirection="forward"
+          >
+            <ion-img
+              slot="start"
+              *ngIf="item.hasPicture && item.thumbnail$ | async as thumbnail"
+              [src]="thumbnail"
+              alt="Image miniature de l'objet"
+              class="thumbnail"
+            ></ion-img>
+            <ion-icon name="ios-share" slot="end" [color]="item.isShared ? 'success' : 'medium'"></ion-icon>
+            <ion-label>
+              <p class="ion-text-end">
+                <ion-badge color="secondary" mode="ios">
+                  {{ categoriesService.getCategoryById(item.category).label }}
+                </ion-badge>
+              </p>
+              <h2>{{ item.name }}</h2>
+              <p>
+                {{ item.description }}
+              </p>
+            </ion-label>
+          </ion-item>
+        </ion-virtual-scroll>
+      </ion-list>
+    </ng-container>
+    <ng-template #loadingItems>
+      <ion-spinner></ion-spinner>
+    </ng-template>
+  </ion-content>
+
+  <ion-footer>
+    <ion-button (click)="openItemEditor(undefined, box)" color="secondary">
+      <ion-icon slot="start" name="add"></ion-icon>
+      Ajouter un objet
+    </ion-button>
+  </ion-footer>
+</ng-container>
+
+<ng-template #loadingBox>
+  <ion-content></ion-content>
+</ng-template>

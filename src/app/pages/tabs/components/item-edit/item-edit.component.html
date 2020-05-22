@@ -1,0 +1,103 @@
+<ion-content class="ion-padding">
+  <div class="page-header">
+    <img *ngIf="!!currentItemPicture && !!!itemPicture" [src]="currentItemPicture" alt="Image de l'objet" />
+    <img *ngIf="!!itemPicture" [src]="itemPicture" alt="Image de l'objet" />
+    <img
+      *ngIf="!!!itemPicture && !!!currentItemPicture"
+      src="/assets/img/undraw_photo_4yb9.svg"
+      alt="Illustration de l'objet par défaut"
+    />
+  </div>
+  <p class="ion-text-center">
+    <ion-button (click)="selectImage()" color="secondary">
+      <ion-icon name="camera" slot="start"></ion-icon>
+      Prendre une photo
+    </ion-button>
+  </p>
+  <ion-list *ngIf="!!form" [formGroup]="form">
+    <ion-item>
+      <ion-label position="floating">Nom</ion-label>
+      <ion-input
+        formControlName="name"
+        placeholder="Nom de l'objet"
+        [required]="true"
+        [autofocus]="true"
+        [spellcheck]="true"
+        [autocorrect]="true"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Catégorie</ion-label>
+      <ion-select
+        multiple="false"
+        placeholder="Sélectionner une catégorie"
+        formControlName="category"
+        [required]="true"
+      >
+        <ion-select-option *ngFor="let category of categoriesService.categories" [value]="category.id">
+          {{ category.label }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" required>Description</ion-label>
+      <ion-textarea
+        placeholder="Description de l'objet."
+        formControlName="description"
+        [required]="true"
+        [autoGrow]="true"
+        [spellcheck]="true"
+      ></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="ios-share" slot="start" color="secondary"></ion-icon>
+      <ion-label>Je partage</ion-label>
+      <ion-toggle slot="end" formControlName="isShared" color="success" (ionChange)="confirm($event)"></ion-toggle>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngIf="!!form" [formGroup]="form">
+    <ion-list-header color="secondary">
+      <ion-label>Conditions du partage</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Don</ion-label>
+      <ion-checkbox slot="end" color="success" formControlName="canGive"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Prêt</ion-label>
+      <ion-checkbox slot="end" color="success" formControlName="canLend"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Troc</ion-label>
+      <ion-checkbox slot="end" color="success" formControlName="canExchange"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        Envoi possible
+        <p>à la charge de l'acquéreur</p>
+      </ion-label>
+      <ion-checkbox slot="end" color="success" formControlName="canSend"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-button color="danger" *ngIf="!!item" (click)="delete(item)">
+    <ion-icon slot="icon-only" name="trash"></ion-icon>
+  </ion-button>
+
+  <ion-button color="light" (click)="modalController.dismiss()">
+    <ion-icon slot="start" name="close"></ion-icon>
+    Fermer
+  </ion-button>
+
+  <ion-button
+    color="secondary"
+    *ngIf="!!form"
+    [disabled]="!form.valid"
+    (click)="save(item, form, itemPicture, itemThumbnail)"
+  >
+    <ion-icon slot="start" name="save"></ion-icon>
+    Enregistrer
+  </ion-button>
+</ion-footer>

@@ -2,12 +2,19 @@ ion-app {
   max-width: 1400px;
   margin: 0 auto;
 
+  ion-fab-button {
+    img {
+      padding: 2px;
+    }
+  }
+
   ion-fab-list {
     right: 0;
     align-items: flex-end;
 
     ion-button {
       background-color: white;
+      border-radius: 64px;
     }
   }
 
@@ -16,14 +23,43 @@ ion-app {
 
     ion-content {
       --background: transparent;
+
+      .page-header {
+        height: calc(26vh + var(--ion-margin, 16px) + var(--ion-padding, 16px));
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-left: 0;
+        padding-right: 0;
+
+        ion-avatar {
+          margin: 1ex auto;
+          height: 20vh;
+          width: 20vh;
+          background-color: var(--ion-color-light);
+          padding: 0.5ex;
+          box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+        }
+      }
+
+      .lists-container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
     }
   }
 
   ion-list {
-    padding: 0;
+    --background: rgba(255, 255, 255, 0.5);
 
     ion-item:hover {
       --background: var(--ion-color-light);
     }
+  }
+
+  #main-content {
+    width: 100%;
   }
 }

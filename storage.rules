@@ -1,0 +1,39 @@
+service firebase.storage {
+  match /b/{bucket}/o {
+    // User's Profile and thumbnail : anyone can read, only owner can write
+    match /users/{userId} {
+      match /profile {
+        allow read: if true;
+        allow write: if userId == request.auth.uid
+          && request.resource.size < 500 * 1024
+          && request.auth != null
+          && request.resource.contentType.matches('image/jpeg');
+      }
+      match /thumbnail {
+        allow read: if true;
+        allow write: if userId == request.auth.uid
+          && request.resource.size < 500 * 1024
+          && request.auth != null
+          && request.resource.contentType.matches('image/jpeg');
+      }
+
+      // Items profile and thumbnail : anyone can read, only owner can write
+     	match /{itemId} {
+      	match /item {
+        	allow read: if true;
+        	allow write: if userId == request.auth.uid
+          	&& request.resource.size < 500 * 1024
+          	&& request.auth != null
+          	&& request.resource.contentType.matches('image/jpeg');
+      	}
+      	match /thumbnail {
+        	allow read: if true;
+        	allow write: if userId == request.auth.uid
+          	&& request.resource.size < 500 * 1024
+          	&& request.auth != null
+          	&& request.resource.contentType.matches('image/jpeg');
+      	}
+    	}
+    }
+  }
+}

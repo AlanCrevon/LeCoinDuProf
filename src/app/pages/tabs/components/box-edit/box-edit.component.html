@@ -1,0 +1,71 @@
+<ion-content class="ion-padding">
+  <ion-list *ngIf="!!form" [formGroup]="form">
+    <ion-item>
+      <ion-label position="stacked">Nom</ion-label>
+      <ion-input formControlName="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Emplacement</ion-label>
+      <ion-input
+        formControlName="formatted_address"
+        placeholder="Indiquez une ville ou une adresse"
+        type="text"
+        type="search"
+        autocomplete="off"
+        autocapitalize="off"
+        #searchRef
+      >
+      </ion-input>
+    </ion-item>
+  </ion-list>
+  <p class="ion-text-center">
+    <ion-button color="light" (click)="openExplainLocationModal()">
+      <ion-icon slot="start" name="information-circle-outline"></ion-icon>
+      Pourquoi cette question ?
+    </ion-button>
+  </p>
+  <ion-card *ngIf="!!!form?.value?.coordinates" color="light">
+    <ion-card-header>
+      <ion-card-subtitle>Entrez une adresse</ion-card-subtitle>
+      <ion-card-title>Créer une boite</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <img class="ion-margin-bottom" src="/assets/img/undraw_map_1r69.svg" alt="Illustration d'une carte" />
+      <p>Votre boite doit avoir une <b>adresse</b>.</p>
+      <p>
+        Tous les objets partagés depuis cette boite apparaîtront à cette adresse.
+      </p>
+    </ion-card-content>
+  </ion-card>
+  <agm-map
+    *ngIf="!!form && !!form.value && !!form.value.coordinates"
+    [latitude]="form.value.coordinates.latitude"
+    [longitude]="form.value.coordinates.longitude"
+    [zoom]="16"
+  >
+    <agm-marker
+      [latitude]="form.value.coordinates.latitude"
+      [longitude]="form.value.coordinates.longitude"
+      animation="DROP"
+    ></agm-marker>
+  </agm-map>
+
+  <p *ngIf="!isCreatingBox" class="ion-text-center">
+    <ion-button (click)="delete(box)" color="danger">
+      <ion-icon slot="start" name="trash"></ion-icon>
+      Supprimer la boite
+    </ion-button>
+  </p>
+</ion-content>
+
+<ion-footer>
+  <ion-button (click)="modalController.dismiss()" color="light">
+    <ion-icon slot="start" name="close"></ion-icon>
+    Fermer
+  </ion-button>
+
+  <ion-button *ngIf="!!form" (click)="save(box, form, isCreatingBox)" [disabled]="!form.valid" color="secondary">
+    <ion-icon slot="start" name="save"></ion-icon>
+    Enregistrer
+  </ion-button>
+</ion-footer>

@@ -1,0 +1,18 @@
+.picture {
+  height: 30vh;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: var(--ion-color-dark);
+  background-size: contain;
+  transition: transform 0.2s; /* Animation */
+}
+.description {
+  white-space: pre-line;
+}
+
+.v-centered {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

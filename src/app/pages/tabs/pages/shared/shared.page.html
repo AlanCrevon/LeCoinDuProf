@@ -1,7 +1,95 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>shared</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
-<ion-content> </ion-content>
+  <ng-container *ngIf="items$ | async as items; else loadingItems">
+    <div class="page-header">
+      <h1>LeCoinDuProf</h1>
+    </div>
+
+    <ion-list>
+      <ion-item *ngFor="let item of items" [routerLink]="[item.id]">
+        <ion-img
+          slot="start"
+          *ngIf="item.hasPicture && item.thumbnail$ | async as thumbnail"
+          [src]="thumbnail"
+          alt="Image miniature de l'objet"
+          class="thumbnail"
+        ></ion-img>
+        <ion-label>
+          <p class="ion-text-end">
+            <ion-badge color="secondary">
+              {{ categoriesService.getCategoryById(item.category).label}}
+            </ion-badge>
+          </p>
+          <h2>{{ item.name }}</h2>
+          <p>{{item.formatted_address}}</p>
+          <p>{{ item.description }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <ion-infinite-scroll threshold="25%" (ionInfinite)="loadMore($event, items[items.length - 1])">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Chargement data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ng-container>
+
+  <ng-template #loadingItems>
+    <ion-spinner class="ion-margin"></ion-spinner>
+  </ng-template>
+
+  <ion-card *ngIf="endReached" color="light">
+    <ion-card-header>
+      <ion-card-subtitle class="ion-text-center">
+        Il n'y a pas d'autres objets patagés
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p class="ion-text-center">A vous de partager les vôtres !</p>
+      <p class="ion-text-center">
+        <ion-button routerLink="/app/boxes" color="secondary">
+          <ion-icon slot="start" name="cube"></ion-icon>
+          Gérer mon inventaire
+        </ion-button>
+      </p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-button *ngIf="!!!filters" color="secondary" (click)="openSearchModal(filters)">
+    <ion-icon slot="start" name="search"></ion-icon>
+    Filtrer
+  </ion-button>
+  <ion-toolbar *ngIf="!!filters && (filters?.formatted_address !== '' || !!filters?.category)" color="light">
+    <ion-buttons slot="start">
+      <ion-button (click)="filters = undefined;doRefresh()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <p class="ion-text-no-wrap ion-padding-end">
+      <b>Filtre :&nbsp;</b>
+      <ion-chip color="secondary" *ngIf="!!filters && !!filters.category">
+        {{ categoriesService.getCategoryById(filters.category).label }}
+      </ion-chip>
+      {{ filters.formatted_address }}
+      <ion-chip *ngIf="filters.radius === 5">
+        &plusmn; 2km
+      </ion-chip>
+      <ion-chip *ngIf="filters.radius === 4">
+        &plusmn; 20km
+      </ion-chip>
+      <ion-chip *ngIf="filters.radius === 3">
+        &plusmn; 80km
+      </ion-chip>
+      <ion-chip *ngIf="filters.radius === 2">
+        &plusmn; 630km
+      </ion-chip>
+      <ion-chip *ngIf="filters.radius === 1">
+        &plusmn; 2500km
+      </ion-chip>
+    </p>
+  </ion-toolbar>
+</ion-footer>

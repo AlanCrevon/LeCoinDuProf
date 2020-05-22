@@ -1,16 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from 'firebase';
 import { AuthService } from 'src/app/services/auth.service';
 import { DbService } from 'src/app/services/db.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { AppUser } from 'src/app/types/app-user';
-import { Observable } from 'rxjs';
-import { Settings } from 'src/app/types/settings';
+import { Observable, from } from 'rxjs';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
-import { MapsAPILoader } from '@agm/core';
+import { CameraService } from 'src/app/modules/camera/services/camera.service';
+import { FirestorageService } from 'src/app/modules/upload/services/firestorage.service';
+import { IonInput, ModalController } from '@ionic/angular';
+import { GeocodingService } from 'src/app/services/geocoding.service';
+import { ExplainLocationComponent } from '../../components/explain-location/explain-location.component';
+import { take } from 'rxjs/operators';
+import { MessagingService } from 'src/app/services/messaging.service';
+import { FcmToken } from 'src/app/types/fcm-token';
 
 @Component({
   selector: 'app-me',
@@ -18,20 +23,18 @@ import { MapsAPILoader } from '@agm/core';
   styleUrls: ['./me.page.scss']
 })
 export class MePage implements OnInit {
-  /** User's account */
-  user: User;
+  user: firebase.User;
+  appUserForm: FormGroup;
+  fcmTokens$: Observable<FcmToken[]>;
 
-  /** Form for the user to change their public profile */
-  userForm: FormGroup;
+  currentProfilePicture: string;
+  profilePicture: string;
+  profileThumbnail: string;
+  isNotificationActivatedHere: string;
+  hasToDeleteProfilePicture = false;
 
-  /** Form for the user to change their private settings */
-  settingsForm: FormGroup;
-
-  /** User's public profile  */
-  appUser: Observable<AppUser>;
-
-  /**  User's private settings */
-  settings: Observable<Settings>;
+  @ViewChild('searchRef', { read: ElementRef, static: false }) searchElementRef: ElementRef;
+  @ViewChild('searchRef', { static: false }) search: IonInput;
 
   constructor(
     public authService: AuthService,
@@ -39,54 +42,52 @@ export class MePage implements OnInit {
     private toastService: ToastService,
     private formBuilder: FormBuilder,
     private dbService: DbService,
-    private mapsAPILoader: MapsAPILoader
+    private cameraService: CameraService,
+    public firestorageService: FirestorageService,
+    private geocodingService: GeocodingService,
+    private modalController: ModalController,
+    public messagingService: MessagingService
   ) {}
 
   /**
    * Component initialisation
    */
   ngOnInit() {
-    // Subscribe to identified user
-    this.authService.user$.subscribe(user => {
-      // Required to handle user's logout
-      if (!!!user) {
-        return;
+    this.authService.user$.subscribe(user => (this.user = user));
+
+    this.authService.appUser$.subscribe(appUser => {
+      // Build the user's form
+      this.appUserForm = this.buildAppUserForm(appUser);
+
+      // Load user's profile picture
+      if (appUser.hasPicture) {
+        this.firestorageService.download('users/' + appUser.id + '/profile').subscribe(url => {
+          this.currentProfilePicture = url;
+        });
       }
 
-      // Store current user
-      this.user = user;
+      // Initialize google map geocoding search input
+      this.initGeocodingSearch();
 
-      // Load user's profile
-      this.appUser = this.dbService.getDocument<AppUser>(`/users/${user.uid}`);
-      this.appUser.subscribe(appUser => {
-        if (!!!appUser) {
-          // If it's user's first visit. We create their profile
-          const newAppUser: AppUser = {
-            displayName: user.displayName || this.removeMailExtension(user.email),
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            location: undefined
-          };
-          this.dbService.setDocument(`/users/${user.uid}`, newAppUser);
-        } else {
-          // Else we use this profile to populate the form
-          this.userForm = this.buildUserForm(appUser);
-        }
-      });
+      // Load user's FCM tokens
+      this.fcmTokens$ = this.dbService.getCollection<FcmToken>(`/users/${appUser.id}/tokens`);
+    });
+  }
 
-      // Load user's settings
-      this.settings = this.dbService.getDocument<Settings>(`/settings/${user.uid}`);
-      this.settings.subscribe(settings => {
-        if (!!!settings) {
-          // If it's user's first visit, we set their account's email as default notification mail address
-          const newSettings: Settings = {
-            email: user.email
-          };
-          this.dbService.setDocument(`/settings/${user.uid}`, newSettings);
-        } else {
-          // Else we use their settings to populate the form
-          this.settingsForm = this.buildSettingsForm(settings);
-        }
-      });
+  /**
+   * Initilize google map geocoding search input
+   */
+  initGeocodingSearch() {
+    // Here we need to give the view time to load.
+    if (!!!this.searchElementRef || !!!this.searchElementRef.nativeElement.getElementsByTagName('input')[0]) {
+      setTimeout(() => this.initGeocodingSearch(), 100);
+      return;
+    }
+    const inputField = this.searchElementRef.nativeElement.getElementsByTagName('input')[0];
+    this.geocodingService.getLongLat(inputField).then(location => {
+      this.appUserForm.get('formatted_address').setValue(location.formatted_address);
+      this.appUserForm.get('coordinates').setValue(location.coordinates);
+      this.appUserForm.get('geohash').setValue(location.geohash);
     });
   }
 
@@ -104,35 +105,55 @@ export class MePage implements OnInit {
    * Build the reactive form for the user to update their public profile
    * @param user user's profile
    */
-  buildUserForm(user: User | AppUser): FormGroup {
+  buildAppUserForm(appUser: AppUser): FormGroup {
     return this.formBuilder.group({
-      displayName: [user.displayName, Validators.required]
+      displayName: [appUser.displayName, Validators.required],
+      bio: [appUser.bio, Validators.required],
+      formatted_address: [appUser.formatted_address, Validators.required],
+      coordinates: [appUser.coordinates, Validators.required],
+      geohash: [appUser.geohash, Validators.required],
+      modifiedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: appUser.createdAt || firebase.firestore.FieldValue.serverTimestamp(),
+      hasPicture: [!!appUser.hasPicture ? appUser.hasPicture : false]
     });
   }
 
-  /**
-   * Build the reactive form for the user to update their private settings
-   * @param settings user's settings
-   */
-  buildSettingsForm(settings: Settings): FormGroup {
-    return this.formBuilder.group({
-      email: [settings.email, Validators.email]
-    });
-  }
-
-  /**
-   * Save user's profile's settings
-   * @param user user's account
-   * @param userForm user's public profile
-   * @param settingsForm user's private settings
-   */
-  save(user: User, userForm: FormGroup, settingsForm: FormGroup) {
+  async save() {
     this.dbService
-      .updateDocument(`/users/${user.uid}`, userForm.value)
-      .then(() => this.dbService.updateDocument(`/settings/${user.uid}`, settingsForm.value))
-      .finally(() => this.toastService.success('Votre profile est mis à jour'))
+      .setDocument(`/users/${this.user.uid}`, this.appUserForm.value)
+      .then(async () => {
+        // Upload profile picture
+        if (!!this.profilePicture) {
+          await this.firestorageService.uploadImage(
+            `users/${this.user.uid}/profile`,
+            this.profilePicture,
+            'Image de profile'
+          );
+        }
+        // Upload thumbnail profile picture
+        if (!!this.profileThumbnail) {
+          await this.firestorageService.uploadImage(
+            `users/${this.user.uid}/thumbnail`,
+            this.profileThumbnail,
+            `Miniature de l'image de profile`
+          );
+        }
+        // Delete picture if required
+        if (!!this.hasToDeleteProfilePicture) {
+          await this.firestorageService.delete(`users/${this.user.uid}/thumbnail`);
+          await this.firestorageService.delete(`users/${this.user.uid}/profile`);
+        }
+        // Update profile to tag the user as having a profile picture
+        if (!!this.profilePicture || !!this.profileThumbnail) {
+          await this.dbService.updateDocument(`/users/${this.user.uid}`, {
+            modifiedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+        this.toastService.success(`🙂 Votre profile a été mis à jour`);
+      })
       .catch(error => {
-        this.toastService.error(`Erreur durant la sauvegarde du profile`);
+        console.log(error);
+        this.toastService.error(`😒 Erreur durant la mise à jour de votre profile.`);
       });
   }
 
@@ -141,5 +162,33 @@ export class MePage implements OnInit {
    */
   removeMailExtension(email: string): string {
     return email.substring(0, email.lastIndexOf('@'));
+  }
+
+  async selectImage() {
+    this.cameraService
+      .selectImage()
+      .pipe(take(1))
+      .subscribe(data => {
+        this.currentProfilePicture = !!data ? this.currentProfilePicture : undefined;
+        this.profilePicture = !!data ? data.picture : undefined;
+        this.profileThumbnail = !!data ? data.thumbnail : undefined;
+        this.hasToDeleteProfilePicture = !!!data;
+        this.appUserForm.get('hasPicture').setValue(!!data);
+      });
+  }
+
+  async openExplainLocationModal() {
+    const modal = await this.modalController.create({
+      component: ExplainLocationComponent
+    });
+    modal.present();
+  }
+
+  async checkUserExists(uid): Promise<boolean> {
+    const user = await this.dbService
+      .getDocument<AppUser>(`/users/${this.user.uid}`)
+      .pipe(take(1))
+      .toPromise();
+    return !!user.createdAt;
   }
 }

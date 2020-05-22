@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/chats" text="Retour"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="item$ | async as item">
+      {{ item.name }}<br />
+      <span *ngIf="with$ | async as with" class="display-name">{{ with.displayName }}</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ng-container *ngIf="!!appUser">
+    <div *ngIf="messages$ | async as messages" class="messages" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+      <div
+        *ngFor="let message of messages"
+        class="speech-bubble ion-margin ion-padding fade-in"
+        [ngClass]="{me: message.author === appUser.id, them: message.author !== appUser.id}"
+      >
+        <ion-text *ngIf="(message.author !== appUser.id) && with$ | async as with" color="primary">
+          <b>{{ with.displayName }}</b><br />
+        </ion-text>
+        <ion-text *ngIf="message.author === appUser.id" color="secondary"> <b>Moi</b><br /> </ion-text>
+        {{ message.content }}
+      </div>
+    </div>
+  </ng-container>
+</ion-content>
+
+<ion-footer>
+  <ion-list class="ion-no-margin" *ngIf="messageForm" [formGroup]="messageForm">
+    <ion-item lines="none">
+      <ion-textarea formControlName="content"></ion-textarea>
+      <ion-button
+        *ngIf="chat$ | async as chat"
+        slot="end"
+        color="secondary"
+        (click)="sendMessage(chat.id, messageForm)"
+        shape="round"
+      >
+        <ion-icon slot="icon-only" name="arrow-up"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-footer>

@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { User } from 'firebase';
 import { CameraService } from 'src/app/modules/camera/services/camera.service';
 import { IonSlides, IonInput, ModalController } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -12,6 +11,8 @@ import { ExplainLocationComponent } from '../../components/explain-location/expl
 import { DbService } from 'src/app/services/db.service';
 import * as firebase from 'firebase';
 import { FirestorageService } from 'src/app/modules/upload/services/firestorage.service';
+import { AppUser } from 'src/app/types/app-user';
+import { MessagingService } from 'src/app/services/messaging.service';
 
 @Component({
   selector: 'app-welcome',
@@ -19,16 +20,18 @@ import { FirestorageService } from 'src/app/modules/upload/services/firestorage.
   styleUrls: ['./welcome.page.scss']
 })
 export class WelcomePage implements OnInit {
-  user: User;
+  appUser: AppUser;
   appUserForm: FormGroup;
+  currentProfilePicture: string;
   profilePicture: string;
   profileThumbnail: string;
+  hasToDeleteProfilePicture = false;
   index = 1;
 
-  @ViewChild('sliderRef') slider: IonSlides;
-  @ViewChild('usernameRef') username: IonInput;
-  @ViewChild('searchRef', { read: ElementRef }) searchElementRef: ElementRef;
-  @ViewChild('searchRef') search: IonInput;
+  @ViewChild('sliderRef', { static: true }) slider: IonSlides;
+  @ViewChild('usernameRef', { static: false }) username: IonInput;
+  @ViewChild('searchRef', { read: ElementRef, static: false }) searchElementRef: ElementRef;
+  @ViewChild('searchRef', { static: false }) search: IonInput;
 
   slideOpts = {
     pagination: false
@@ -43,14 +46,22 @@ export class WelcomePage implements OnInit {
     private geocodingService: GeocodingService,
     private modalController: ModalController,
     private dbService: DbService,
-    private firestorageService: FirestorageService
+    private firestorageService: FirestorageService,
+    public messagingService: MessagingService
   ) {}
 
   ngOnInit() {
     // Fetch user from authService
-    this.authService.user$.pipe(take(1)).subscribe(async user => {
-      this.user = user;
-      this.appUserForm = this.buildAppUserForm(user);
+    this.authService.appUser$.pipe(take(1)).subscribe(appUser => {
+      this.appUser = appUser;
+
+      // Build appUser's form
+      this.appUserForm = this.buildAppUserForm(appUser);
+
+      // Load user's profile
+      this.firestorageService.download('users/' + appUser.id + '/profile').subscribe(url => {
+        this.currentProfilePicture = url;
+      });
     });
 
     // Disable swipe gestures to change slide
@@ -67,24 +78,23 @@ export class WelcomePage implements OnInit {
           this.username.setFocus();
         }
 
-        // On slide 4 : auto focus to search input & reset location
+        // On slide 4
         if (this.index === 4) {
-          this.search.setFocus();
-          this.appUserForm.get('formatted_address').setValue(undefined);
-          this.appUserForm.get('position').setValue(undefined);
+          setTimeout(() => {
+            // Init geocoding on search field
+            this.geocodingService
+              .getLongLat(this.searchElementRef.nativeElement.getElementsByTagName('input')[0])
+              .then(location => {
+                this.appUserForm.get('formatted_address').setValue(location.formatted_address);
+                this.appUserForm.get('coordinates').setValue(location.coordinates);
+                this.appUserForm.get('geohash').setValue(location.geohash);
+              });
+            // Auto focus to search input
+            this.search.setFocus();
+          }, 100);
         }
       });
     });
-  }
-
-  ionViewDidEnter() {
-    // Init geocoding on search field
-    this.geocodingService
-      .getLongLat(this.searchElementRef.nativeElement.getElementsByTagName('input')[0])
-      .then(location => {
-        this.appUserForm.get('formatted_address').setValue(location.formatted_address);
-        this.appUserForm.get('position').setValue(location.point.data);
-      });
   }
 
   next() {
@@ -101,12 +111,12 @@ export class WelcomePage implements OnInit {
 
   async save() {
     this.dbService
-      .setDocument(`/users/${this.user.uid}`, this.appUserForm.value)
+      .setDocument(`/users/${this.appUser.id}`, this.appUserForm.value)
       .then(async () => {
         // Upload profile picture
         if (!!this.profilePicture) {
           await this.firestorageService.uploadImage(
-            `users/${this.user.uid}/profile`,
+            `users/${this.appUser.id}/profile`,
             this.profilePicture,
             'Image de profile'
           );
@@ -114,15 +124,19 @@ export class WelcomePage implements OnInit {
         // Upload thumbnail profile picture
         if (!!this.profileThumbnail) {
           await this.firestorageService.uploadImage(
-            `users/${this.user.uid}/thumbnail`,
+            `users/${this.appUser.id}/thumbnail`,
             this.profileThumbnail,
             `Miniature de l'image de profile`
           );
         }
+        // Delete picture if required
+        if (!!this.hasToDeleteProfilePicture) {
+          await this.firestorageService.delete(`users/${this.appUser.id}/thumbnail`);
+          await this.firestorageService.delete(`users/${this.appUser.id}/profile`);
+        }
         // Update profile to tag the user as having a profile picture
         if (!!this.profilePicture || !!this.profileThumbnail) {
-          await this.dbService.updateDocument(`/users/${this.user.uid}`, {
-            hasProfilePicture: true,
+          await this.dbService.updateDocument(`/users/${this.appUser.id}`, {
             modifiedAt: firebase.firestore.FieldValue.serverTimestamp()
           });
           this.next();
@@ -131,32 +145,39 @@ export class WelcomePage implements OnInit {
         }
       })
       .catch(error => {
-        console.log(error);
         this.toastService.error('Erreur durant la création de votre profile.');
       });
   }
 
   async selectImage() {
-    this.cameraService.selectImage().subscribe(data => {
-      this.profilePicture = data.picture;
-      this.profileThumbnail = data.thumbnail;
-    });
+    this.cameraService
+      .selectImage()
+      .pipe(take(1))
+      .subscribe(data => {
+        this.currentProfilePicture = !!data ? this.currentProfilePicture : undefined;
+        this.profilePicture = !!data ? data.picture : undefined;
+        this.profileThumbnail = !!data ? data.thumbnail : undefined;
+        this.hasToDeleteProfilePicture = !!!data;
+        this.appUserForm.get('hasPicture').setValue(!!data);
+      });
   }
 
-  buildAppUserForm(user: User): FormGroup {
+  buildAppUserForm(appUser: AppUser): FormGroup {
     return this.formBuilder.group({
-      displayName: [user.displayName, Validators.required],
-      formatted_address: undefined,
-      position: undefined,
-      hasProfilePicture: false,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      modifiedAt: firebase.firestore.FieldValue.serverTimestamp()
+      displayName: [!!appUser.displayName ? appUser.displayName : undefined, Validators.required],
+      bio: [!!appUser.bio ? appUser.bio : undefined, Validators.required],
+      formatted_address: [!!appUser.formatted_address ? appUser.formatted_address : undefined],
+      coordinates: [!!appUser.coordinates ? appUser.coordinates : undefined],
+      geohash: [!!appUser.geohash ? appUser.geohash : undefined],
+      createdAt: !!appUser.createdAt ? appUser.createdAt : firebase.firestore.FieldValue.serverTimestamp(),
+      modifiedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      hasPicture: [!!appUser.hasPicture ? appUser.hasPicture : false]
     });
   }
 
   logout() {
     this.authService.logout().subscribe(() => {
-      this.toastService.success('Au revoir et à bientôt 👋 !');
+      this.toastService.success('👋 Au revoir et à bientôt !');
       this.router.navigateByUrl('/');
     });
   }

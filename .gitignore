@@ -17,3 +17,9 @@ platforms/
 
 # Ignode plugin folder
 plugins/
+
+# Certifications folder
+certs/
+
+# Firebase cache
+.firebase

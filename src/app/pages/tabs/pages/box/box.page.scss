@@ -1,0 +1,24 @@
+ion-content {
+  ion-card {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 640px;
+
+    img {
+      display: block;
+      max-height: 33vh;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  ion-img {
+    height: 5rem;
+    width: 5rem;
+  }
+}
+
+ion-footer {
+  display: flex;
+  justify-content: space-around;
+}

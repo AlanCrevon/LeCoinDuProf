@@ -4,6 +4,7 @@ import { Platform, ActionSheetController, ModalController } from '@ionic/angular
 import { WebcamComponent } from '../components/webcam/webcam.component';
 import { Subject, Observable } from 'rxjs';
 import { FilebrowserComponent } from '../components/filebrowser/filebrowser.component';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +58,8 @@ export class CameraService {
       headerTextLabel: `Sélectionnez la source de l'image`,
       fromFileTextLabel: 'Depuis un fichier',
       fromCameraTextLabel: 'Depuis la caméra',
-      cancelTextLabel: 'annuler'
+      deleteImage: `Effacer l'image`,
+      cancelTextLabel: 'Annuler'
     };
     const opt = { ...defaultOptions, ...options };
     const open = async () => {
@@ -108,6 +110,12 @@ export class CameraService {
                     });
                   });
               }
+            }
+          },
+          {
+            text: opt.deleteImage,
+            handler: () => {
+              this.image.next(undefined);
             }
           },
           {

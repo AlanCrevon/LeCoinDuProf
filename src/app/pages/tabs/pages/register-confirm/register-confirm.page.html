@@ -15,14 +15,14 @@
 
     <p>Merci de cliquer sur ce lien contenu dans ce mail pour accéder à la suite de l'application.</p>
 
-    <p text-center>
+    <p class="ion-text-center">
       <ion-button (click)="sendEmailVerification(user)">
         <ion-icon slot="start" name="mail"></ion-icon>
         M'envoyer le mail
       </ion-button>
     </p>
 
-    <p text-center>
+    <p class="ion-text-center">
       <a routerLink="/app/me" color="secondary">
         J'ai validé mon mail, je continue
       </a>
@@ -30,7 +30,7 @@
   </ng-container>
 
   <ng-template #loading>
-    <ion-content padding>
+    <ion-content class="ion-padding">
       <p class="ion-text-center">
         <ion-spinner name="crescent"></ion-spinner>
       </p>

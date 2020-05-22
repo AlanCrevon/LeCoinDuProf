@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/app/boxes/' + boxId" text="Retour"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="item$ | async as item">
+      {{ item.name }}
+    </ion-title>
+  </ion-toolbar>
+  <ion-toolbar *ngIf="item$ | async as item">
+    <ion-title class="ion-text-center" *ngIf="box$ | async as box">
+      <ion-button (click)="openItemEditor(item, box)" size="small" color="medium" fill="outline">
+        <ion-icon slot="start" name="create"></ion-icon>
+        Modifier l'objet
+      </ion-button>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid *ngIf="item$ | async as item" class="ion-no-padding">
+    <ion-row>
+      <ion-col size="12" size-md="7" class="v-centered">
+        <ion-card color="light">
+          <div
+            class="picture"
+            *ngIf="item.picture$ | async as picture"
+            [style.backgroundImage]="'url(' + picture + ')'"
+          ></div>
+          <ion-card-header>
+            <ion-card-subtitle>{{ item.formatted_address }}</ion-card-subtitle>
+            <ion-card-title>{{ item.name }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="description">
+            {{ item.description }}
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12" size-md="5" class="v-centered">
+        <ion-list>
+          <ion-item color="light">
+            <ion-icon name="ios-share" slot="start" [color]="item.isShared ? 'success' : 'medium'"></ion-icon>
+            <ion-label>
+              {{ item.isShared ? 'Partage activé' : 'Partage désactivé' }}
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon
+              [name]="item.canGive ? 'checkmark-circle-outline':'close-circle-outline'"
+              slot="end"
+              [color]="item.canGive ? 'success': 'danger'"
+            ></ion-icon>
+            <ion-label>Don</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon
+              [name]="item.canLend ? 'checkmark-circle-outline':'close-circle-outline'"
+              slot="end"
+              [color]="item.canLend ? 'success': 'danger'"
+            ></ion-icon>
+            <ion-label>Prêt</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon
+              [name]="item.canExchange ? 'checkmark-circle-outline':'close-circle-outline'"
+              slot="end"
+              [color]="item.canExchange ? 'success': 'danger'"
+            ></ion-icon>
+            <ion-label>Troc</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon
+              [name]="item.canSend ? 'checkmark-circle-outline':'close-circle-outline'"
+              slot="end"
+              [color]="item.canSend ? 'success': 'danger'"
+            ></ion-icon>
+            <ion-label>
+              Envoi possible
+              <p>à la charge de l'acquéreur</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: 'app',
-    loadChildren: './pages/tabs/tabs.module#TabsPageModule'
+    loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule)
   }
 ];
 

@@ -1,13 +1,13 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/app/login"></ion-back-button>
+      <ion-back-button defaultHref="/app/login" text="Retour"></ion-back-button>
     </ion-buttons>
     <ion-title>Créer un compte</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <ion-card>
     <ion-card-content>
       <ion-list *ngIf="registerForm" [formGroup]="registerForm">
@@ -56,7 +56,7 @@
           <ion-checkbox formControlName="tos" slot="end"></ion-checkbox>
         </ion-item>
         <ion-item lines="none">
-          <ion-label text-center>
+          <ion-label class="ion-text-center">
             <ion-button
               id="RegisterPageRegister"
               size="big"

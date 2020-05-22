@@ -1,7 +1,58 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>boxes</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ng-container *ngIf="boxes$ | async as boxes; else loadingBoxes">
+  <ion-content>
+    <div class="flex-container flex-centered" *ngIf="boxes.length === 0">
+      <ion-card color="light">
+        <ion-card-header>
+          <ion-card-subtitle>Inventaire</ion-card-subtitle>
+          <ion-card-title>Créez votre première boite</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <img
+            class="ion-margin-bottom"
+            src="/assets/img/undraw_Moving_twwf.svg"
+            alt="Illustration d'une personne remplissant une boite"
+          />
+          <p>
+            Votre inventaire s'organise en <b>boites</b>. Dans chaque boite, vous rangerez les <b>objets</b> de votre
+            inventaire.
+          </p>
+          <p>
+            Créez votre première boite en cliquant sur le bouton ci-dessous.
+          </p>
+        </ion-card-content>
+      </ion-card>
+    </div>
 
-<ion-content> </ion-content>
+    <ng-container *ngIf="boxes.length > 0">
+      <div class="page-header">
+        <img
+          class="ion-margin-bottom"
+          src="/assets/img/undraw_Moving_twwf.svg"
+          alt="Illustration d'une personne remplissant une boite"
+        />
+      </div>
+      <ion-list>
+        <ion-virtual-scroll [items]="boxes">
+          <ion-item *virtualItem="let box" [routerLink]="'/app/boxes/' + box.id" routerDirection="forward">
+            <ion-icon slot="start" name="cube"></ion-icon>
+            <ion-label>
+              <h4>{{box.name}}</h4>
+              <p>{{ box.formatted_address }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-virtual-scroll>
+      </ion-list>
+    </ng-container>
+  </ion-content>
+
+  <ion-footer class="ion-text-center">
+    <ion-button *ngIf="authService.appUser$ | async as appUser" (click)="openBoxEditor(appUser)" color="secondary">
+      <ion-icon slot="start" name="add"></ion-icon>
+      Ajouter une boite
+    </ion-button>
+  </ion-footer>
+</ng-container>
+
+<ng-template #loadingBoxes>
+  <ion-content></ion-content>
+</ng-template>

@@ -1,12 +1,12 @@
-ion-avatar {
-  margin: 1rem auto;
-  height: 30vw;
-  width: 30vw;
-  max-height: 200px;
-  max-width: 200px;
+img {
+  border-radius: 50%;
+  max-height: 15vh;
+}
 
-  ion-icon {
-    width: 100%;
+div.map-container {
+  height: 20vh;
+  agm-map {
     height: 100%;
+    width: 100%;
   }
 }

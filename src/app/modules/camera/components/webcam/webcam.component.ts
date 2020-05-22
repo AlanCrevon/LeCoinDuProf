@@ -14,13 +14,13 @@ export class WebcamComponent implements OnInit {
   cameraUnavaliable = false;
   cropper: Cropper;
 
-  @ViewChild('video')
+  @ViewChild('video', { static: false })
   public video: ElementRef;
 
-  @ViewChild('container')
+  @ViewChild('container', { static: true })
   public container: ElementRef;
 
-  @ViewChild('canvas')
+  @ViewChild('canvas', { static: true })
   public canvas: ElementRef;
 
   picture: any;
@@ -36,9 +36,17 @@ export class WebcamComponent implements OnInit {
   }
 
   initBrowserCamera(): Promise<boolean> {
+    // Reinit all variables
+    this.canvas.nativeElement.setAttribute('width', 0);
+    this.canvas.nativeElement.setAttribute('height', 0);
+    if (!!this.cropper) {
+      // Cropper needs to be destroyed to stop being displayed
+      this.cropper.destroy();
+    }
     this.picture = undefined;
     this.cropper = undefined;
     this.isCameraReady = false;
+
     return new Promise((res, reject) => {
       try {
         const constraints: MediaStreamConstraints = {
@@ -106,6 +114,7 @@ export class WebcamComponent implements OnInit {
         height: 100
       })
       .toDataURL('image/jpeg', 0.9);
+    this.cropper.destroy();
     this.modalController.dismiss({ picture, thumbnail });
   }
 }

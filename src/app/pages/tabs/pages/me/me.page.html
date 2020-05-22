@@ -1,48 +1,105 @@
-<ion-content>
-  <ion-avatar *ngIf="!!user">
-    <img *ngIf="!!user.photoURL" [src]="user.photoURL" />
-    <ion-icon *ngIf="!!!user.photoURL" name="contact"></ion-icon>
-  </ion-avatar>
-  <ion-list *ngIf="!!userForm" [formGroup]="userForm">
-    <ion-list-header>
-      <ion-label>Informations publiques</ion-label>
-    </ion-list-header>
-    <ion-item>
-      <ion-label position="floating">Nom d'utilisateur</ion-label>
-      <ion-input formControlName="displayName"></ion-input>
-    </ion-item>
-  </ion-list>
-
-  <ion-list *ngIf="!!settingsForm" [formGroup]="settingsForm">
-    <ion-list-header>
-      <ion-label>Informations privées</ion-label>
-    </ion-list-header>
-    <ion-item>
-      <ion-label position="floating">Adresse mail</ion-label>
-      <ion-input formControlName="email"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Notifications par mail</ion-label>
-      <ion-toggle slot="end"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-button color="light">
-        <ion-icon slot="start" name="key"></ion-icon>
-        Changer de mot de passe
+<ng-container *ngIf="authService.appUser$ | async as appUser; else loadingAppUser">
+  <ion-content>
+    <div class="page-header">
+      <img *ngIf="!!currentProfilePicture && !!!profilePicture" [src]="currentProfilePicture" alt="Image de profile" />
+      <img *ngIf="!!profilePicture" [src]="profilePicture" alt="Image de profile" />
+      <img
+        *ngIf="!!!profilePicture && !!!currentProfilePicture"
+        src="/assets/img/undraw_profile_pic_ic5t.svg"
+        alt="Illustration de profile par défaut"
+      />
+    </div>
+    <p class="ion-text-center">
+      <ion-button (click)="selectImage()" color="secondary">
+        <ion-icon name="camera" slot="start"></ion-icon>
+        Prendre une photo
       </ion-button>
-    </ion-item>
-  </ion-list>
-  <p text-center>
-    <ion-button (click)="logout()" color="light">
-      <ion-icon slot="start" name="power" id="MePageLogout"></ion-icon>
-      Me déconnecter
-    </ion-button>
-  </p>
-</ion-content>
+    </p>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="6">
+          <ion-list *ngIf="!!appUserForm" [formGroup]="appUserForm">
+            <ion-list-header color="light">
+              <ion-label>Mon profile</ion-label>
+            </ion-list-header>
+            <ion-item>
+              <ion-label position="floating">Nom d'utilisateur</ion-label>
+              <ion-input formControlName="displayName"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Texte de présentation</ion-label>
+              <ion-textarea
+                formControlName="bio"
+                placeholder="Un court texte qui sera affiché sur chacun de vos partages"
+              ></ion-textarea>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="floating">Adresse de référence</ion-label>
+              <ion-input
+                formControlName="formatted_address"
+                placeholder="Indiquez une ville ou une adresse"
+                type="text"
+                type="search"
+                autocomplete="off"
+                autocapitalize="off"
+                #searchRef
+              >
+              </ion-input>
+            </ion-item>
+          </ion-list>
+          <ion-item>
+            <ion-label>
+              <ion-button color="light" (click)="openExplainLocationModal()">
+                <ion-icon slot="start" name="information-circle-outline" size="small"></ion-icon>
+                Pourquoi cette question ?
+              </ion-button>
+            </ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="12" size-md="6">
+          <ion-list>
+            <ion-list-header color="light">
+              <ion-label>Notifications activées sur</ion-label>
+            </ion-list-header>
+            <ng-container *ngIf="fcmTokens$ | async as fcmTokens">
+              <ion-item *ngFor="let token of fcmTokens">
+                <ion-label>
+                  {{ token.os }}, {{ token.browser }}{{ token.device !== 'Unknown' ? ', ' + token.device : '' }}
+                </ion-label>
+              </ion-item>
+            </ng-container>
+            <ion-item>
+              <ion-button (click)="messagingService.requestPermission()" color="secondary">
+                <ion-icon slot="start" name="notifications"></ion-icon>
+                Activer ici
+              </ion-button>
+              <ion-button (click)="messagingService.deleteToken()" color="light">
+                <ion-icon slot="start" name="notifications-off"></ion-icon>
+                Désactiver ici
+              </ion-button>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-<ion-footer class="ion-text-center">
-  <ion-button (click)="save(user, userForm, settingsForm)">
-    <ion-icon slot="start" name="save"></ion-icon>
-    Enregistrer
-  </ion-button>
-</ion-footer>
+    <p class="ion-text-center">
+      <ion-button (click)="logout()" color="light">
+        <ion-icon slot="start" name="power" id="MePageLogout"></ion-icon>
+        Me déconnecter
+      </ion-button>
+    </p>
+  </ion-content>
+
+  <ion-footer class="ion-text-center">
+    <ion-button (click)="save()" color="secondary">
+      <ion-icon slot="start" name="save"></ion-icon>
+      Enregistrer
+    </ion-button>
+  </ion-footer>
+</ng-container>
+
+<ng-template #loadingAppUser>
+  <ion-header></ion-header>
+  <ion-content></ion-content>
+</ng-template>

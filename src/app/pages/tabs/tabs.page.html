@@ -1,8 +1,15 @@
 <ion-tabs>
   <ion-tab-bar slot="bottom" color="primary">
     <ion-tab-button *ngFor="let appPage of navigationService.appPages" [tab]="appPage.tab">
-      <ion-icon [name]="appPage.icon"></ion-icon>
-      <ion-label>{{ appPage.title }}</ion-label>
+      <ion-icon
+        [color]="navigationService.isActiveRoute(appPage.url) ? 'dark' : 'light'"
+        [name]="appPage.icon"
+      ></ion-icon>
+      <ion-label>
+        <ion-text [color]="navigationService.isActiveRoute(appPage.url) ? 'dark' : 'light'">
+          {{ appPage.title }}
+        </ion-text>
+      </ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>

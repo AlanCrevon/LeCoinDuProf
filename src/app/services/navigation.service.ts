@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -9,45 +10,39 @@ export class NavigationService {
       title: 'Partages',
       url: '/app/shared',
       tab: 'shared',
-      icon: 'share'
-    },
-    {
-      title: 'Recherches',
-      url: '/app/wanted',
-      tab: 'wanted',
-      icon: 'search'
+      icon: 'ios-share'
     },
     {
       title: 'Messages',
       url: '/app/chats',
       tab: 'chats',
-      icon: 'chatbubbles'
+      icon: 'ios-chatbubbles'
     },
     {
       title: 'Inventaire',
       url: '/app/boxes',
       tab: 'boxes',
-      icon: 'cube'
+      icon: 'ios-cube'
     },
     {
       title: 'Moi',
       url: '/app/me',
       tab: 'me',
-      icon: 'contact'
-    },
-    {
+      icon: 'ios-contact'
+    }
+    /*{
       title: 'Modérer',
       url: '/app/moderate',
       tab: 'moderate',
-      icon: 'construct'
-    }
+      icon: 'ios-construct'
+    }*/
   ];
 
   public infoPages = [
     {
       title: 'Page Facebook',
       icon: 'logo-facebook',
-      href: 'htps://facebook.com/lecoinduprof',
+      href: 'https://facebook.com/lecoinduprof',
       routerLink: false
     },
     {
@@ -63,12 +58,22 @@ export class NavigationService {
       routerLink: '/app/team'
     },
     {
-      title: `Conditions générales d'utilisation`,
+      title: `Conditions d'utilisation`,
       icon: 'information-circle-outline',
       href: false,
       routerLink: '/app/tos'
+    },
+    {
+      title: `Open source`,
+      icon: 'logo-github',
+      href: 'https://github.com/AlanCrevon/LeCoinDuProf',
+      routerLink: false
     }
   ];
 
-  constructor() {}
+  constructor(private router: Router) {}
+
+  isActiveRoute(url: string): boolean {
+    return this.router.url.startsWith(url);
+  }
 }
