@@ -33,8 +33,8 @@ export class MePage implements OnInit {
   isNotificationActivatedHere: string;
   hasToDeleteProfilePicture = false;
 
-  @ViewChild('searchRef', { read: ElementRef, static: false }) searchElementRef: ElementRef;
-  @ViewChild('searchRef', { static: false }) search: IonInput;
+  @ViewChild('searchRef', { read: ElementRef }) searchElementRef: ElementRef;
+  @ViewChild('searchRef') search: IonInput;
 
   constructor(
     public authService: AuthService,

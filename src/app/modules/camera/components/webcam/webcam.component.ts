@@ -14,7 +14,7 @@ export class WebcamComponent implements OnInit {
   cameraUnavaliable = false;
   cropper: Cropper;
 
-  @ViewChild('video', { static: false })
+  @ViewChild('video')
   public video: ElementRef;
 
   @ViewChild('container', { static: true })

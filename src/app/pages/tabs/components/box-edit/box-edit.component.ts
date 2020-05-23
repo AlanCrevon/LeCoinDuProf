@@ -19,7 +19,7 @@ export class BoxEditComponent implements OnInit {
   form: FormGroup;
   @Input() box: Box;
   @Input() appUser: AppUser;
-  @ViewChild('searchRef', { read: ElementRef, static: false }) searchElementRef: ElementRef;
+  @ViewChild('searchRef', { read: ElementRef }) searchElementRef: ElementRef;
   @ViewChild('searchRef', { static: true }) search: IonInput;
 
   isCreatingBox = false;
