@@ -10,25 +10,25 @@ export class NavigationService {
       title: 'Partages',
       url: '/app/shared',
       tab: 'shared',
-      icon: 'ios-share'
+      icon: 'share-outline'
     },
     {
       title: 'Messages',
       url: '/app/chats',
       tab: 'chats',
-      icon: 'ios-chatbubbles'
+      icon: 'chatbubbles-outline'
     },
     {
       title: 'Inventaire',
       url: '/app/boxes',
       tab: 'boxes',
-      icon: 'ios-cube'
+      icon: 'cube-outline'
     },
     {
       title: 'Moi',
       url: '/app/me',
       tab: 'me',
-      icon: 'ios-contact'
+      icon: 'person-outline'
     }
     /*{
       title: 'Modérer',
@@ -53,7 +53,7 @@ export class NavigationService {
     },
     {
       title: `L'équipe`,
-      icon: 'contacts',
+      icon: 'people-outline',
       href: false,
       routerLink: '/app/team'
     },

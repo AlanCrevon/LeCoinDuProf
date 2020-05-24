@@ -62,23 +62,22 @@ export class ToastService {
       duration: 5000,
       color: 'secondary',
       position: 'top',
-      showCloseButton: true,
-      closeButtonText: 'Voir'
-    });
+      buttons: [
+        {
+          text: 'Voir',
+          side: 'end',
+          handler: () => {
+            switch (fcm.data.topic) {
+              case 'chat':
+                this.router.navigateByUrl(`/app/chats/${fcm.data.id}`);
+                break;
 
-    // Define what happens when the toast is dismissed manually
-    // i.e. clicking on close button
-    toast.onDidDismiss().then(event => {
-      if (event.role !== 'timeout') {
-        switch (fcm.data.topic) {
-          case 'chat':
-            this.router.navigateByUrl(`/app/chats/${fcm.data.id}`);
-            break;
-
-          default:
-            break;
+              default:
+                break;
+            }
+          }
         }
-      }
+      ]
     });
 
     // Define if the toast should be displayed

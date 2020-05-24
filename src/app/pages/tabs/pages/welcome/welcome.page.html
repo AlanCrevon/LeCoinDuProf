@@ -29,7 +29,7 @@
       </ion-avatar>
       <p class="ion-text-center">
         <ion-button (click)="selectImage()" color="secondary">
-          <ion-icon name="camera" slot="start"></ion-icon>
+          <ion-icon name="camera-outline" slot="start"></ion-icon>
           Prendre une photo
         </ion-button>
       </p>
@@ -152,7 +152,7 @@
         <ion-item>
           <ion-label class="ion-text-center" routerLink="/app/shared" lines="none">
             <ion-button color="secondary">
-              <ion-icon slot="start" name="ios-share"></ion-icon>
+              <ion-icon slot="start" name="share-outline"></ion-icon>
               Partages
             </ion-button>
           </ion-label>
@@ -167,7 +167,7 @@
         <ion-item>
           <ion-label class="ion-text-center">
             <ion-button color="secondary" routerLink="/app/boxes" lines="none">
-              <ion-icon slot="start" name="ios-cube"></ion-icon>
+              <ion-icon slot="start" name="cube-outline"></ion-icon>
               Inventaire
             </ion-button>
           </ion-label>
@@ -181,62 +181,62 @@
   <ng-container *ngIf="index === 1">
     <ion-button (click)="next()" color="secondary">
       C'est parti !
-      <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
     </ion-button>
   </ng-container>
 
   <ng-container *ngIf="index === 2">
     <ion-button (click)="logout()" color="light">
-      <ion-icon slot="start" name="power" id="MePageLogout"></ion-icon>
+      <ion-icon slot="start" name="power-outline" id="MePageLogout"></ion-icon>
       Me déconnecter
     </ion-button>
     <ion-button (click)="next()" color="secondary">
       Suivant
-      <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
     </ion-button>
   </ng-container>
 
   <ng-container *ngIf="index === 3">
     <ion-button (click)="previous()" color="light">
-      <ion-icon slot="start" name="arrow-back"></ion-icon>
+      <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
       Précédent
     </ion-button>
     <ion-button (click)="next()" *ngIf="!!appUserForm" [disabled]="!appUserForm.valid" color="secondary">
       Suivant
-      <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
     </ion-button>
   </ng-container>
 
   <ng-container *ngIf="index === 4">
     <ion-button (click)="previous()" color="light">
-      <ion-icon slot="start" name="arrow-back"></ion-icon>
+      <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
       Précédent
     </ion-button>
     <ion-button (click)="next()" [disabled]="!!!appUserForm?.value?.coordinates" color="secondary">
       Suivant
-      <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
     </ion-button>
   </ng-container>
 
   <ng-container *ngIf="index === 5">
     <ion-button (click)="previous()" color="light">
-      <ion-icon slot="start" name="close"></ion-icon>
+      <ion-icon slot="start" name="close-outline"></ion-icon>
       Non
     </ion-button>
     <ion-button (click)="save()" color="secondary">
-      <ion-icon slot="start" name="checkmark"></ion-icon>
+      <ion-icon slot="start" name="checkmark-outline"></ion-icon>
       Oui
     </ion-button>
   </ng-container>
 
   <ng-container *ngIf="index === 6">
     <ion-button (click)="next()" color="light">
-      <ion-icon slot="start" name="close"></ion-icon>
+      <ion-icon slot="start" name="close-outline"></ion-icon>
       Plus tard
     </ion-button>
     <ion-button (click)="messagingService.requestPermission();next()" color="secondary">
       Activer
-      <ion-icon slot="start" name="notifications"></ion-icon>
+      <ion-icon slot="start" name="notifications-outline"></ion-icon>
     </ion-button>
   </ng-container>
 </ion-footer>

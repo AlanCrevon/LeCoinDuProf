@@ -12,7 +12,7 @@
     <ion-toolbar>
       <ion-title class="ion-text-center">
         <ion-button *ngIf="!!box" (click)="edit(box)" size="small" color="medium" fill="outline">
-          <ion-icon slot="start" name="create"></ion-icon>
+          <ion-icon slot="start" name="create-outline"></ion-icon>
           Modifier la boite
         </ion-button>
       </ion-title>
@@ -55,7 +55,7 @@
               alt="Image miniature de l'objet"
               class="thumbnail"
             ></ion-img>
-            <ion-icon name="ios-share" slot="end" [color]="item.isShared ? 'success' : 'medium'"></ion-icon>
+            <ion-icon name="share-outline" slot="end" [color]="item.isShared ? 'success' : 'medium'"></ion-icon>
             <ion-label>
               <p class="ion-text-end">
                 <ion-badge color="secondary" mode="ios">
@@ -78,7 +78,7 @@
 
   <ion-footer>
     <ion-button (click)="openItemEditor(undefined, box)" color="secondary">
-      <ion-icon slot="start" name="add"></ion-icon>
+      <ion-icon slot="start" name="add-outline"></ion-icon>
       Ajouter un objet
     </ion-button>
   </ion-footer>

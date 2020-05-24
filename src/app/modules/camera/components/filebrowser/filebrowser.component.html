@@ -6,15 +6,15 @@
 <ion-footer>
   <div>
     <ion-button color="light" (click)="modalController.dismiss()">
-      <ion-icon slot="start" name="close"></ion-icon>
+      <ion-icon slot="start" name="close-outline"></ion-icon>
       Annuler
     </ion-button>
     <ion-button *ngIf="!!!cropper" (click)="browse()" color="secondary">
-      <ion-icon slot="start" name="folder"></ion-icon>
+      <ion-icon slot="start" name="folder-outline"></ion-icon>
       Choisir un fichier
     </ion-button>
     <ion-button *ngIf="!!cropper" (click)="validate()" color="secondary">
-      <ion-icon slot="start" name="checkmark"></ion-icon>
+      <ion-icon slot="start" name="checkmark-outline"></ion-icon>
       Valider
     </ion-button>
   </div>

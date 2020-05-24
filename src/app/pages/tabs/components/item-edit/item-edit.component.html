@@ -10,7 +10,7 @@
   </div>
   <p class="ion-text-center">
     <ion-button (click)="selectImage()" color="secondary">
-      <ion-icon name="camera" slot="start"></ion-icon>
+      <ion-icon name="camera-outline" slot="start"></ion-icon>
       Prendre une photo
     </ion-button>
   </p>
@@ -50,7 +50,7 @@
       ></ion-textarea>
     </ion-item>
     <ion-item>
-      <ion-icon name="ios-share" slot="start" color="secondary"></ion-icon>
+      <ion-icon name="share-outline" slot="start" color="secondary"></ion-icon>
       <ion-label>Je partage</ion-label>
       <ion-toggle slot="end" formControlName="isShared" color="success" (ionChange)="confirm($event)"></ion-toggle>
     </ion-item>
@@ -83,11 +83,11 @@
 
 <ion-footer>
   <ion-button color="danger" *ngIf="!!item" (click)="delete(item)">
-    <ion-icon slot="icon-only" name="trash"></ion-icon>
+    <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
   </ion-button>
 
   <ion-button color="light" (click)="modalController.dismiss()">
-    <ion-icon slot="start" name="close"></ion-icon>
+    <ion-icon slot="start" name="close-outline"></ion-icon>
     Fermer
   </ion-button>
 
@@ -97,7 +97,7 @@
     [disabled]="!form.valid"
     (click)="save(item, form, itemPicture, itemThumbnail)"
   >
-    <ion-icon slot="start" name="save"></ion-icon>
+    <ion-icon slot="start" name="save-outline"></ion-icon>
     Enregistrer
   </ion-button>
 </ion-footer>

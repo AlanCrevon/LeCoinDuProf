@@ -50,7 +50,7 @@
       <p class="ion-text-center">A vous de partager les vôtres !</p>
       <p class="ion-text-center">
         <ion-button routerLink="/app/boxes" color="secondary">
-          <ion-icon slot="start" name="cube"></ion-icon>
+          <ion-icon slot="start" name="cube-outline"></ion-icon>
           Gérer mon inventaire
         </ion-button>
       </p>
@@ -60,13 +60,13 @@
 
 <ion-footer>
   <ion-button *ngIf="!!!filters" color="secondary" (click)="openSearchModal(filters)">
-    <ion-icon slot="start" name="search"></ion-icon>
+    <ion-icon slot="start" name="search-outline"></ion-icon>
     Filtrer
   </ion-button>
   <ion-toolbar *ngIf="!!filters && (filters?.formatted_address !== '' || !!filters?.category)" color="light">
     <ion-buttons slot="start">
       <ion-button (click)="filters = undefined;doRefresh()">
-        <ion-icon slot="icon-only" name="close"></ion-icon>
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
     <p class="ion-text-no-wrap ion-padding-end">

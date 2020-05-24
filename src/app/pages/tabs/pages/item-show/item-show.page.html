@@ -115,7 +115,7 @@
         </ion-list>
 
         <ion-button fill="clear" color="dark" (click)="report(item)">
-          <ion-icon slot="start" name="alert"></ion-icon>
+          <ion-icon slot="start" name="alert-outline"></ion-icon>
           Signaler ce partage
         </ion-button>
       </ion-col>
@@ -125,7 +125,7 @@
 
 <ion-footer>
   <ion-button *ngIf="item$ | async as item" (click)="openChat(item)" color="secondary">
-    <ion-icon slot="start" name="ios-chatbubbles"></ion-icon>
+    <ion-icon slot="start" name="chatbubbles-outline"></ion-icon>
     Contacter
   </ion-button>
 </ion-footer>

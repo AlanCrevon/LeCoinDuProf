@@ -24,11 +24,6 @@ export class MessagingService {
     private authService: AuthService,
     private storage: Storage
   ) {
-    this.angularFireMessaging.messaging.subscribe(messaging => {
-      messaging.onMessage = messaging.onMessage.bind(messaging);
-      messaging.onTokenRefresh = messaging.onTokenRefresh.bind(messaging);
-    });
-
     this.storage.get('notifications.enabled').then(enabled => {
       if (enabled === true) {
         this.updateToken();

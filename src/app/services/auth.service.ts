@@ -51,7 +51,7 @@ export class AuthService {
       default:
         throw new Error(`AuthProvider ${provider} is not authorized`);
     }
-    return from(this.angularFireAuth.auth.signInWithPopup(authProvider));
+    return from(this.angularFireAuth.signInWithPopup(authProvider));
   }
 
   /**
@@ -60,21 +60,21 @@ export class AuthService {
    * @param password user's password
    */
   login(email: string, password: string): Observable<auth.UserCredential> {
-    return from(this.angularFireAuth.auth.signInWithEmailAndPassword(email, password));
+    return from(this.angularFireAuth.signInWithEmailAndPassword(email, password));
   }
 
   /**
    * Log the user out
    */
   logout(): Observable<void> {
-    return from(this.angularFireAuth.auth.signOut());
+    return from(this.angularFireAuth.signOut());
   }
 
   /**
    * Register a user account
    */
   register(email, password): Observable<auth.UserCredential> {
-    return from(this.angularFireAuth.auth.createUserWithEmailAndPassword(email, password));
+    return from(this.angularFireAuth.createUserWithEmailAndPassword(email, password));
   }
 
   /**

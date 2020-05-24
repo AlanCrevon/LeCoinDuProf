@@ -10,7 +10,7 @@
   <ion-toolbar *ngIf="item$ | async as item">
     <ion-title class="ion-text-center" *ngIf="box$ | async as box">
       <ion-button (click)="openItemEditor(item, box)" size="small" color="medium" fill="outline">
-        <ion-icon slot="start" name="create"></ion-icon>
+        <ion-icon slot="start" name="create-outline"></ion-icon>
         Modifier l'objet
       </ion-button>
     </ion-title>
@@ -39,7 +39,7 @@
       <ion-col size="12" size-md="5" class="v-centered">
         <ion-list>
           <ion-item color="light">
-            <ion-icon name="ios-share" slot="start" [color]="item.isShared ? 'success' : 'medium'"></ion-icon>
+            <ion-icon name="share-outline" slot="start" [color]="item.isShared ? 'success' : 'medium'"></ion-icon>
             <ion-label>
               {{ item.isShared ? 'Partage activé' : 'Partage désactivé' }}
             </ion-label>
