@@ -12,8 +12,7 @@
     "test:backend": "mocha",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "format:fix": "pretty-quick --staged",
-    "precommit": "run-s format:fix lint"
+    "format:fix": "pretty-quick --staged"
   },
   "private": true,
   "dependencies": {
@@ -110,5 +109,10 @@
     "platforms": [
       "browser"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "run-s format:fix lint"
+    }
   }
 }
