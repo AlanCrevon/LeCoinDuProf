@@ -56,6 +56,7 @@
     "@angular/language-service": "~9.1.9",
     "@firebase/testing": "^0.19.5",
     "@ionic/angular-toolkit": "^2.2.0",
+    "@ionic/lab": "3.1.6",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "^2.0.8",
     "@types/node": "^12.11.1",
@@ -69,7 +70,11 @@
     "coveralls": "^3.1.0",
     "ejs": "^3.0.2",
     "filesystem": "1.0.1",
+    "firebase-tools": "^8.4.0",
+    "fuzzy": "^0.1.3",
     "husky": "^2.7.0",
+    "inquirer": "^6.2.2",
+    "inquirer-autocomplete-prompt": "^1.0.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "jest": "^24.9.0",
@@ -85,11 +90,7 @@
     "protractor": "^5.4.3",
     "ts-node": "~8.1.0",
     "tslint": "~5.20.1",
-    "typescript": "~3.8.3",
-    "firebase-tools": "^8.4.0",
-    "fuzzy": "^0.1.3",
-    "inquirer": "^6.2.2",
-    "inquirer-autocomplete-prompt": "^1.0.1"
+    "typescript": "~3.8.3"
   },
   "description": "Partage de matériel pédagogique",
   "jest": {

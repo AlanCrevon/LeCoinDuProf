@@ -44,8 +44,8 @@ describe('HasVerifiedEmailGuard', () => {
       declarations: [DummyComponent]
     });
 
-    authService = TestBed.get(AuthService);
-    router = TestBed.get(Router);
+    authService = TestBed.inject(AuthService);
+    router = TestBed.inject(Router);
   });
 
   it('should create', inject([HasVerifiedEmailGuard], (guard: HasVerifiedEmailGuard) => {
