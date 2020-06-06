@@ -10,7 +10,7 @@ describe('MustMatch', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule]
     }).compileComponents();
-    formBuilder = TestBed.get(FormBuilder);
+    formBuilder = TestBed.inject(FormBuilder);
   }));
 
   it('should create', () => {

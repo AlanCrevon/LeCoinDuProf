@@ -55,8 +55,8 @@ describe('AuthService', () => {
         }
       ]
     });
-    authService = TestBed.get(AuthService);
-    angularFireAuth = TestBed.get(AngularFireAuth);
+    authService = TestBed.inject(AuthService);
+    angularFireAuth = TestBed.inject(AngularFireAuth);
 
     authService.logout();
   });

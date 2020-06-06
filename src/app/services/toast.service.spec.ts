@@ -10,12 +10,12 @@ describe('ToastService', () => {
     TestBed.configureTestingModule({
       imports: [IonicModule]
     });
-    toastController = TestBed.get(ToastController);
-    toastService = TestBed.get(ToastService);
+    toastController = TestBed.inject(ToastController);
+    toastService = TestBed.inject(ToastService);
   });
 
   it('should be created', () => {
-    const service: ToastService = TestBed.get(ToastService);
+    const service: ToastService = TestBed.inject(ToastService);
     expect(service).toBeTruthy();
   });
 

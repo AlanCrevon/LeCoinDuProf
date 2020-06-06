@@ -17,7 +17,7 @@ describe('FirestorageService', () => {
   );
 
   it('should be created', () => {
-    const service: FirestorageService = TestBed.get(FirestorageService);
+    const service: FirestorageService = TestBed.inject(FirestorageService);
     expect(service).toBeTruthy();
   });
 });
