@@ -1,34 +1,43 @@
-<ion-content>
+<ion-header class="ion-hide-lg-up">
+  <ion-toolbar>
+    <ion-title class="ion-text-xs-start ion-text-lg-center">
+      LeCoinDuProf
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <ng-container *ngIf="items$ | async as items; else loadingItems">
-    <div class="page-header">
-      <h1>LeCoinDuProf</h1>
-    </div>
-
-    <ion-list>
-      <ion-item *ngFor="let item of items" [routerLink]="[item.id]">
-        <ion-img
-          slot="start"
-          *ngIf="item.hasPicture && item.thumbnail$ | async as thumbnail"
-          [src]="thumbnail"
-          alt="Image miniature de l'objet"
-          class="thumbnail"
-        ></ion-img>
-        <ion-label>
-          <p class="ion-text-end">
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col size-xs="12" size-sm="6" size-md="4" size-xl="3" *ngFor="let item of items" [routerLink]="[item.id]">
+          <ion-card>
+            <ion-img
+              *ngIf="item.hasPicture && item.picture$ | async as picture"
+              [src]="picture"
+              alt="Image de l'objet"
+              class="cover"
+            ></ion-img>
             <ion-badge color="secondary">
               {{ categoriesService.getCategoryById(item.category).label}}
             </ion-badge>
-          </p>
-          <h2>{{ item.name }}</h2>
-          <p>{{item.formatted_address}}</p>
-          <p>{{ item.description }}</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
+            <ion-card-header>
+              <ion-card-subtitle>
+                {{item.formatted_address}}
+              </ion-card-subtitle>
+              <ion-card-title>{{ item.name }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p>{{ item.description }}</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
     <ion-infinite-scroll threshold="25%" (ionInfinite)="loadMore($event, items[items.length - 1])">
       <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Chargement data...">
@@ -58,7 +67,7 @@
   </ion-card>
 </ion-content>
 
-<ion-footer>
+<ion-footer class="ion-no-border">
   <ion-button *ngIf="!!!filters" color="secondary" (click)="openSearchModal(filters)">
     <ion-icon slot="start" name="search-outline"></ion-icon>
     Filtrer

@@ -4,40 +4,75 @@ ion-spinner {
   margin-right: auto;
 }
 
-.page-header {
-  height: calc(26vh + var(--ion-margin, 16px) + var(--ion-padding, 16px));
+ion-header {
   background-image: url('/assets/img/home.jpeg');
   background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-left: 0;
-  padding-right: 0;
 
-  h1 {
-    font-size: min(10vw, 8em);
-    font-weight: 900;
-    color: white;
-    word-spacing: -0.3ex;
-    margin-bottom: 1rem;
-    text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa,
-      0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3),
-      0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.2),
-      0 20px 20px rgba(0, 0, 0, 0.15);
+  ion-toolbar {
+    --background: transparent;
+
+    ion-title {
+      background-color: transparent !important;
+      color: white;
+      word-spacing: -0.3ex;
+      padding-inline-start: 1rem;
+      text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa,
+        0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3),
+        0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.2),
+        0 20px 20px rgba(0, 0, 0, 0.15);
+      font-size: max(1rem, 4vh);
+      transform: translateY(-2px);
+    }
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   .page-header {
     background-position: top;
   }
 }
 
-ion-img {
-  height: 5rem;
-  width: 5rem;
+ion-grid {
+  ion-card {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 100%;
+    transition: all 0.2s ease-in-out;
+
+    @media (max-width: 769px) {
+      margin: 0;
+
+      ion-card-header {
+        order: 2;
+      }
+
+      ion-img {
+        order: 1;
+        max-height: 20vh;
+        background-color: var(--ion-color-light-shade);
+        object-fit: cover !important;
+      }
+
+      ion-card-content {
+        order: 3;
+      }
+    }
+
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+
+    ion-badge {
+      position: absolute;
+      top: 0.33rem;
+      right: 0.33rem;
+    }
+  }
 }
 
-ion-refresher {
-  background-color: white;
+ion-footer {
+  --background: transparent;
+  background-color: transparent;
 }

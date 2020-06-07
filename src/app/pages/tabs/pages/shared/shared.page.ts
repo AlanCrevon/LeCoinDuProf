@@ -66,7 +66,7 @@ export class SharedPage implements OnInit {
             console.log(item);
             if (item.hasPicture === true) {
               // Patch data with observable img
-              item.thumbnail$ = this.firestorageService.download(`/users/${item.owner}/${item.id}/thumbnail`);
+              item.picture$ = this.firestorageService.download(`/users/${item.owner}/${item.id}/item`);
             }
             return item;
           })
