@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
+import { AngularFirestoreModule, SETTINGS } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -48,15 +48,15 @@ registerLocaleData(localeFr, 'fr-FR');
     DeviceDetectorModule.forRoot()
   ],
   providers: [
-    {
-      provide: FirestoreSettingsToken,
+    /*{
+      provide: SETTINGS,
       useValue: environment.production
         ? undefined
         : {
             host: 'localhost:8080',
             ssl: false
           }
-    },
+    },*/
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
