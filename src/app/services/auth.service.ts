@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Router } from '@angular/router';
 import { auth, User } from 'firebase/app';
 import { from, Observable } from 'rxjs';
 import { AppUser } from '../types/app-user';
@@ -29,7 +28,7 @@ export class AuthService {
    * @param angularFireAuth required to log in/out the user with firebase
    * @param router required to redirect user
    */
-  constructor(public angularFireAuth: AngularFireAuth, private router: Router, private dbService: DbService) {
+  constructor(public angularFireAuth: AngularFireAuth, private dbService: DbService) {
     this.user$ = angularFireAuth.authState;
     this.appUser$ = this.user$.pipe(switchMap(user => this.dbService.getDocument<AppUser>(`/users/${user.uid}`)));
     this.userSettings$ = this.user$.pipe(
