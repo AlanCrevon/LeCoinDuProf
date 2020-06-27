@@ -15,7 +15,7 @@ export class ItemSearchComponent implements OnInit {
   searchForm: FormGroup;
   filters;
 
-  @ViewChild('searchRef', { read: ElementRef, static: false }) searchElementRef: ElementRef;
+  @ViewChild('searchRef', { read: ElementRef }) searchElementRef: ElementRef;
   @ViewChild('searchRef', { static: true }) search: IonInput;
 
   constructor(

@@ -52,7 +52,7 @@
 
   <p *ngIf="!isCreatingBox" class="ion-text-center">
     <ion-button (click)="delete(box)" color="danger">
-      <ion-icon slot="start" name="trash"></ion-icon>
+      <ion-icon slot="start" name="trash-outline"></ion-icon>
       Supprimer la boite
     </ion-button>
   </p>
@@ -60,12 +60,12 @@
 
 <ion-footer>
   <ion-button (click)="modalController.dismiss()" color="light">
-    <ion-icon slot="start" name="close"></ion-icon>
+    <ion-icon slot="start" name="close-outline"></ion-icon>
     Fermer
   </ion-button>
 
   <ion-button *ngIf="!!form" (click)="save(box, form, isCreatingBox)" [disabled]="!form.valid" color="secondary">
-    <ion-icon slot="start" name="save"></ion-icon>
+    <ion-icon slot="start" name="save-outline"></ion-icon>
     Enregistrer
   </ion-button>
 </ion-footer>

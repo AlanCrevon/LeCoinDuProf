@@ -34,7 +34,7 @@
       <ion-list>
         <ion-virtual-scroll [items]="boxes">
           <ion-item *virtualItem="let box" [routerLink]="'/app/boxes/' + box.id" routerDirection="forward">
-            <ion-icon slot="start" name="cube"></ion-icon>
+            <ion-icon slot="start" name="cube-outline"></ion-icon>
             <ion-label>
               <h4>{{box.name}}</h4>
               <p>{{ box.formatted_address }}</p>
@@ -47,7 +47,7 @@
 
   <ion-footer class="ion-text-center">
     <ion-button *ngIf="authService.appUser$ | async as appUser" (click)="openBoxEditor(appUser)" color="secondary">
-      <ion-icon slot="start" name="add"></ion-icon>
+      <ion-icon slot="start" name="add-outline"></ion-icon>
       Ajouter une boite
     </ion-button>
   </ion-footer>

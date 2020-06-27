@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "lecoinduprof-v2-dev"
+  },
+  "targets": {
+    "lecoinduprof-v2-dev": {
+      "hosting": {
+        "app": [
+          "lecoinduprof-v2-dev"
+        ]
+      }
+    }
   }
 }

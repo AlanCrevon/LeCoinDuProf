@@ -12,7 +12,7 @@
 <ion-content>
   <ion-grid *ngIf="item$ | async as item" class="ion-no-padding">
     <ion-row>
-      <ion-col size="12" size-md="7" class="v-centered">
+      <ion-col size="12" size-md="7" class="v-centered ion-padding">
         <ng-adsense
           [adClient]="'ca-pub-7640562161899788'"
           [adSlot]="7259870550"
@@ -22,11 +22,7 @@
           [adFormat]="'auto'"
         ></ng-adsense>
         <ion-card color="light">
-          <div
-            class="picture"
-            *ngIf="item.picture$ | async as picture"
-            [style.backgroundImage]="'url(' + picture + ')'"
-          ></div>
+          <ion-img *ngIf="item.picture$ | async as picture" [src]="picture" alt="Image de l'objet"></ion-img>
           <ion-card-header>
             <ion-card-subtitle>{{ item.formatted_address }}</ion-card-subtitle>
             <ion-card-title>{{ item.name }}</ion-card-title>
@@ -115,7 +111,7 @@
         </ion-list>
 
         <ion-button fill="clear" color="dark" (click)="report(item)">
-          <ion-icon slot="start" name="alert"></ion-icon>
+          <ion-icon slot="start" name="alert-outline"></ion-icon>
           Signaler ce partage
         </ion-button>
       </ion-col>
@@ -125,7 +121,7 @@
 
 <ion-footer>
   <ion-button *ngIf="item$ | async as item" (click)="openChat(item)" color="secondary">
-    <ion-icon slot="start" name="ios-chatbubbles"></ion-icon>
+    <ion-icon slot="start" name="chatbubbles-outline"></ion-icon>
     Contacter
   </ion-button>
 </ion-footer>

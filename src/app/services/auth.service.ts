@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Router } from '@angular/router';
 import { auth, User } from 'firebase/app';
 import { from, Observable } from 'rxjs';
 import { AppUser } from '../types/app-user';
@@ -29,7 +28,7 @@ export class AuthService {
    * @param angularFireAuth required to log in/out the user with firebase
    * @param router required to redirect user
    */
-  constructor(public angularFireAuth: AngularFireAuth, private router: Router, private dbService: DbService) {
+  constructor(public angularFireAuth: AngularFireAuth, private dbService: DbService) {
     this.user$ = angularFireAuth.authState;
     this.appUser$ = this.user$.pipe(switchMap(user => this.dbService.getDocument<AppUser>(`/users/${user.uid}`)));
     this.userSettings$ = this.user$.pipe(
@@ -51,7 +50,7 @@ export class AuthService {
       default:
         throw new Error(`AuthProvider ${provider} is not authorized`);
     }
-    return from(this.angularFireAuth.auth.signInWithPopup(authProvider));
+    return from(this.angularFireAuth.signInWithPopup(authProvider));
   }
 
   /**
@@ -60,21 +59,21 @@ export class AuthService {
    * @param password user's password
    */
   login(email: string, password: string): Observable<auth.UserCredential> {
-    return from(this.angularFireAuth.auth.signInWithEmailAndPassword(email, password));
+    return from(this.angularFireAuth.signInWithEmailAndPassword(email, password));
   }
 
   /**
    * Log the user out
    */
   logout(): Observable<void> {
-    return from(this.angularFireAuth.auth.signOut());
+    return from(this.angularFireAuth.signOut());
   }
 
   /**
    * Register a user account
    */
   register(email, password): Observable<auth.UserCredential> {
-    return from(this.angularFireAuth.auth.createUserWithEmailAndPassword(email, password));
+    return from(this.angularFireAuth.createUserWithEmailAndPassword(email, password));
   }
 
   /**

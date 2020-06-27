@@ -29,9 +29,9 @@ export class WelcomePage implements OnInit {
   index = 1;
 
   @ViewChild('sliderRef', { static: true }) slider: IonSlides;
-  @ViewChild('usernameRef', { static: false }) username: IonInput;
-  @ViewChild('searchRef', { read: ElementRef, static: false }) searchElementRef: ElementRef;
-  @ViewChild('searchRef', { static: false }) search: IonInput;
+  @ViewChild('usernameRef') username: IonInput;
+  @ViewChild('searchRef', { read: ElementRef }) searchElementRef: ElementRef;
+  @ViewChild('searchRef') search: IonInput;
 
   slideOpts = {
     pagination: false

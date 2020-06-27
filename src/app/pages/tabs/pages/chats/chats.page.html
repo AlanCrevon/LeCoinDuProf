@@ -12,7 +12,7 @@
       <ion-virtual-scroll [items]="chats">
         <ion-item *virtualItem="let chat" [routerLink]="'/app/chats/' + chat.id" routerDirection="forward">
           <ng-container *ngIf="chat.item$ | async as item">
-            <ion-icon slot="start" name="chatbubbles"></ion-icon>
+            <ion-icon slot="start" name="chatbubbles-outline"></ion-icon>
             <ion-label>
               <p class="ion-text-end">{{ chat.modifiedAt.toDate() | date:'short' }}</p>
               <p>{{ item.name }}</p>
@@ -35,7 +35,7 @@
         </p>
         <p class="ion-text-center">
           <ion-button routerLink="/app/shared" color="secondary">
-            <ion-icon slot="start" name="ios-share"></ion-icon>
+            <ion-icon slot="start" name="share-outline"></ion-icon>
             Partages
           </ion-button>
         </p>

@@ -26,12 +26,12 @@
 
 <ion-footer>
   <ion-button color="light" (click)="modalController.dismiss()">
-    <ion-icon slot="start" name="close"></ion-icon>
+    <ion-icon slot="start" name="close-outline"></ion-icon>
     Annuler
   </ion-button>
 
   <ion-button color="secondary" *ngIf="!!form" [disabled]="!form.valid" (click)="save(form)">
-    <ion-icon slot="start" name="save"></ion-icon>
+    <ion-icon slot="start" name="save-outline"></ion-icon>
     Enregistrer
   </ion-button>
 </ion-footer>

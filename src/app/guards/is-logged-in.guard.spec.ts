@@ -56,9 +56,9 @@ describe('IsLoggedInGuard', () => {
       declarations: [DummyComponent]
     });
 
-    authService = TestBed.get(AuthService);
-    router = TestBed.get(Router);
-    activatedRouteSnapshot = TestBed.get(ActivatedRouteSnapshot);
+    authService = TestBed.inject(AuthService);
+    router = TestBed.inject(Router);
+    activatedRouteSnapshot = TestBed.inject(ActivatedRouteSnapshot);
   });
 
   it('should create', inject([IsLoggedInGuard], (guard: IsLoggedInGuard) => {

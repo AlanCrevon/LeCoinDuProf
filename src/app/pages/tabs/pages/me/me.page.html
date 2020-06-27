@@ -11,7 +11,7 @@
     </div>
     <p class="ion-text-center">
       <ion-button (click)="selectImage()" color="secondary">
-        <ion-icon name="camera" slot="start"></ion-icon>
+        <ion-icon name="camera-outline" slot="start"></ion-icon>
         Prendre une photo
       </ion-button>
     </p>
@@ -70,11 +70,11 @@
             </ng-container>
             <ion-item>
               <ion-button (click)="messagingService.requestPermission()" color="secondary">
-                <ion-icon slot="start" name="notifications"></ion-icon>
+                <ion-icon slot="start" name="notifications-outline"></ion-icon>
                 Activer ici
               </ion-button>
               <ion-button (click)="messagingService.deleteToken()" color="light">
-                <ion-icon slot="start" name="notifications-off"></ion-icon>
+                <ion-icon slot="start" name="notifications-off-outline"></ion-icon>
                 Désactiver ici
               </ion-button>
             </ion-item>
@@ -85,7 +85,7 @@
 
     <p class="ion-text-center">
       <ion-button (click)="logout()" color="light">
-        <ion-icon slot="start" name="power" id="MePageLogout"></ion-icon>
+        <ion-icon slot="start" name="power-outline" id="MePageLogout"></ion-icon>
         Me déconnecter
       </ion-button>
     </p>
@@ -93,7 +93,7 @@
 
   <ion-footer class="ion-text-center">
     <ion-button (click)="save()" color="secondary">
-      <ion-icon slot="start" name="save"></ion-icon>
+      <ion-icon slot="start" name="save-outline"></ion-icon>
       Enregistrer
     </ion-button>
   </ion-footer>

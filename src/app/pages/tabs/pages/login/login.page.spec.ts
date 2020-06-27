@@ -69,7 +69,7 @@ describe('LoginPage', () => {
         component = fixture.componentInstance;
       });
 
-    location = TestBed.get(Location);
+    location = TestBed.inject(Location);
   }));
 
   beforeEach(() => {
