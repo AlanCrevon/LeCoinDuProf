@@ -50,6 +50,7 @@ ion-grid {
       ion-img {
         order: 1;
         max-height: 20vh;
+        overflow: hidden;
         background-color: var(--ion-color-light-shade);
         object-fit: cover !important;
       }
