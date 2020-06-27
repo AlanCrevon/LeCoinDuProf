@@ -42,7 +42,6 @@ export class SharedPage implements OnInit {
             const geohash = this.filters.geohash.substring(0, this.filters.radius);
             const text = geohash;
             const end = text.replace(/.$/, (c: string) => String.fromCharCode(c.charCodeAt(0) + 1));
-            console.log(text, end);
             ref = ref
               .where('geohash', '>=', text)
               .where('geohash', '<', end)
@@ -63,7 +62,6 @@ export class SharedPage implements OnInit {
         }),
         map(items =>
           items.map(item => {
-            console.log(item);
             if (item.hasPicture === true) {
               // Patch data with observable img
               item.picture$ = this.firestorageService.download(`/users/${item.owner}/${item.id}/item`);
