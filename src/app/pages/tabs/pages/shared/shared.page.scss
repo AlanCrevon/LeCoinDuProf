@@ -34,41 +34,96 @@ ion-header {
 
 ion-grid {
   ion-card {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    height: 100%;
-    transition: all 0.2s ease-in-out;
-
-    @media (max-width: 769px) {
-      margin: 0;
-
-      ion-card-header {
-        order: 2;
-      }
-
-      ion-img {
-        order: 1;
-        max-height: 20vh;
-        overflow: hidden;
-        background-color: var(--ion-color-light-shade);
-        object-fit: cover !important;
-      }
-
-      ion-card-content {
-        order: 3;
-      }
-    }
-
-    &:hover {
-      transform: scale(1.02);
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    }
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 0;
+    align-items: start;
 
     ion-badge {
       position: absolute;
       top: 0.33rem;
       right: 0.33rem;
+
+      @media (max-width: 450px) {
+        font-size: 10px;
+      }
+    }
+
+    ion-img {
+      grid-column: 1 / 2;
+      grid-row: 1/3;
+    }
+
+    ion-card-header {
+      grid-column: 2 / 4;
+      grid-row: 1;
+
+      @media (max-width: 576px) {
+        padding: 2em 0.5em 0;
+      }
+
+      @media (max-width: 450px) {
+        ion-card-subtitle {
+          font-size: 10px;
+        }
+
+        ion-card-title {
+          font-size: 18px;
+        }
+      }
+    }
+
+    ion-card-content {
+      grid-column: 2 / 4;
+      grid-row: 2;
+
+      @media (max-width: 576px) {
+        padding: 0.5ex 1ex 1ex;
+      }
+    }
+  }
+}
+
+@media (min-width: 576px) {
+  ion-grid {
+    ion-card {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      height: 100%;
+      transition: all 0.2s ease-in-out;
+
+      @media (max-width: 769px) {
+        margin: 0;
+
+        ion-card-header {
+          order: 2;
+        }
+
+        ion-img {
+          order: 1;
+          max-height: 20vh;
+          overflow: hidden;
+          background-color: var(--ion-color-light-shade);
+          object-fit: cover !important;
+        }
+
+        ion-card-content {
+          order: 3;
+        }
+      }
+
+      &:hover {
+        transform: scale(1.02);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+      }
+
+      ion-badge {
+        position: absolute;
+        top: 0.33rem;
+        right: 0.33rem;
+      }
     }
   }
 }
