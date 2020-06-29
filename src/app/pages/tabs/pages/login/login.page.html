@@ -35,7 +35,13 @@
         </ion-item>
         <ion-item lines="none">
           <ion-label class="ion-text-center">
-            <ion-button id="LoginPageLogin" size="big" [disabled]="!loginForm.valid" (click)="login(loginForm)">
+            <ion-button
+              id="LoginPageLogin"
+              size="big"
+              [disabled]="!loginForm.valid"
+              (click)="login(loginForm)"
+              color="secondary"
+            >
               <ion-icon name="checkmark-outline" slot="start"></ion-icon>
               Me connecter
             </ion-button>
@@ -58,7 +64,7 @@
 </ion-content>
 
 <ion-footer class="ion-text-center">
-  <ion-button routerLink="/app/register">
+  <ion-button routerLink="/app/register" color="secondary">
     <ion-icon slot="start" name="add-outline"></ion-icon>
     Créer un compte
   </ion-button>
