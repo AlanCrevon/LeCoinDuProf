@@ -53,7 +53,7 @@
         </ion-item>
         <ion-item>
           <ion-label>J'accepte les conditions générales d'utilisation</ion-label>
-          <ion-checkbox formControlName="tos" slot="end"></ion-checkbox>
+          <ion-checkbox formControlName="tos" slot="end" color="secondary"></ion-checkbox>
         </ion-item>
         <ion-item lines="none">
           <ion-label class="ion-text-center">
@@ -62,6 +62,7 @@
               size="big"
               [disabled]="!registerForm.valid"
               (click)="register(registerForm)"
+              color="secondary"
             >
               <ion-icon name="checkmark-outline" slot="start"></ion-icon>
               Créer ce compte
