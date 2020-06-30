@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { auth, User } from 'firebase/app';
 import { from, Observable } from 'rxjs';
 import { AppUser } from '../types/app-user';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, auditTime, tap, filter, take } from 'rxjs/operators';
 import { DbService } from './db.service';
 import { Settings } from 'src/app/types/settings';
 
@@ -81,5 +81,21 @@ export class AuthService {
    */
   sendEmailVerification(user: User): Observable<void> {
     return from(user.sendEmailVerification());
+  }
+
+  /**
+   * Observer that will emit only when user has verified their mail
+   * @param interval time between each check
+   */
+  refreshUserUntilEmailVerified(interval = 1000) {
+    return this.angularFireAuth.user.pipe(
+      auditTime(interval),
+      tap(user => {
+        this.angularFireAuth.updateCurrentUser(user);
+        user?.reload();
+      }),
+      filter(user => !!user?.emailVerified),
+      take(1)
+    );
   }
 }

@@ -9,23 +9,12 @@
     <h1>Bienvenue sur LeCoinDuProf ! 👋</h1>
 
     <p>
-      Pour confirmer votre adresse mail, nous allons vous envoyer un mail à
+      Pour confirmer votre adresse mail, nous vous avons envoyé un mail à
       <b>{{ user.email }}</b>.
     </p>
 
-    <p>Merci de cliquer sur ce lien contenu dans ce mail pour accéder à la suite de l'application.</p>
-
-    <p class="ion-text-center">
-      <ion-button (click)="sendEmailVerification(user)" color="secondary">
-        <ion-icon slot="start" name="mail-outline"></ion-icon>
-        M'envoyer le mail
-      </ion-button>
-    </p>
-
-    <p class="ion-text-center">
-      <a routerLink="/app/me" color="secondary">
-        J'ai validé mon mail, je continue
-      </a>
+    <p>
+      Merci de cliquer sur ce lien contenu dans ce mail pour accéder à la suite de l'application.
     </p>
   </ng-container>
 
