@@ -8,7 +8,7 @@ import { FirestorageService } from 'src/app/modules/upload/services/firestorage.
 import { AppUser } from 'src/app/types/app-user';
 import { Chat } from 'src/app/types/chat';
 import { AuthService } from 'src/app/services/auth.service';
-import { firestore, User } from 'firebase';
+import { firestore, User } from 'firebase/app';
 import { ToastService } from 'src/app/services/toast.service';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { ModalController } from '@ionic/angular';

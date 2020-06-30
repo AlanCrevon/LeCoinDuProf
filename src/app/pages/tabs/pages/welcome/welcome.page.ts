@@ -9,7 +9,7 @@ import { take } from 'rxjs/operators';
 import { GeocodingService } from 'src/app/services/geocoding.service';
 import { ExplainLocationComponent } from '../../components/explain-location/explain-location.component';
 import { DbService } from 'src/app/services/db.service';
-import * as firebase from 'firebase';
+import { firestore } from 'firebase/app';
 import { FirestorageService } from 'src/app/modules/upload/services/firestorage.service';
 import { AppUser } from 'src/app/types/app-user';
 import { MessagingService } from 'src/app/services/messaging.service';
@@ -137,7 +137,7 @@ export class WelcomePage implements OnInit {
         // Update profile to tag the user as having a profile picture
         if (!!this.profilePicture || !!this.profileThumbnail) {
           await this.dbService.updateDocument(`/users/${this.appUser.id}`, {
-            modifiedAt: firebase.firestore.FieldValue.serverTimestamp()
+            modifiedAt: firestore.FieldValue.serverTimestamp()
           });
           this.next();
         } else {
@@ -169,8 +169,8 @@ export class WelcomePage implements OnInit {
       formatted_address: [!!appUser.formatted_address ? appUser.formatted_address : undefined],
       coordinates: [!!appUser.coordinates ? appUser.coordinates : undefined],
       geohash: [!!appUser.geohash ? appUser.geohash : undefined],
-      createdAt: !!appUser.createdAt ? appUser.createdAt : firebase.firestore.FieldValue.serverTimestamp(),
-      modifiedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: !!appUser.createdAt ? appUser.createdAt : firestore.FieldValue.serverTimestamp(),
+      modifiedAt: firestore.FieldValue.serverTimestamp(),
       hasPicture: [!!appUser.hasPicture ? appUser.hasPicture : false]
     });
   }

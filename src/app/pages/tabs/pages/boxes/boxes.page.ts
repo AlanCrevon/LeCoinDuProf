@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { User, firestore } from 'firebase';
+import { firestore } from 'firebase/app';
 import { Box } from 'src/app/types/box';
 import { DbService } from 'src/app/services/db.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Observable, of } from 'rxjs';
-import { Settings } from 'src/app/types/settings';
 import { AppUser } from 'src/app/types/app-user';
 import { Router } from '@angular/router';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { switchMap, catchError } from 'rxjs/operators';
 import { ToastService } from 'src/app/services/toast.service';
-import { DocumentChangeAction } from '@angular/fire/firestore';
 import { ModalController } from '@ionic/angular';
 import { BoxEditComponent } from '../../components/box-edit/box-edit.component';
 

@@ -9,7 +9,7 @@ import { ToastService } from 'src/app/services/toast.service';
 import { Item } from 'src/app/types/item';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
-import { firestore } from 'firebase';
+import { firestore } from 'firebase/app';
 import { FirestorageService } from 'src/app/modules/upload/services/firestorage.service';
 import { Message } from 'src/app/types/message';
 

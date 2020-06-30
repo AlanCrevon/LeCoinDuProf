@@ -5,7 +5,7 @@ import { ToastService } from './toast.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { mergeMapTo, mergeMap } from 'rxjs/operators';
 import { DbService } from './db.service';
-import * as firebase from 'firebase';
+import { firestore } from 'firebase/app';
 import { AuthService } from './auth.service';
 import { FcmToken } from '../types/fcm-token';
 import { Storage } from '@ionic/storage';
@@ -80,7 +80,7 @@ export class MessagingService {
       os: this.deviceService.os,
       browser: this.deviceService.browser,
       device: this.deviceService.device,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      createdAt: firestore.FieldValue.serverTimestamp()
     };
     const id = this.deviceService.os + this.deviceService.browser + this.deviceService.device;
     this.authService.appUser$.subscribe(appUser => {

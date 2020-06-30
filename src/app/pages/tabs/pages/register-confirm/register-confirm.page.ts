@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'firebase';
+import { User } from 'firebase/app';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
 
@@ -21,11 +21,9 @@ export class RegisterConfirmPage implements OnInit {
   }
 
   sendEmailVerification(user: User) {
-    this.authService
-      .sendEmailVerification(user)
-      .subscribe(
-        () => this.toastService.success('Le mail a été envoyé. Vérifiez votre boite mail. 📬'),
-        error => this.toastService.error(error.code)
-      );
+    this.authService.sendEmailVerification(user).subscribe(
+      () => this.toastService.success('Le mail a été envoyé. Vérifiez votre boite mail. 📬'),
+      error => this.toastService.error(error.code)
+    );
   }
 }

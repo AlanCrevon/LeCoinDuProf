@@ -3,7 +3,7 @@ import { Item } from 'src/app/types/item';
 import { Box } from 'src/app/types/box';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { firestore, User } from 'firebase';
+import { firestore, User } from 'firebase/app';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { ModalController, AlertController, ToastController } from '@ionic/angular';
 import { DbService } from 'src/app/services/db.service';

@@ -5,7 +5,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ModalController } from '@ionic/angular';
 import { Item } from 'src/app/types/item';
 import { AppUser } from 'src/app/types/app-user';
-import { firestore, User } from 'firebase';
+import { firestore, User } from 'firebase/app';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({

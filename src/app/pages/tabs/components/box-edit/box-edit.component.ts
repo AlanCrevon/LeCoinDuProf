@@ -7,7 +7,7 @@ import { DbService } from 'src/app/services/db.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { ExplainLocationComponent } from '../explain-location/explain-location.component';
 import { Router } from '@angular/router';
-import { firestore } from 'firebase';
+import { firestore } from 'firebase/app';
 import { AppUser } from 'src/app/types/app-user';
 
 @Component({
