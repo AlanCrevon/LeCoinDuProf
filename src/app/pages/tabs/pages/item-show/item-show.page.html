@@ -13,26 +13,18 @@
   <ion-grid *ngIf="item$ | async as item" class="ion-no-padding">
     <ion-row>
       <ion-col size="12" size-md="7" class="v-centered ion-padding">
-        <ng-adsense
-          [adClient]="'ca-pub-7640562161899788'"
-          [adSlot]="7259870550"
-          [display]="'inline-block'"
-          [width]="320"
-          [height]="108"
-          [adFormat]="'auto'"
-        ></ng-adsense>
         <ion-card color="light">
           <ion-img *ngIf="item.picture$ | async as picture" [src]="picture" alt="Image de l'objet"></ion-img>
           <ion-card-header>
-            <ion-card-subtitle>{{ item.formatted_address }}</ion-card-subtitle>
-            <ion-card-title>{{ item.name }}</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <p class="ion-text-end ion-margin-bottom">
+            <p class="ion-text-end ion-no-margin">
               <ion-badge color="secondary">
                 {{ categoriesService.getCategoryById(item.category).label }}
               </ion-badge>
             </p>
+            <ion-card-subtitle>{{ item.formatted_address }}</ion-card-subtitle>
+            <ion-card-title>{{ item.name }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
             <p class="description">
               {{ item.description }}
             </p>
