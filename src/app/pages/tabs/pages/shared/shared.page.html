@@ -83,22 +83,24 @@
       <ion-chip color="secondary" *ngIf="!!filters && !!filters.category">
         {{ categoriesService.getCategoryById(filters.category).label }}
       </ion-chip>
-      {{ filters.formatted_address }}
-      <ion-chip *ngIf="filters.radius === 5">
-        &plusmn; 2km
-      </ion-chip>
-      <ion-chip *ngIf="filters.radius === 4">
-        &plusmn; 20km
-      </ion-chip>
-      <ion-chip *ngIf="filters.radius === 3">
-        &plusmn; 80km
-      </ion-chip>
-      <ion-chip *ngIf="filters.radius === 2">
-        &plusmn; 630km
-      </ion-chip>
-      <ion-chip *ngIf="filters.radius === 1">
-        &plusmn; 2500km
-      </ion-chip>
+      <ng-container *ngIf="!!filters && !!filters.formatted_address">
+        {{ filters.formatted_address }}
+        <ion-chip *ngIf="filters.radius === 5">
+          &plusmn; 2km
+        </ion-chip>
+        <ion-chip *ngIf="filters.radius === 4">
+          &plusmn; 20km
+        </ion-chip>
+        <ion-chip *ngIf="filters.radius === 3">
+          &plusmn; 80km
+        </ion-chip>
+        <ion-chip *ngIf="filters.radius === 2">
+          &plusmn; 630km
+        </ion-chip>
+        <ion-chip *ngIf="filters.radius === 1">
+          &plusmn; 2500km
+        </ion-chip>
+      </ng-container>
     </p>
   </ion-toolbar>
 </ion-footer>

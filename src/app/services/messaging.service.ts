@@ -84,7 +84,9 @@ export class MessagingService {
     };
     const id = this.deviceService.os + this.deviceService.browser + this.deviceService.device;
     this.authService.appUser$.subscribe(appUser => {
-      this.dbService.setDocument(`/users/${appUser.id}/tokens/${id}`, fcm);
+      if (!!appUser) {
+        this.dbService.setDocument(`/users/${appUser.id}/tokens/${id}`, fcm);
+      }
     });
   }
 

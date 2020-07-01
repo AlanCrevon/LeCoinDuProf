@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth, User } from 'firebase/app';
-import { from, Observable } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { AppUser } from '../types/app-user';
 import { switchMap, auditTime, tap, filter, take } from 'rxjs/operators';
 import { DbService } from './db.service';
@@ -15,7 +15,7 @@ export class AuthService {
   loggedInUrl = '/';
 
   /** Observable firebase user */
-  user$: Observable<firebase.User>;
+  user$: Observable<firebase.User | null>;
 
   /** Observable application user */
   appUser$: Observable<AppUser>;
@@ -30,7 +30,15 @@ export class AuthService {
    */
   constructor(public angularFireAuth: AngularFireAuth, private dbService: DbService) {
     this.user$ = angularFireAuth.authState;
-    this.appUser$ = this.user$.pipe(switchMap(user => this.dbService.getDocument<AppUser>(`/users/${user.uid}`)));
+    this.appUser$ = this.user$.pipe(
+      switchMap(user => {
+        if (!!user?.uid) {
+          return this.dbService.getDocument<AppUser>(`/users/${user.uid}`);
+        } else {
+          return of(null);
+        }
+      })
+    );
     this.userSettings$ = this.user$.pipe(
       switchMap(user => this.dbService.getDocument<Settings>(`/settings/${user.uid}`))
     );

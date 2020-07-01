@@ -47,6 +47,9 @@ export class SharedPage implements OnInit {
               .where('geohash', '<', end)
               .orderBy('geohash', 'asc');
           }
+          if (!!this.filters.category) {
+            ref = ref.where('category', '==', this.filters.category);
+          }
         }
 
         // Note : if you have a where filter with an inequality

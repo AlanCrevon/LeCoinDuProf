@@ -45,13 +45,13 @@ export class ItemSearchComponent implements OnInit {
     });
   }
 
-  buildSearchForm(appUser: AppUser, filters) {
+  buildSearchForm(appUser: AppUser | null, filters) {
     return this.formBuilder.group({
-      coordinates: !!filters ? filters.coordinates : appUser.coordinates,
-      geohash: !!filters ? filters.geohash : appUser.geohash,
-      formatted_address: !!filters ? filters.formatted_address : appUser.formatted_address,
-      radius: !!filters ? filters.radius : 5,
-      category: !!filters ? filters.category : null
+      coordinates: filters?.coordinates || appUser?.coordinates,
+      geohash: filters?.geohash || appUser?.geohash,
+      formatted_address: filters?.formatted_address || appUser?.formatted_address,
+      radius: filters?.radius || 5,
+      category: filters?.category || null
     });
   }
 
