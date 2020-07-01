@@ -13,7 +13,7 @@
   <ion-grid *ngIf="item$ | async as item" class="ion-no-padding">
     <ion-row>
       <ion-col size="12" size-md="7" class="v-centered ion-padding">
-        <ion-card color="light">
+        <ion-card color="light" class="item">
           <ion-img *ngIf="item.picture$ | async as picture" [src]="picture" alt="Image de l'objet"></ion-img>
           <ion-card-header>
             <p class="ion-text-end ion-no-margin">
