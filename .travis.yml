@@ -17,4 +17,4 @@ script:
   # - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
   # Inject CI's env variables into environment.prod.ts to keep environment variables secret
   - npm run prebuild
-  - ionic build --prod
+  - npx run deploy --prod
