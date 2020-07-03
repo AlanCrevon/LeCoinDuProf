@@ -12,6 +12,7 @@ install:
   - npm install
 before_script:
   - npm install -g ionic
+  - cd functions && npm install
 script:
   - npm run prebuild
   - ionic build --prod
