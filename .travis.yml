@@ -13,8 +13,10 @@ install:
 before_script:
   - npm install -g ionic
 script:
-  # - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox --code-coverage
-  # - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-  # Inject CI's env variables into environment.prod.ts to keep environment variables secret
   - npm run prebuild
   - npx run ng deploy --prod
+deploy:
+  skip_cleanup: true
+  provider: firebase
+  token:
+    secure: 632cmWjSrs7ZuzecHiCbC7D0sxpM6/ue3Uu3Zsj3CAMUnpQTjqJNiTQbG0QqyaQaXSciAkahWaJkHaIgKlKGhhkudb9JA9/aUGYyekZwspWVJnwzfXU5RMEksbEt6owSGJadu19xRmLTDFko/4ZO2qfYc7WR8kgEVoikVBxLuX4ZoDoTK3TOaUFd+IBGu7ZrwbiZXUC7kraW2wZOjHlKEfEt95gEOA2YSMbJBKX0yZW+qARYgEN4yRRBYoODUIaEHCh6ZjQq+60E5bJlYqy13g0M6fRplVqIa3crYX7PuROYcEqGv2S4eotTwClBcEf4EG9e15DGs1jowCZEdZSOiV8mXSUTM8lalspWlxCPCBciCsItvvkgg+v3kk32Cu946+HopOckrsMDR4dLHibDW+UTwoYVscJL1wOWnsJKa2EYoEaP7syNoSu38rED+Q2dE4V3CwIfdp8kJ/fRgjoPuy8G25xAKGETIOUL2Qlx1R8HxearGYf+uygfFIcfdj8SzhOaYjU5/sDuXjUbk6CFyO9xMpdPDi4sy7wZ1GqLAx3EK14+km6UV1nzPWxRGG+Gq4eAYf5glpEALzMXkLuwaLfWgEKJu6SgQwruy3m5Mu1kh6ozqwQb/kYTGgC6G7l8ZmMLHHKDDVW+DuFn/GbMG4lV8caPTEeo43zrnW3chBg=
