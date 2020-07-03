@@ -14,7 +14,7 @@ before_script:
   - npm install -g ionic
 script:
   - npm run prebuild
-  - npx run ng deploy --prod
+  - ionic build --prod
 deploy:
   skip_cleanup: true
   provider: firebase
