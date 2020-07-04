@@ -13,6 +13,9 @@
       <ion-icon slot="start" name="radio-button-on-outline"></ion-icon>
       Prendre la photo
     </ion-button>
+    <ion-button *ngIf="!!!cropper" (click)="flipCamera()" color="light" [disabled]="!isCameraReady">
+      <ion-icon slot="icon-only" name="camera-reverse-outline"></ion-icon>
+    </ion-button>
     <ion-button *ngIf="!!cropper" (click)="initBrowserCamera()" color="light">
       <ion-icon slot="start" name="camera-outline"></ion-icon>
       Reprendre

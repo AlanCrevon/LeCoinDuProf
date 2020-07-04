@@ -13,6 +13,7 @@ export class WebcamComponent implements OnInit {
   desiredWidth = 500;
   cameraUnavaliable = false;
   cropper: Cropper;
+  cameraShouldFaceUser = true;
 
   @ViewChild('video')
   public video: ElementRef;
@@ -32,10 +33,11 @@ export class WebcamComponent implements OnInit {
   ngOnInit() {}
 
   ionViewDidEnter() {
-    this.initBrowserCamera().catch(error => (this.cameraUnavaliable = true));
+    this.initBrowserCamera();
+    this.useCamera(this.cameraShouldFaceUser).catch(error => (this.cameraUnavaliable = true));
   }
 
-  initBrowserCamera(): Promise<boolean> {
+  initBrowserCamera(): void {
     // Reinit all variables
     this.canvas.nativeElement.setAttribute('width', 0);
     this.canvas.nativeElement.setAttribute('height', 0);
@@ -46,12 +48,18 @@ export class WebcamComponent implements OnInit {
     this.picture = undefined;
     this.cropper = undefined;
     this.isCameraReady = false;
+  }
 
+  useCamera(cameraShouldFaceUser: boolean): Promise<boolean> {
     return new Promise((res, reject) => {
       try {
         const constraints: MediaStreamConstraints = {
           audio: false,
-          video: true
+          video: {
+            facingMode: {
+              ideal: cameraShouldFaceUser ? 'user' : 'environment'
+            }
+          }
         };
 
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -65,16 +73,24 @@ export class WebcamComponent implements OnInit {
               this.video.nativeElement.src = URL.createObjectURL(stream);
             }
             this.video.nativeElement.play();
-            setTimeout(() => {
-              this.isCameraReady = true;
-              res(true);
-            }, 1000);
+            this.isCameraReady = true;
+            res(true);
           });
         }
       } catch (error) {
         reject('No camera availiable');
       }
     });
+  }
+
+  flipCamera() {
+    // Stop current camera
+    this.video.nativeElement.pause();
+    this.video.nativeElement.srcObject = null;
+    // Flip the camera
+    this.cameraShouldFaceUser = !this.cameraShouldFaceUser;
+    // Restart camera
+    this.useCamera(this.cameraShouldFaceUser);
   }
 
   async capture() {
