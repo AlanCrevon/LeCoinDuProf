@@ -12,9 +12,10 @@
     Générales d'Utilisation du service.Aussi, nous apprécions votre aide lorsque vous signalez des comportements
     offensants.
   </p>
-  <p>
-    Tout signalement est traité dans les meilleurs délai. Il peut mener à la suppresison du contenu offensant, ou à
-    l'exclusion de l'utilisateur à l'origine du comportement abusif.
+  <p *ngIf="!!!form" class="ion-text-center">
+    <ion-text color="danger">
+      Vous devez être authentifié(e) pour signaler une annonce.
+    </ion-text>
   </p>
   <ion-list *ngIf="!!form" [formGroup]="form">
     <ion-item>
@@ -22,6 +23,10 @@
       <ion-textarea formControlName="content"></ion-textarea>
     </ion-item>
   </ion-list>
+  <p>
+    Tout signalement est traité dans les meilleurs délai. Il peut mener à la suppresison du contenu offensant, ou à
+    l'exclusion de l'utilisateur à l'origine du comportement abusif.
+  </p>
 </ion-content>
 
 <ion-footer>
