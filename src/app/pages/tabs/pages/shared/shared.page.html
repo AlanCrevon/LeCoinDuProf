@@ -32,7 +32,7 @@
               <ion-card-title>{{ item.name }}</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              <p>{{ item.description }}</p>
+              <p>{{ item.description | truncate }}</p>
             </ion-card-content>
           </ion-card>
         </ion-col>
