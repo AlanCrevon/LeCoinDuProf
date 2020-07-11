@@ -17,11 +17,14 @@
         <ion-col size-xs="12" size-sm="6" size-md="4" size-xl="3" *ngFor="let item of items" [routerLink]="[item.id]">
           <ion-card>
             <ion-img
-              *ngIf="item.hasPicture && item.picture$ | async as picture"
+              *ngIf="item.hasPicture && item.picture$ | async as picture; else default_picture"
               [src]="picture"
               alt="Image de l'objet"
               class="cover"
             ></ion-img>
+            <ng-template #default_picture>
+              <ion-img src="/assets/img/icon.png" alt="Cet objet n'a pas d'image"></ion-img>
+            </ng-template>
             <ion-badge color="secondary">
               {{ categoriesService.getCategoryById(item.category).label}}
             </ion-badge>
