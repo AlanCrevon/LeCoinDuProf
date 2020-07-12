@@ -19,6 +19,7 @@ export class SharedPage implements OnInit {
   endReached = false;
   loadingMore = false;
   filters;
+  itemsPerPage = 12;
 
   constructor(
     private dbService: DbService,
@@ -32,10 +33,10 @@ export class SharedPage implements OnInit {
     this.loadSharedItems().subscribe(items => this.itemsSubject.next(items));
   }
 
-  loadSharedItems(lastVisible?: Item, itemsPerPage?: number, firstVisible?: Item): Observable<Item[]> {
+  loadSharedItems(lastVisible?: Item): Observable<Item[]> {
     return this.dbService
       .getCollection<Item>('items', (ref: any) => {
-        ref = ref.where('isShared', '==', true).limit(itemsPerPage || 3);
+        ref = ref.where('isShared', '==', true).limit(this.itemsPerPage);
 
         if (!!this.filters) {
           if (!!this.filters.geohash) {
@@ -63,15 +64,19 @@ export class SharedPage implements OnInit {
           console.log(error);
           return of([] as Item[]);
         }),
-        map(items =>
-          items.map(item => {
+        map(items => {
+          // If page is incomplete, we reached the end of collection
+          if (items.length < this.itemsPerPage) {
+            this.endReached = true;
+          }
+          return items.map(item => {
             if (item.hasPicture === true) {
               // Patch data with observable img
               item.picture$ = this.firestorageService.download(`/users/${item.owner}/${item.id}/item`);
             }
             return item;
-          })
-        )
+          });
+        })
       );
   }
 
@@ -81,12 +86,11 @@ export class SharedPage implements OnInit {
       return;
     }
 
-    const itemsPerPage = 3;
     this.loadingMore = true;
 
     this.items$ = this.items$.pipe(
       switchMap(displayedItems => {
-        return this.loadSharedItems(displayedItems[displayedItems.length - 1], itemsPerPage).pipe(
+        return this.loadSharedItems(displayedItems[displayedItems.length - 1]).pipe(
           map(newItems => {
             // Remove loading message
             event.target.complete();
@@ -95,7 +99,7 @@ export class SharedPage implements OnInit {
             this.loadingMore = false;
 
             // If page is incomplete, we reached the end of collection
-            if (newItems.length < itemsPerPage) {
+            if (newItems.length < this.itemsPerPage) {
               this.endReached = true;
             }
             return displayedItems.concat(newItems);
@@ -106,14 +110,14 @@ export class SharedPage implements OnInit {
   }
 
   doRefresh(event?) {
+    // Re enable pagination
+    this.endReached = false;
+
     this.loadSharedItems().subscribe(items => {
       if (!!event) {
         // Remove loading message
         event.target.complete();
       }
-
-      // Re enable pagination
-      this.endReached = false;
 
       // Restart items from scratch
       this.itemsSubject.next(items);
