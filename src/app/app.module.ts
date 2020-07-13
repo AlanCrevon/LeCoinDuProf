@@ -15,7 +15,6 @@ import { AppComponent } from './app.component';
 import { AuthService } from './services/auth.service';
 import { AgmCoreModule } from '@agm/core';
 import { Camera } from '@ionic-native/camera/ngx';
-import { AdsenseModule } from 'ng2-adsense';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 
 import { registerLocaleData } from '@angular/common';
@@ -40,10 +39,6 @@ registerLocaleData(localeFr, 'fr-FR');
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapApiKey,
       libraries: ['places']
-    }),
-    AdsenseModule.forRoot({
-      adClient: 'ca-pub-7640562161899788',
-      adSlot: 7259870550
     }),
     DeviceDetectorModule.forRoot()
   ],
