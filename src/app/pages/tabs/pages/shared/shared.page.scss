@@ -53,6 +53,7 @@ ion-grid {
     ion-img {
       grid-column: 1 / 2;
       grid-row: 1/3;
+      background-color: var(--ion-color-light);
     }
 
     ion-card-header {
@@ -105,7 +106,7 @@ ion-grid {
           order: 1;
           height: 20vh;
           overflow: hidden;
-          background-color: var(--ion-color-light-shade);
+          background-color: var(--ion-color-light);
           object-fit: cover !important;
         }
 
