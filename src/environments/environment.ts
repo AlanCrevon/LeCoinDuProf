@@ -16,7 +16,10 @@ export const environment = {
   tosUrl: 'https://lecoinduprof-v2-dev.firebaseio.com/app/tos',
   privacyPolicyUrl: 'https://lecoinduprof-v2-dev.firebaseio.com/app/privacyPolicyUrl',
   // Note : This key is invalidated
-  googleMapApiKey: 'AIzaSyDtELC4i2mXzBeUI6yisMX8iH_a-dMUKIo'
+  googleMapApiKey: 'AIzaSyDtELC4i2mXzBeUI6yisMX8iH_a-dMUKIo',
+  title: {
+    default: 'DEV LeCoinDuProf'
+  }
 };
 
 /*

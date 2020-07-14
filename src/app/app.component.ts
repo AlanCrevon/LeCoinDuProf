@@ -5,6 +5,7 @@ import { Platform, MenuController } from '@ionic/angular';
 import { NavigationService } from './services/navigation.service';
 import { MessagingService } from './services/messaging.service';
 import { ToastService } from './services/toast.service';
+import { TitleService } from './services/title.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,8 @@ export class AppComponent {
     public navigationService: NavigationService,
     private menuController: MenuController,
     private messagingService: MessagingService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    public titleService: TitleService
   ) {
     this.initializeApp();
   }
