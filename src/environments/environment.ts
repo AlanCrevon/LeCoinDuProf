@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   firebase: {
     apiKey: 'AIzaSyC8zYfkXXcJRhE-fnFs3EVmuHyN2MXEUPk',
-    authDomain: 'lecoinduprof-v2-dev.firebaseapp.com',
+    authDomain: 'auth-dev.lecoinduprof.com',
     databaseURL: 'https://lecoinduprof-v2-dev.firebaseio.com',
     projectId: 'lecoinduprof-v2-dev',
     storageBucket: 'lecoinduprof-v2-dev.appspot.com',
