@@ -1,6 +1,7 @@
 {
   "projects": {
-    "default": "lecoinduprof-v2-dev"
+    "default": "lecoinduprof-v2-dev",
+    "production": "lecoinduprof-v2-prod"
   },
   "targets": {
     "lecoinduprof-v2-dev": {

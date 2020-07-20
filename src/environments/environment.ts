@@ -13,8 +13,8 @@ export const environment = {
     messagingSenderId: '86601526918',
     appId: '1:86601526918:web:c089e31d32a308326e6b07'
   },
-  tosUrl: 'https://lecoinduprof-v2-dev.firebaseio.com/app/tos',
-  privacyPolicyUrl: 'https://lecoinduprof-v2-dev.firebaseio.com/app/privacyPolicyUrl',
+  tosUrl: 'https://dev.lecoinduprof.com/app/tos',
+  privacyPolicyUrl: 'https://dev.lecoinduprof.com/app/privacyPolicyUrl',
   // Note : This key is invalidated
   googleMapApiKey: 'AIzaSyDtELC4i2mXzBeUI6yisMX8iH_a-dMUKIo',
   title: {
