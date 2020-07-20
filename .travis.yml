@@ -15,10 +15,10 @@ before_script:
 script:
   - npm run prebuild
   - if [ "$TRAVIS_BRANCH" == "develop" ]; then
-    ionic build --configuration staging;
+    ionic build --configuration=staging;
     fi
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    ionic build --configuration production;
+    ionic build --configuration=production;
     fi
 before_deploy:
   - (cd functions && npm install)
