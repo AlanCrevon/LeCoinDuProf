@@ -10,6 +10,13 @@
           "lecoinduprof-v2-dev"
         ]
       }
+    },
+    "lecoinduprof-v2-prod": {
+      "hosting": {
+        "app": [
+          "lecoinduprof-v2-prod"
+        ]
+      }
     }
   }
 }
