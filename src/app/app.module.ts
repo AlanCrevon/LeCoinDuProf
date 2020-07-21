@@ -16,6 +16,7 @@ import { AuthService } from './services/auth.service';
 import { AgmCoreModule } from '@agm/core';
 import { Camera } from '@ionic-native/camera/ngx';
 import { DeviceDetectorModule } from 'ngx-device-detector';
+import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
@@ -36,6 +37,7 @@ registerLocaleData(localeFr, 'fr-FR');
     AngularFireAuthModule,
     AngularFirestoreModule, // .enablePersistence(),
     AngularFireStorageModule,
+    AngularFireAnalyticsModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapApiKey,
       libraries: ['places']
