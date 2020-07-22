@@ -24,18 +24,17 @@ before_deploy:
   - (cd functions && npm install)
 deploy:
   - provider: firebase
-    on:
-      branch: develop
+    edge: true
     skip_cleanup: true
     message: 'Deploying LeCoinDuProf to STAGING'
     project: default
-    token:
-      secure: kmrwnDI7rH+E9ca65H3DqtjNraxaRnj54MTPtl98Mvaxo1myo8PgEcF4ttcUnQ/yAvbB7uU00qlW6bkkkio3uVWKVcJc7HgEmYmbpIy4Sixjv+ks2sUjGq9j8W4ebnMCBpiHiCfFW8h7Bh1Inu5Mt1+aW3wnjXsSy4gPtpK+cCjN6CB3Sy8Zxvl0xAVC8OC0pFHYImq6z11thopuIPFofofZ4iSU22XT8UNCd0NkhDFxgjqZndC4HRDfQ8pm+GcpfhbtZ03/E3LCoDO4q1ZGCVHRYHTc/68AW8Hli8+8FI3geNR9PNwLbjtIhLdazhg0nvRXQ/TklTU1P3EC64QPOTAe7nRqzSR/tgRk85ub5ZIuzL8KepoiHHJ8QZ424evOpr8HeNAl3/Kb58m4xkZGz3u/L2DqbzHsrOu0fH8PD7DetM7NOEf8Zj/nPPw92HgBuXIVn8/FxRfaHUBWTGIUxCTdQUGUqhamkFfDJfac9MWT73JPGDGGC2BvyCqt2bNd8opF12X91Y+oDupDW7AuTir89brVwY5CtjxE51onjbIs2Nbirs5FWtARqy5krM7+5PIKXTr3DoIBI+tQ6DfFxQ94HQtJtnyej4JfVOKZX0FW64QtHTEum0hESKK4ZEZrzNK13OGU8uqbh76K7/UNFHUdRjBc++cdvraZQ3yncwo=
-  - provider: firebase
+    token: 'rTBbk54SSQXIEKfBlHN3JL0kOjdEcTRiWAYpoZB+sdza4eMvBRzESoxdFWZY7G5sWmY+ejY/X9xzvW+e2lUFKrNGFDoVnwwU+hCUlSFyrLabFfDqqHwAsmH35x6o1ut7WxPDqT9vALNvnM0f6xn1G9KR0mBW/iCsbOKPLUO9tIc0Y/jZahgvuuHigOR14rQiqPx13vxbk9o6XbDoVRWHMCci1yuaGvT8n0+49DnMg2WOwe+/p79oOhIn0awdaHlQPPW4xbMCLLnqWX2913SL/6rc9mklSQQS7wVAiUR6WazqmBx+NjMKy42ByEg/i2Q5u+LLsIjdkcoUQId9JjaSrWeRE/eka2ryedpi/X+wn9gfBk00p1LImwLBXWNsLxoTXOcPfqjevvyGMFkQkocd3hnxUeLHFsyZPLoitnFTGTxQtl7H/JDF3rlzx38g7+NyQf6tN9qePLrDuPkKWYeHjM2MYyVZxJEISmjYg+ZCD+PpOdEP5PvKniZuWin/ovd2KBK1ZRv3zE0+D23lE3Z5YTMznLwHnBjz7Oph94PG2njSRII4FwS1oiJ/2E5lf+PeDq87OK28drzSF2szmN8wkM13B4pMFWmmpm5iC6PKnCjs+YcqX/Sc5mwKy4YuGEYoFybL98Mfks9R7Y6+PvbM8UlWWcELnn7ksF18WcnJksA='
     on:
-      branch: master
+      branch: develop
+  - provider: firebase
     message: 'Deploying LeCoinDuProf to PRODUCTION'
     skip_cleanup: true
     project: production
-    token:
-      secure: kmrwnDI7rH+E9ca65H3DqtjNraxaRnj54MTPtl98Mvaxo1myo8PgEcF4ttcUnQ/yAvbB7uU00qlW6bkkkio3uVWKVcJc7HgEmYmbpIy4Sixjv+ks2sUjGq9j8W4ebnMCBpiHiCfFW8h7Bh1Inu5Mt1+aW3wnjXsSy4gPtpK+cCjN6CB3Sy8Zxvl0xAVC8OC0pFHYImq6z11thopuIPFofofZ4iSU22XT8UNCd0NkhDFxgjqZndC4HRDfQ8pm+GcpfhbtZ03/E3LCoDO4q1ZGCVHRYHTc/68AW8Hli8+8FI3geNR9PNwLbjtIhLdazhg0nvRXQ/TklTU1P3EC64QPOTAe7nRqzSR/tgRk85ub5ZIuzL8KepoiHHJ8QZ424evOpr8HeNAl3/Kb58m4xkZGz3u/L2DqbzHsrOu0fH8PD7DetM7NOEf8Zj/nPPw92HgBuXIVn8/FxRfaHUBWTGIUxCTdQUGUqhamkFfDJfac9MWT73JPGDGGC2BvyCqt2bNd8opF12X91Y+oDupDW7AuTir89brVwY5CtjxE51onjbIs2Nbirs5FWtARqy5krM7+5PIKXTr3DoIBI+tQ6DfFxQ94HQtJtnyej4JfVOKZX0FW64QtHTEum0hESKK4ZEZrzNK13OGU8uqbh76K7/UNFHUdRjBc++cdvraZQ3yncwo=
+    token: 'rTBbk54SSQXIEKfBlHN3JL0kOjdEcTRiWAYpoZB+sdza4eMvBRzESoxdFWZY7G5sWmY+ejY/X9xzvW+e2lUFKrNGFDoVnwwU+hCUlSFyrLabFfDqqHwAsmH35x6o1ut7WxPDqT9vALNvnM0f6xn1G9KR0mBW/iCsbOKPLUO9tIc0Y/jZahgvuuHigOR14rQiqPx13vxbk9o6XbDoVRWHMCci1yuaGvT8n0+49DnMg2WOwe+/p79oOhIn0awdaHlQPPW4xbMCLLnqWX2913SL/6rc9mklSQQS7wVAiUR6WazqmBx+NjMKy42ByEg/i2Q5u+LLsIjdkcoUQId9JjaSrWeRE/eka2ryedpi/X+wn9gfBk00p1LImwLBXWNsLxoTXOcPfqjevvyGMFkQkocd3hnxUeLHFsyZPLoitnFTGTxQtl7H/JDF3rlzx38g7+NyQf6tN9qePLrDuPkKWYeHjM2MYyVZxJEISmjYg+ZCD+PpOdEP5PvKniZuWin/ovd2KBK1ZRv3zE0+D23lE3Z5YTMznLwHnBjz7Oph94PG2njSRII4FwS1oiJ/2E5lf+PeDq87OK28drzSF2szmN8wkM13B4pMFWmmpm5iC6PKnCjs+YcqX/Sc5mwKy4YuGEYoFybL98Mfks9R7Y6+PvbM8UlWWcELnn7ksF18WcnJksA='
+    on:
+      branch: master
