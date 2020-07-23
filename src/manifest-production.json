@@ -1,6 +1,6 @@
 {
-  "name": "DEVLeCoinDuProf",
-  "short_name": "DEVLeCoinDuProf",
+  "name": "LeCoinDuProf",
+  "short_name": "LeCoinDuProf",
   "start_url": "/",
   "display": "standalone",
   "icons": [
@@ -48,5 +48,5 @@
   "splash_pages": null,
   "background_color": "#f4f5f8",
   "theme_color": "#ffaa00",
-  "gcm_sender_id": "86601526918"
+  "gcm_sender_id": "821584137043"
 }

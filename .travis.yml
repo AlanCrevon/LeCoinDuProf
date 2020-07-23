@@ -13,7 +13,7 @@ install:
 before_script:
   - npm install -g @ionic/cli
 script:
-  - npm run prebuild
+  - npm run prebuild -- $TRAVIS_BRANCH
   - if [ "$TRAVIS_BRANCH" == "develop" ]; then
     ionic build --configuration=staging;
     fi

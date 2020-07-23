@@ -40,6 +40,7 @@
     "geofirestore": "^3.5.2",
     "latlon-geohash": "^2.0.0",
     "ngx-device-detector": "^1.4.5",
+    "replace-in-file": "^6.1.0",
     "rxjs": "^6.5.5",
     "tslib": "^1.13.0",
     "zone.js": "~0.10.3"
