@@ -77,9 +77,30 @@ export class ItemShowPage implements OnInit {
    */
   openChat(item: Item): void {
     this.authService.appUser$.subscribe(appUser => {
+      if (!!!appUser) {
+        // User needs to be authentified before contacting
+        this.toastService.displayToast({
+          message: `👋 Vous devez être authentifié(e) pour contacter la personne qui partage`,
+          color: 'secondary',
+          buttons: [
+            {
+              text: `Me connecter`,
+              handler: () => {
+                this.router.navigateByUrl('/app/welcome');
+              }
+            },
+            {
+              icon: 'close',
+              role: 'cancel'
+            }
+          ]
+        });
+        return;
+      }
+
       // User can't start a chat whith themselves
       if (appUser.id === item.owner) {
-        this.toastService.error(`🤪 Vous ne pouvez pas ouvrir une conversation avec vous même`);
+        this.toastService.error(`🤗 Vous ne pouvez pas ouvrir une conversation avec vous même`);
         return;
       }
 
