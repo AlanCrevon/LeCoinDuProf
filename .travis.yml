@@ -24,6 +24,7 @@ before_deploy:
   - (cd functions && npm install)
 deploy:
   - provider: firebase
+    edge: true
     skip_cleanup: true
     message: Deploying LeCoinDuProf to STAGING
     project: default
@@ -32,6 +33,7 @@ deploy:
     on:
       branch: develop
   - provider: firebase
+    edge: true
     message: Deploying LeCoinDuProf to PRODUCTION
     skip_cleanup: true
     project: production
