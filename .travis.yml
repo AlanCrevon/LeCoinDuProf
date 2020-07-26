@@ -13,7 +13,7 @@ install:
 before_script:
   - npm install -g @ionic/cli
 script:
-  - npm run prebuild
+  - npm run prebuild -- $TRAVIS_BRANCH
   - if [ "$TRAVIS_BRANCH" == "develop" ]; then
     ionic build --configuration=staging;
     fi
@@ -24,18 +24,20 @@ before_deploy:
   - (cd functions && npm install)
 deploy:
   - provider: firebase
-    on:
-      branch: develop
+    edge: true
     skip_cleanup: true
-    message: 'Deploying LeCoinDuProf to STAGING'
+    message: Deploying LeCoinDuProf to STAGING
     project: default
     token:
-      secure: kmrwnDI7rH+E9ca65H3DqtjNraxaRnj54MTPtl98Mvaxo1myo8PgEcF4ttcUnQ/yAvbB7uU00qlW6bkkkio3uVWKVcJc7HgEmYmbpIy4Sixjv+ks2sUjGq9j8W4ebnMCBpiHiCfFW8h7Bh1Inu5Mt1+aW3wnjXsSy4gPtpK+cCjN6CB3Sy8Zxvl0xAVC8OC0pFHYImq6z11thopuIPFofofZ4iSU22XT8UNCd0NkhDFxgjqZndC4HRDfQ8pm+GcpfhbtZ03/E3LCoDO4q1ZGCVHRYHTc/68AW8Hli8+8FI3geNR9PNwLbjtIhLdazhg0nvRXQ/TklTU1P3EC64QPOTAe7nRqzSR/tgRk85ub5ZIuzL8KepoiHHJ8QZ424evOpr8HeNAl3/Kb58m4xkZGz3u/L2DqbzHsrOu0fH8PD7DetM7NOEf8Zj/nPPw92HgBuXIVn8/FxRfaHUBWTGIUxCTdQUGUqhamkFfDJfac9MWT73JPGDGGC2BvyCqt2bNd8opF12X91Y+oDupDW7AuTir89brVwY5CtjxE51onjbIs2Nbirs5FWtARqy5krM7+5PIKXTr3DoIBI+tQ6DfFxQ94HQtJtnyej4JfVOKZX0FW64QtHTEum0hESKK4ZEZrzNK13OGU8uqbh76K7/UNFHUdRjBc++cdvraZQ3yncwo=
-  - provider: firebase
+      secure: '3dHXqWaUyiPrLPlCnoQJTC7On8NsO1/qS+/hNeUNvsVtAVLIU9aOoYsi3KhMbatxykh3nne/g/m7ensPrcGdSG6MhzxPzOVJQy4lMvU+T7P5vjJweTV8OW/dGRtIlzECrdy96VY1mlucnHqqTG7xgJpK2Buo4QUIjOIJUnyDZwkIhY8Fqt1Y/LFJaX2qAQg0d654PDPdbBXe9X7xBwzUAnq5SulSQwYPgbwC72mHLp8CRzp68A1dbAT23GnbyC4KvkrjdbhA2em3HA7RiHP4eI+IlE/fDQnAHjw1TB1WIGSMrpHV19LJ3uq+1TdT9lbv0mwEwEwvl8fc0FYaPG8cr8f/2zvm+qEQT/NH7e8rNKzt3OImHXX0dd9/183OFKn7Uotbzf1W5Dsuaa/ZFUoXmYQvr0kQH3Ze8vzBurMAZVMb/VKe2b0TB0rW1W5F6qdNo2EY1WEqrDf0WjT9R1bYmfatfumrXuNlReYcnUldajoVaTjn6J6MU/DaAiK3NxwbOMI7GSwwrPxF8TP8iVzSvdKQtfqRQCSZ37u62CgX5Mqf4GnABLygv0/V3eVWxWxfe7QEOLWWYwWmA2z2ZaFZXALR0p4BhPMmumq8h3KhSkbKOnt6Qsfw+Ii8CXJL8Kh5WZw1w2DTQZuMQhK9tr2Xbxztro2V+xMFupaQ2NmCyf0='
     on:
-      branch: master
-    message: 'Deploying LeCoinDuProf to PRODUCTION'
+      branch: develop
+  - provider: firebase
+    edge: true
+    message: Deploying LeCoinDuProf to PRODUCTION
     skip_cleanup: true
     project: production
     token:
-      secure: kmrwnDI7rH+E9ca65H3DqtjNraxaRnj54MTPtl98Mvaxo1myo8PgEcF4ttcUnQ/yAvbB7uU00qlW6bkkkio3uVWKVcJc7HgEmYmbpIy4Sixjv+ks2sUjGq9j8W4ebnMCBpiHiCfFW8h7Bh1Inu5Mt1+aW3wnjXsSy4gPtpK+cCjN6CB3Sy8Zxvl0xAVC8OC0pFHYImq6z11thopuIPFofofZ4iSU22XT8UNCd0NkhDFxgjqZndC4HRDfQ8pm+GcpfhbtZ03/E3LCoDO4q1ZGCVHRYHTc/68AW8Hli8+8FI3geNR9PNwLbjtIhLdazhg0nvRXQ/TklTU1P3EC64QPOTAe7nRqzSR/tgRk85ub5ZIuzL8KepoiHHJ8QZ424evOpr8HeNAl3/Kb58m4xkZGz3u/L2DqbzHsrOu0fH8PD7DetM7NOEf8Zj/nPPw92HgBuXIVn8/FxRfaHUBWTGIUxCTdQUGUqhamkFfDJfac9MWT73JPGDGGC2BvyCqt2bNd8opF12X91Y+oDupDW7AuTir89brVwY5CtjxE51onjbIs2Nbirs5FWtARqy5krM7+5PIKXTr3DoIBI+tQ6DfFxQ94HQtJtnyej4JfVOKZX0FW64QtHTEum0hESKK4ZEZrzNK13OGU8uqbh76K7/UNFHUdRjBc++cdvraZQ3yncwo=
+      secure: '3dHXqWaUyiPrLPlCnoQJTC7On8NsO1/qS+/hNeUNvsVtAVLIU9aOoYsi3KhMbatxykh3nne/g/m7ensPrcGdSG6MhzxPzOVJQy4lMvU+T7P5vjJweTV8OW/dGRtIlzECrdy96VY1mlucnHqqTG7xgJpK2Buo4QUIjOIJUnyDZwkIhY8Fqt1Y/LFJaX2qAQg0d654PDPdbBXe9X7xBwzUAnq5SulSQwYPgbwC72mHLp8CRzp68A1dbAT23GnbyC4KvkrjdbhA2em3HA7RiHP4eI+IlE/fDQnAHjw1TB1WIGSMrpHV19LJ3uq+1TdT9lbv0mwEwEwvl8fc0FYaPG8cr8f/2zvm+qEQT/NH7e8rNKzt3OImHXX0dd9/183OFKn7Uotbzf1W5Dsuaa/ZFUoXmYQvr0kQH3Ze8vzBurMAZVMb/VKe2b0TB0rW1W5F6qdNo2EY1WEqrDf0WjT9R1bYmfatfumrXuNlReYcnUldajoVaTjn6J6MU/DaAiK3NxwbOMI7GSwwrPxF8TP8iVzSvdKQtfqRQCSZ37u62CgX5Mqf4GnABLygv0/V3eVWxWxfe7QEOLWWYwWmA2z2ZaFZXALR0p4BhPMmumq8h3KhSkbKOnt6Qsfw+Ii8CXJL8Kh5WZw1w2DTQZuMQhK9tr2Xbxztro2V+xMFupaQ2NmCyf0='
+    on:
+      branch: master
