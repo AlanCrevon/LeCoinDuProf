@@ -55,7 +55,7 @@
       <ion-toggle slot="end" formControlName="isShared" color="success" (ionChange)="confirm($event)"></ion-toggle>
     </ion-item>
   </ion-list>
-  <ion-list *ngIf="!!form" [formGroup]="form">
+  <ion-list *ngIf="!!form" [formGroup]="form" class="ion-margin-top">
     <ion-list-header color="secondary">
       <ion-label>Conditions du partage</ion-label>
     </ion-list-header>
