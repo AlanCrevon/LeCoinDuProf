@@ -60,26 +60,52 @@ export class ItemEditComponent implements OnInit {
   }
 
   buildForm(user: User, box: Box, item: Item) {
+    if (!!!item) {
+      // Provide a default item
+      item = this.buildDefaultItem(user, box);
+    }
+
     return this.formBuilder.group({
-      name: [!!item ? item.name : undefined, [Validators.required]],
-      owner: [!!item ? item.owner : user.uid, [Validators.required]],
-      box: [!!item ? item.box : box.id, [Validators.required]],
-      description: [!!item ? item.description : undefined, [Validators.required]],
-      category: [!!item ? item.category : 1, [Validators.required]],
-      isShared: [!!item ? item.isShared : false, [Validators.required]],
+      name: [item.name, [Validators.required]],
+      owner: [item.owner, [Validators.required]],
+      box: [item.box, [Validators.required]],
+      description: [item.description, [Validators.required]],
+      category: [item.category, [Validators.required]],
+      isShared: [item.isShared, [Validators.required]],
       modifiedAt: firestore.FieldValue.serverTimestamp(),
-      createdAt: [!!item ? item.createdAt : firestore.FieldValue.serverTimestamp()],
-      formatted_address: [!!item ? item.formatted_address : box.formatted_address],
-      coordinates: [!!item ? item.coordinates : box.coordinates],
-      geohash: [!!item ? item.geohash : box.geohash],
-      canGive: [!!item ? item.canGive : true, [Validators.required]],
-      canLend: [!!item ? item.canLend : true, [Validators.required]],
-      canExchange: [!!item ? item.canExchange : true, [Validators.required]],
-      canSend: [!!item ? item.canSend : true, [Validators.required]],
-      // Not : always set to false in the form
+      createdAt: [item.createdAt],
+      formatted_address: [item.formatted_address],
+      coordinates: [item.coordinates],
+      geohash: [item.geohash],
+      canGive: [item.canGive, [Validators.required]],
+      canLend: [item.canLend, [Validators.required]],
+      canExchange: [item.canExchange, [Validators.required]],
+      canSend: [item.canSend, [Validators.required]],
+      // Note : always set to false in the form
       // and let the saving process update the field
       hasPicture: [false, [Validators.required]]
     });
+  }
+
+  buildDefaultItem(user: User, box: Box): Item {
+    return {
+      name: undefined,
+      owner: user.uid,
+      box: box.id,
+      description: undefined,
+      category: 1,
+      isShared: false,
+      createdAt: firestore.FieldValue.serverTimestamp(),
+      modifiedAt: firestore.FieldValue.serverTimestamp(),
+      formatted_address: box.formatted_address,
+      coordinates: box.coordinates,
+      geohash: box.geohash,
+      canGive: true,
+      canLend: true,
+      canExchange: true,
+      canSend: true,
+      hasPicture: false
+    };
   }
 
   async save(item: Item, form: FormGroup, itemPicture, itemThumbnail) {
