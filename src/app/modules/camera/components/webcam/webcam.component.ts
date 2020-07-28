@@ -133,4 +133,12 @@ export class WebcamComponent implements OnInit {
     this.cropper.destroy();
     this.modalController.dismiss({ picture, thumbnail });
   }
+
+  close(): void {
+    // Close webcam
+    const track = this.stream.getTracks()[0];
+    track.stop();
+
+    this.modalController.dismiss();
+  }
 }
