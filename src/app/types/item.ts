@@ -9,7 +9,7 @@ export interface Item {
   owner$?: Observable<AppUser>;
   box: string;
   description: string;
-  category: string;
+  category: number;
   isShared: boolean;
   modifiedAt: FieldValue;
   createdAt: FieldValue;
