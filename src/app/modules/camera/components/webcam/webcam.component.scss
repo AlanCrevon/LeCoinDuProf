@@ -24,4 +24,9 @@ ion-footer {
     align-content: center;
     justify-content: space-evenly;
   }
+
+  ion-fab-list {
+    right: 0;
+    align-items: flex-end;
+  }
 }

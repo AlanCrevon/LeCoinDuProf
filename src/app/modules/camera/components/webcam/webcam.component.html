@@ -13,10 +13,7 @@
       <ion-icon slot="start" name="radio-button-on-outline"></ion-icon>
       Prendre la photo
     </ion-button>
-    <ion-button *ngIf="!!!cropper" (click)="flipCamera()" color="light" [disabled]="!isCameraReady">
-      <ion-icon slot="icon-only" name="camera-reverse-outline"></ion-icon>
-    </ion-button>
-    <ion-button *ngIf="!!cropper" (click)="initBrowserCamera()" color="light">
+    <ion-button *ngIf="!!cropper" (click)="initBrowserCamera(); ionViewDidEnter()" color="light">
       <ion-icon slot="start" name="camera-outline"></ion-icon>
       Reprendre
     </ion-button>
@@ -24,5 +21,21 @@
       <ion-icon slot="start" name="checkmark-outline"></ion-icon>
       Valider
     </ion-button>
+
+    <ion-fab horizontal="end" vertical="bottom" slot="fixed" *ngIf="!!!cropper">
+      <ion-fab-button color="light">
+        <ion-icon name="ellipsis-vertical"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-list side="top">
+        <ion-button color="light" (click)="flipCamera()">
+          <ion-icon name="camera-reverse-outline" slot="end"></ion-icon>
+          <ion-label>Changer de camera</ion-label>
+        </ion-button>
+        <ion-button color="light" (click)="modalController.dismiss()">
+          <ion-icon name="close" slot="end"></ion-icon>
+          <ion-label>Fermer</ion-label>
+        </ion-button>
+      </ion-fab-list>
+    </ion-fab>
   </div>
 </ion-footer>
