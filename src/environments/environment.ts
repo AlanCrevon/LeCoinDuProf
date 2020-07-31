@@ -11,7 +11,8 @@ export const environment = {
     projectId: 'lecoinduprof-v2-dev',
     storageBucket: 'lecoinduprof-v2-dev.appspot.com',
     messagingSenderId: '86601526918',
-    appId: '1:86601526918:web:c089e31d32a308326e6b07'
+    appId: '1:86601526918:web:c089e31d32a308326e6b07',
+    measurementId: 'G-P30MF7RXXD'
   },
   tosUrl: 'https://dev.lecoinduprof.com/app/tos',
   privacyPolicyUrl: 'https://dev.lecoinduprof.com/app/privacyPolicyUrl',
