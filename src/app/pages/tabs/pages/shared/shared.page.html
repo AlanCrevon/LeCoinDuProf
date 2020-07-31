@@ -11,6 +11,13 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+  <div class="ion-text-center" *ngIf="thereAreNewerItems">
+    <ion-chip color="secondary" (click)="doRefresh()">
+      <ion-icon name="refresh"></ion-icon>
+      <ion-label>Nouveaux partages disponibles</ion-label>
+    </ion-chip>
+  </div>
+
   <ng-container *ngIf="items$ | async as items; else loadingItems">
     <ion-grid fixed>
       <ion-row>
