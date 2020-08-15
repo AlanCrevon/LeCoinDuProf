@@ -154,7 +154,7 @@ service cloud.firestore {
         request.resource.data.box is string &&
         request.resource.data.description is string &&
         request.resource.data.category is int &&
-        inRange(request.resource.data.category, 1, 10) &&
+        inRange(request.resource.data.category, 1, 14) &&
         request.resource.data.isShared is bool &&
         request.resource.data.createdAt == request.time &&
         request.resource.data.modifiedAt == request.time &&

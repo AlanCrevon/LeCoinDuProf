@@ -56,10 +56,6 @@ export class CategoriesService {
     {
       id: 13,
       label: `Jeux d'extérieur`
-    },
-    {
-      id: 14,
-      label: 'Manuels et guides pédagogiques'
     }
   ];
 
